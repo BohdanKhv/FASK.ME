@@ -11,9 +11,14 @@ const Nav = () => {
 
     return (
         <nav>
-            <div className="nav-wrapper">
+            <div className="container nav-wrapper">
                 <div className="nav-left">
                     <ul className="nav-links">
+                        <li>
+                            <NavLink to="/search">
+                                logo placeholder
+                            </NavLink>
+                        </li>
                         <li>
                             <NavLink to="/search">
                                 {searchIcon}
@@ -26,7 +31,7 @@ const Nav = () => {
                         {user ? (
                             <>
                                 <li>
-                                    <NavLink to="/">
+                                    <NavLink to={`/${user.username}`}>
                                         {userIcon}
                                     </NavLink>
                                 </li>

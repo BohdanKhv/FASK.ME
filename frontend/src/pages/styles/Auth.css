@@ -6,7 +6,7 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    margin-top: 20vh;
+    margin-top: 10vh;
     max-width: 600px;
     z-index: 1;
     position: relative;
@@ -25,9 +25,6 @@
     width: 100%;
     border-bottom: 2px solid var(--color-secondary);
     padding: 10px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .auth-container .form-header svg {
@@ -55,4 +52,28 @@
     bottom: 0;
     border-top-left-radius: 60%;
     border-bottom-left-radius: 20%;
+}
+
+.username-field .hoast {
+    font-weight: 600;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem 0.75rem;
+    padding-right: 0;
+}
+
+.username-field input {
+    padding-left: 0;
+    box-shadow: none;
+    border: 0;
+}
+
+.username-field {
+    border-bottom: 2px solid var(--color-secondary);
+    transition: var(--transition-duration);
+}
+
+.username-field:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--box-shadow);
 }

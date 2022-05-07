@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./userModel');
+const Profile = require('./profileModel');
 
 
 const userSchema = new mongoose.Schema({
@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please add an email'],
-        unique: true,
         match: [
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             'Please add a valid email'
@@ -27,11 +26,10 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.post('save', async function () {
-    const newProfile = await Profile.create({
+    await Profile.create({
         user: this._id,
         username: this.username,
     });
-    await newProfile.save();
 })
 
 

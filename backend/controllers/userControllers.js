@@ -14,9 +14,7 @@ const getUser = async (req, res) => {
             return res.status(200).json({
                 _id: user._id,
                 email: user.email,
-                userName: user.userName,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                username: user.username,
                 token: req.headers.authorization.split(' ')[1]
             });
         } else {
@@ -36,10 +34,10 @@ const getUser = async (req, res) => {
 // @access  Public
 const registerUser = async (req, res) => {
     try {
-        const { email, userName, password, firstName, lastName } = req.body;
+        const { email, username, password, } = req.body;
 
         // Check if email or password is empty
-        if (!email || !userName || !password || !firstName || !lastName) {
+        if (!email || !username || !password) {
             return res.status(400).json({
                 msg: 'Please enter all fields'
             });
@@ -61,9 +59,7 @@ const registerUser = async (req, res) => {
         // Create user
         const newUser = await User.create({
             email,
-            userName,
-            firstName,
-            lastName,
+            username,
             password: hashedPassword
         });
 
@@ -71,9 +67,7 @@ const registerUser = async (req, res) => {
             res.status(201).json({
                 _id: newUser.id,
                 email: newUser.email,
-                userName: newUser.userName,
-                firstName: newUser.firstName,
-                lastName: newUser.lastName,
+                username: newUser.username,
                 token: generateToken(newUser._id)
             });
         } else {
@@ -118,9 +112,7 @@ const loginUser = async (req, res) => {
         res.status(200).json({
             _id: user.id,
             email: user.email,
-            userName: user.userName,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            username: user.username,
             token: generateToken(user._id)
         });
     } catch (err) {
@@ -144,7 +136,7 @@ const updateUser = async (req, res) => {
             });
         }
 
-        const { email, userName, firstName, lastName } = req.body;
+        const { email, username } = req.body;
 
         // Check if user exists
         const user = await User.findOne({ _id: req.user._id });
@@ -161,9 +153,7 @@ const updateUser = async (req, res) => {
             {
                 $set: {
                     email,
-                    userName,
-                    firstName,
-                    lastName
+                    username,
                 }
             },
             { new: true }
@@ -173,9 +163,7 @@ const updateUser = async (req, res) => {
             res.status(200).json({
                 _id: updatedUser.id,
                 email: updatedUser.email,
-                userName: updatedUser.userName,
-                firstName: updatedUser.firstName,
-                lastName: updatedUser.lastName,
+                username: updatedUser.username,
                 token: generateToken(updatedUser._id)
             });
         } else {

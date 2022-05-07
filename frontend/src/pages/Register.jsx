@@ -6,14 +6,12 @@ import './styles/Auth.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
+        username: '',
         email: '',
-        firstName: '',
-        lastName: '',
-        password1: '',
-        password2: ''
+        password: '',
     });
 
-    const { email, firstName, lastName, password1, password2 } = formData;
+    const { email, username, password } = formData;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,7 +20,7 @@ const Register = () => {
 
     useEffect(() => {
         if (isError) {
-          console.log(msg);
+            console.log(msg);
         }
 
         if (isSuccess || user) {
@@ -42,16 +40,13 @@ const Register = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (email === '' || password1 === '' || password2 === '' || firstName === '' || lastName === '') {
-            return;
-        } else if (password1 !== password2) {
+        if (email === '' || password === '' || username === '') {
             return;
         } else {
             const userData = {
                 email,
-                firstName,
-                lastName,
-                password: password1
+                username,
+                password,
             };
 
             dispatch(register(userData));
@@ -64,78 +59,60 @@ const Register = () => {
             <div className="auth-wrapper">
                 <div className="auth-container">
                     <div className="form-header">
-                        <h1 className="title-1 text-center py-1">Register</h1>
+                        <h1 className="title-1 text-center py-1">
+                            logo placeholder
+                        </h1>
+                        <p className="title-3 text-secondary text-center pb-1">
+                            Sign up to get started
+                        </p>
                     </div>
                     <div className="auth-form">
                         <form onSubmit={onSubmit}>
                             <div className="form-group">
-                                <label htmlFor="email">Email *</label>
+                                <label>Username *</label>
+                                <div className="flex username-field">
+                                    <div className="hoast">
+                                        anask.com/
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        className="w-100"
+                                        placeholder="your username"
+                                        value={username}
+                                        onChange={onChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Email *</label>
                                 <input
                                     type="email"
                                     name="email"
-                                    id="email"
                                     placeholder="Enter your email"
                                     value={email}
                                     onChange={onChange}
                                     required
                                 />
                             </div>
-                            <div className="form-group-row">
-                                <div className="form-group">
-                                    <label htmlFor="firstName">First Name *</label>
-                                    <input
-                                        type="text"
-                                        name="firstName"
-                                        id="firstName"
-                                        placeholder="Enter your first name"
-                                        value={firstName}
-                                        onChange={onChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="lastName">Last Name *</label>
-                                    <input
-                                        type="text"
-                                        name="lastName"
-                                        id="lastName"
-                                        placeholder="Enter your last name"
-                                        value={lastName}
-                                        onChange={onChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
                             <div className="form-group">
-                                <label htmlFor="password1">Password *</label>
+                                <label>Password *</label>
                                 <input
                                     type="password"
-                                    name="password1"
-                                    id="password1"
+                                    name="password"
                                     placeholder="Enter your password"
-                                    value={password1}
-                                    onChange={onChange}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="password2">Confirm Password *</label>
-                                <input
-                                    type="password"
-                                    name="password2"
-                                    id="password2"
-                                    placeholder="Confirm your Password"
-                                    value={password2}
+                                    value={password}
                                     onChange={onChange}
                                     required
                                 />
                             </div>
                             <button type="submit" className="btn w-100">
-                                Register
+                                Sign up
                             </button>
                         </form>
                         <p className="mt-1 text-end">
-                            Already have an account? <NavLink className="text-hover" to="/login">Login</NavLink>
+                            Already have an account? <NavLink className="text-hover" to="/login">Log In</NavLink>
                         </p>
                     </div>
                 </div>

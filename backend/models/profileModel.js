@@ -9,10 +9,6 @@ const profileSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    avatar: {
-        type: String,
-        required: true
-    },
     username: {
         type: String,
         required: true,
@@ -23,6 +19,10 @@ const profileSchema = new mongoose.Schema({
         required: false
     },
     lastName: {
+        type: String,
+        required: false
+    },
+    avatar: {
         type: String,
         required: false
     },
@@ -50,11 +50,9 @@ const profileSchema = new mongoose.Schema({
 
 
 profileSchema.post('save', async function () {
-    const newPage = await Page.create({
+    await Page.create({
         user: this.user,
-        username: this.username,
     });
-    await newPage.save();
 })
 
 

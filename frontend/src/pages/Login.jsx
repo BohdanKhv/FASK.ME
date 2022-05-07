@@ -20,7 +20,7 @@ const Login = () => {
     useEffect(() => {
         if (isSuccess || user) {
             console.log('user', user);
-            navigate('/');
+            navigate(`/${user.username}`);
         }
 
         if(isError) {
@@ -56,16 +56,17 @@ const Login = () => {
             <div className="auth-wrapper">
                 <div className="auth-container">
                     <div className="form-header">
-                        <h1 className="title-1 text-center py-1">Login</h1>
+                        <h1 className="title-1 text-center py-1">
+                            logo placeholder
+                        </h1>
                     </div>
                     <div className="auth-form">
                         <form onSubmit={onSubmit}>
                             <div className="form-group">
-                                <label htmlFor="email">Email</label>
+                                <label>Email</label>
                                 <input
                                     type="email"
                                     name="email"
-                                    id="email"
                                     placeholder="Enter your email"
                                     value={email}
                                     onChange={onChange}
@@ -73,11 +74,10 @@ const Login = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="password">Password</label>
+                                <label>Password</label>
                                 <input
                                     type="password"
                                     name="password"
-                                    id="password"
                                     placeholder="Enter your password"
                                     value={password}
                                     onChange={onChange}
@@ -85,11 +85,11 @@ const Login = () => {
                                 />
                             </div>
                             <button type="submit" className="btn w-100">
-                                Login
+                                Log In
                             </button>
                         </form>
                         <p className="mt-1 text-end">
-                            Don't have an account? <NavLink className="text-hover" to="/register">Register</NavLink>
+                            Don't have an account? <NavLink className="text-hover" to="/register">Sign up</NavLink>
                         </p>
                     </div>
                 </div>

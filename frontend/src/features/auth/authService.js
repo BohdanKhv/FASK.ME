@@ -4,22 +4,9 @@ import axios from 'axios';
 const API_URL = '/api/users/';
 
 
-// Get user
-export const getUser = async (username, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    };
-    const response = await axios.get(`${API_URL}${username}`, config);
-    
-    return response.data;
-};
-
-
 // Register user
-export const registerUser = async (user) => {
-    const response = await axios.post(API_URL + 'register', user);
+export const register = async (user) => {
+    const response = await axios.post(API_URL, user);
 
     if(response.data) {
         localStorage.setItem('user', JSON.stringify(response.data)); // Set user in localStorage
@@ -66,8 +53,7 @@ export const updateUser = async (userData, token) => {
 
 
 const authService = {
-    getUser,
-    registerUser,
+    register,
     logout,
     login,
     updateUser

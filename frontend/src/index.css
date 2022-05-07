@@ -35,7 +35,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
   font-size: 16px;
-  background-color: var(--color-main);
+  background-color: var(--color-secondary);
   color: var(--text-dark);
   overflow: hidden;
   min-height: 100vh;
@@ -82,7 +82,7 @@ body {
 .container {
   padding: 0 50px;
   margin: 0 auto;
-  max-width: 1680px;
+  max-width: 1440px;
 }
 
 .btn {

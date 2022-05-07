@@ -59,7 +59,6 @@ nav li svg {
     height: 30px;
     transition: var(--transition-duration);
     fill: var(--text-dark);
-    margin-right: 8px;
 }
 
 .nav-links .user-menu.notification {
