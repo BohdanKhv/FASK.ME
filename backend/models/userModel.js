@@ -1,18 +1,12 @@
 const mongoose = require('mongoose');
+const User = require('./userModel');
 
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, 'Please add a username']
-    },
-    firstName: {
-        type: String,
-        required: [true, 'Please add your first name']
-    },
-    lastName: {
-        type: String,
-        required: [true, 'Please add your last name']
+        required: [true, 'Please add a username'],
+        unique: true
     },
     email: {
         type: String,
@@ -30,6 +24,15 @@ const userSchema = new mongoose.Schema({
         select: false
     },
 }, { timestamps: true });
+
+
+userSchema.post('save', async function () {
+    const newProfile = await Profile.create({
+        user: this._id,
+        username: this.username,
+    });
+    await newProfile.save();
+})
 
 
 module.exports = mongoose.model('User', userSchema);

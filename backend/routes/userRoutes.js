@@ -5,7 +5,6 @@ const {
     registerUser,
     loginUser,
     getUser,
-    getUserByUsername,
     updateUser,
 } = require('../controllers/userControllers');
 
@@ -14,9 +13,6 @@ router
     .get('/', protect, getUser)
     .put('/', protect, updateUser)
     .post('/', registerUser);
-
-router
-    .get('/:username', protect, getUserByUsername)
 
 router
     .post('/login', loginUser);

@@ -31,33 +31,6 @@ const getUser = async (req, res) => {
 }
 
 
-// @desc    Get user by username
-// @route   GET /api/users/:username
-// @access  Public
-const getUserByUsername = async (req, res) => {
-    try {
-        const user = await User.findOne({ userName: req.params.username });
-
-        if(!user) {
-            return res.status(400).json({
-                msg: 'User not found'
-            });
-        }
-
-        return res.status(200).json({
-            _id: user._id,
-            email: user.email,
-            userName: user.userName,
-            firstName: user.firstName,
-            lastName: user.lastName,
-        });
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-}
-
-
 // @desc    Register user
 // @route   POST /api/users
 // @access  Public
@@ -229,7 +202,6 @@ const generateToken = (id) => {
 
 module.exports = {
     getUser,
-    getUserByUsername,
     registerUser,
     loginUser,
     updateUser
