@@ -4,6 +4,7 @@ import Sidenav from "./common/Sidenav";
 import RequireAuth from "./common/RequireAuth";
 import UserControl from "./common/UserControl";
 import SearchField from "./common/SearchField";
+import Input from "./common/Input";
 
 import Profile from "./profile/Profile";
 
@@ -18,6 +19,7 @@ export {
     RequireAuth,
     UserControl,
     SearchField,
+    Input,
 
     Profile,
 

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Login, Register, User } from './pages';
-import { Nav } from './components';
+import { Login, Register, User, Home } from './pages';
+import { Nav, RequireAuth } from './components';
 
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
         <Nav />
         <div className="container">
           <Routes>
+            <Route path='/' element={<RequireAuth><Home/></RequireAuth>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/register' element={<Register/>} />
             <Route path='/:username' element={<User/>} />

@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice';
+import { Input } from '../components';
 import './styles/Auth.css';
 
 const Login = () => {
     const [formData, setFormData] = useState({
-        email: '',
+        username: '',
         password: ''
     });
 
-    const { email, password } = formData;
+    const { username, password } = formData;
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -38,11 +39,11 @@ const Login = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        if (email === '' || password === '') {
+        if (username === '' || password === '') {
             return;
         } else {
             const userData = {
-                email,
+                username,
                 password
             };
 
@@ -57,44 +58,43 @@ const Login = () => {
                 <div className="auth-container">
                     <div className="form-header">
                         <h1 className="title-1 text-center py-1">
-                            logo placeholder
+                            Log in to your account
                         </h1>
                     </div>
                     <div className="auth-form">
                         <form onSubmit={onSubmit}>
                             <div className="form-group">
-                                <label>Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Enter your email"
-                                    value={email}
+                                <Input
+                                    type="text"
+                                    name="username"
+                                    label="Username"
+                                    value={username}
                                     onChange={onChange}
-                                    required
-                                />
+                                >
+                                    anask.com/
+                                </Input>
                             </div>
                             <div className="form-group">
-                                <label>Password</label>
-                                <input
+                                <Input
                                     type="password"
                                     name="password"
-                                    placeholder="Enter your password"
+                                    label="Password"
                                     value={password}
                                     onChange={onChange}
-                                    required
                                 />
                             </div>
-                            <button type="submit" className="btn w-100">
-                                Log In
+                            <button type="submit" 
+                                className={`btn w-100 ${username.length > 0 && password.length > 0 ? 'btn-primary' : 'btn-secondary'}`}
+                            >
+                                Log in
                             </button>
                         </form>
                         <p className="mt-1 text-end">
-                            Don't have an account? <NavLink className="text-hover" to="/register">Sign up</NavLink>
+                            Don't have an account? <NavLink className="text-hover" to="/register">Create One</NavLink>
                         </p>
                     </div>
                 </div>
             </div>
-            <div className="left-window"></div>
         </main>
     )
 }

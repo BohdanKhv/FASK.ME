@@ -1,10 +1,24 @@
-nav {
+.main-nav {
     height: 70px;
     box-shadow: var(--box-shadow);
     position: relative;
     z-index: 1000;
     margin-bottom: 40px;
     background: var(--color-main);
+}
+
+.auth-nav {
+    height: 70px;
+}
+
+.auth-nav .flex {
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-nav .big-logo {
+    font-size: 1.5rem;
 }
 
 nav .nav-wrapper {

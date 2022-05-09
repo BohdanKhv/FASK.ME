@@ -23,7 +23,6 @@
 
 .auth-container .form-header {
     width: 100%;
-    border-bottom: 2px solid var(--color-secondary);
     padding: 10px 0;
 }
 
@@ -35,7 +34,7 @@
 }
 
 .auth-container .auth-form {
-    padding: 25px 35px;
+    padding: 0 35px 25px 35px;
 }
 
 .left-window-wrapper {
@@ -47,33 +46,44 @@
     height: 100vh;
     background-color: var(--color-primary);
     position: absolute;
-    right: 0;
     top: 0;
-    bottom: 0;
-    border-top-left-radius: 60%;
+    right: 0;
+    border-top-left-radius: 80%;
     border-bottom-left-radius: 20%;
-}
-
-.username-field .hoast {
-    font-weight: 600;
-    display: flex;
-    align-items: flex-end;
-    padding: 0.5rem 0.75rem;
-    padding-right: 0;
-}
-
-.username-field input {
-    padding-left: 0;
-    box-shadow: none;
-    border: 0;
-}
-
-.username-field {
-    border-bottom: 2px solid var(--color-secondary);
     transition: var(--transition-duration);
+    animation: slime 30s infinite;
+    box-shadow: var(--box-shadow);
 }
 
-.username-field:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--box-shadow);
+@media (max-width: 768px) {
+    .left-window {
+        width: 90vw;
+    }
+}
+
+@keyframes slime {
+    0% {
+        border-top-left-radius: 10%;
+        border-top-right-radius: 20%;
+        border-bottom-left-radius: 90%;
+    }
+    25% {
+        border-top-left-radius: 95%;
+        border-top-right-radius: 0%;
+        border-bottom-left-radius: 10%;
+    }
+    50% {
+        border-top-left-radius: 80%;
+        border-bottom-left-radius: 40%;
+    }
+    75% {
+        border-top-left-radius: 60%;
+        border-top-right-radius: 40%;
+        border-bottom-left-radius: 60%;
+    }
+    100% {
+        border-top-left-radius: 10%;
+        border-top-right-radius: 20%;
+        border-bottom-left-radius: 90%;
+    }
 }

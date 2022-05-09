@@ -1,64 +1,65 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { doorClosedIcon, searchIcon, userIcon } from '../../constance/icons';
+import { doorClosedIcon, homeIcon, searchIcon, sentIcon, userIcon } from '../../constance/icons';
 import { logout } from '../../features/auth/authSlice';
+import { Input } from '../';
 import './styles/Nav.css';
 
 
 const Nav = () => {
     const dispatch = useDispatch();
+    const location = useLocation().pathname.split('/')[1];
     const user = useSelector((state) => state.auth.user);
 
     return (
-        <nav>
+        user ? (
+        <nav className="main-nav">
             <div className="container nav-wrapper">
-                <div className="nav-left">
-                    <ul className="nav-links">
-                        <li>
-                            <NavLink to="/search">
-                                logo placeholder
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to="/search">
-                                {searchIcon}
-                            </NavLink>
-                        </li>
-                    </ul>
-                </div>
+                    <div className="h-100 flex align-center">
+                        <div className="big-logo title-3">
+                            Logo placeholder
+                        </div>
+                    </div>
+                <Input
+                    type="text"
+                    name="search"
+                    placeholder="Search"
+                    label="Search"
+                    value={''}
+                    icon={searchIcon}
+                    bodyStyle={{
+                        width: '600px',
+                        margin: '0 1.5rem',
+                    }}
+                />
                 <div className="nav-right">
                     <ul className="nav-links">
-                        {user ? (
-                            <>
-                                <li>
-                                    <NavLink to={`/${user.username}`}>
-                                        {userIcon}
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <a onClick={() => {dispatch(logout())}}>
-                                        {doorClosedIcon}
-                                    </a>
-                                </li>
-                            </>
-                        ) : (
-                        <>
-                            <li>
-                                <NavLink to="/login">
-                                    Login
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/register">
-                                    Register
-                                </NavLink>
-                            </li>
-                        </>
-                        )}
+                        <li>
+                            <NavLink to={`/`}>
+                                {homeIcon}
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={`/${user.username}`}>
+                                {userIcon}
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        ) : (
+        <nav className="auth-nav">
+            <div className="container h-100 flex">
+                <div className="big-logo">
+                    Logo placeholder
+                </div>
+            </div>
+            <div 
+                className={`left-window${location === 'login' ? ' login' : ' register'}`}
+            />
+        </nav>
+        )
     )
 }
 

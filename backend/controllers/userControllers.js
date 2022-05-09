@@ -89,10 +89,10 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { username, password } = req.body;
 
         // Check if user exists
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
 
         if (!user) {
             return res.status(400).json({
@@ -110,7 +110,7 @@ const loginUser = async (req, res) => {
         }
 
         res.status(200).json({
-            _id: user.id,
+            _id: user._id,
             email: user.email,
             username: user.username,
             token: generateToken(user._id)
