@@ -6,4 +6,5 @@
     border-top: 1px solid var(--color-tertiary);
     max-width: 600px;
     margin: 0 auto;
+    padding-bottom: 50px;
 }

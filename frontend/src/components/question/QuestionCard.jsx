@@ -12,28 +12,28 @@ const QuestionCard = () => {
             className={`question-card${showAnswer ? ' show-answer' : ''}`}
         >
             <div 
-                className="question-card-header flex align-center"
+                className="question-card-header flex flex-align-center space-between"
                 onClick={() => setShowAnswer(!showAnswer)}
             >
-                <div className="flex">
-                    <div className="question flex align-center">
+                <div className="flex flex-align-center">
+                    <div className="question text-center">
                         Q
                     </div>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque velit sint eaque repellat est eum quis suscipit sequi hic corrupti.
+                        When is the new album comming out?
                     </p>
                 </div>
                 {downArrow}
             </div>
             <div 
-                className="question-card-body"
+                className="question-card-body flex-align-center"
             >
-                <div className="flex">
-                    <div className="answer flex align-center">
+                <div className="flex flex-align-center">
+                    <div className="answer text-center">
                         A
                     </div>
                     <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate animi aliquam ut ex facere commodi natus fugiat magnam nemo, provident quisquam repellat laborum expedita quo dicta necessitatibus mollitia harum neque consectetur accusamus assumenda. Tempora ducimus soluta iste recusandae commodi! Possimus?
+                        It's coming out on December 1st, 2076.
                     </p>
                 </div>
             </div>

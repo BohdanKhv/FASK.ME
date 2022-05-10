@@ -1,7 +1,7 @@
 .profile-cover {
     position: relative;
     z-index: 1;
-    height: 220px;
+    height: 325px;
     background-color: var(--color-tertiary);
 }
 
@@ -60,10 +60,11 @@
 
 .profile-fullname {
     font-size: 18px;
-    margin: 1rem 0;
+    margin-top: 1rem;
     font-weight: 600;
 }
 
 .profile-bio {
+    margin-top: 1rem;
     opacity: 0.7;
 }

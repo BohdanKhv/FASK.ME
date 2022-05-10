@@ -44,11 +44,11 @@ const registerUser = async (req, res) => {
         }
 
         // Check if user exists
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({ username: req.body.username });
 
         if (user) {
             return res.status(400).json({
-                msg: 'Email already exists'
+                msg: 'Username already exists'
             });
         }
 

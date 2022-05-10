@@ -3,6 +3,7 @@
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     transition: var(--transition-duration);
+    width: 100%;
 }
 
 .question-card:active {
@@ -58,8 +59,8 @@
 .answer {
     min-width: 30px;
     max-width: 30px;
-    margin-right: 0.5rem;
-    padding-right: 0.5rem;
+    margin-right: 0.75rem;
+    padding-right: 0.25rem;
     font-size: 1.5rem;
     border-right: 1px solid var(--color-tertiary);
 }
