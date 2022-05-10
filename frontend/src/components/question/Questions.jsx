@@ -1,9 +1,12 @@
+import { QuestionCard } from '../';
 import './styles/Questions.css';
 
 
 const Questions = () => {
     return (
-        <div>Questions</div>
+        <section className="questions">
+            <QuestionCard />
+        </section>
     )
 }
 

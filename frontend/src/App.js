@@ -8,14 +8,12 @@ const App = () => {
     <>
       <Router>
         <Nav />
-        <div className="container">
           <Routes>
             <Route path='/' element={<RequireAuth><Home/></RequireAuth>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/register' element={<Register/>} />
             <Route path='/:username' element={<User/>} />
           </Routes>
-        </div>
       </Router>
     </>
   );

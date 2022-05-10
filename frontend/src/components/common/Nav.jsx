@@ -25,7 +25,7 @@ const Nav = () => {
                     name="search"
                     placeholder="Search"
                     label="Search"
-                    value={''}
+                    // value={''}
                     icon={searchIcon}
                     bodyStyle={{
                         width: '600px',
@@ -48,7 +48,7 @@ const Nav = () => {
                 </div>
             </div>
         </nav>
-        ) : (
+        ) : location === 'login' || location === 'register' ? (
         <nav className="auth-nav">
             <div className="container h-100 flex">
                 <div className="big-logo">
@@ -59,7 +59,10 @@ const Nav = () => {
                 className={`left-window${location === 'login' ? ' login' : ' register'}`}
             />
         </nav>
+        ) : (
+            null
         )
+
     )
 }
 

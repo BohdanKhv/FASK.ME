@@ -6,14 +6,14 @@
 
   --color-main: #ffffff;
   --color-secondary: #f9f9f9;
-  --color-tertiary: #3d4b4e;
+  --color-tertiary: #9ea5a7;
   --color-primary: #0ed3ff;
 
   --text-light: #ffffff;
   --text-dark: #071013;
 
   --border-radius: 1rem;
-  --box-shadow: 0px 1px 4px 0 #31353675;
+  --box-shadow: 1px 2px 4px 0 #0710138c;
   --transition-duration: .3s;
 }
 
@@ -32,7 +32,7 @@ body {
   font-size: 16px;
   background-color: var(--color-main);
   color: var(--text-dark);
-  overflow: hidden;
+  overflow-x: hidden;
   min-height: 100vh;
 }
 
@@ -78,6 +78,32 @@ body {
   padding: 0 50px;
   margin: 0 auto;
   max-width: 1440px;
+}
+
+.btn-icon {
+  cursor: pointer;
+  transition: var(--transition-duration);
+}
+
+.btn-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.btn-icon:hover {
+  opacity: 1!important;
+}
+
+.btn-icon:hover svg {
+  fill: var(--color-primary);
+}
+
+.btn-icon.active {
+  opacity: 1;
+}
+
+.btn-icon.unactive {
+  opacity: 0.5;
 }
 
 .btn {
@@ -312,6 +338,7 @@ svg {
   width: 1rem;
   height: 1rem;
   fill: var(--text-dark);
+  transition: var(--transition-duration);
 }
 
 @keyframes blink {

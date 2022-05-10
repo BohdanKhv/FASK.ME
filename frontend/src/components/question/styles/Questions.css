@@ -1,0 +1,9 @@
+.questions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-tertiary);
+    max-width: 600px;
+    margin: 0 auto;
+}

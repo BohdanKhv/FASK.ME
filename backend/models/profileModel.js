@@ -12,13 +12,11 @@ const profileSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        minlength: 3,
+        maxlength: 20
     },
-    firstName: {
-        type: String,
-        required: false
-    },
-    lastName: {
+    fullName: {
         type: String,
         required: false
     },
@@ -26,6 +24,19 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    cover: {
+        type: String,
+        required: false
+    },
+    bio: {
+        type: String,
+        required: false,
+        maxlength: 100
+    },
+    links: [{
+        type: String,
+        required: false
+    }],
     age: {
         type: Number,
         required: false
