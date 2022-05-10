@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AuthUserControl, AuthControl, Image, Input, EditProfile } from '../';
+import { AuthUserControl, AuthControl, Image, Input, EditProfile, CreateFask } from '../';
 import { sentIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
@@ -50,9 +50,7 @@ const Profile = () => {
                             <AuthUserControl>
                                 <div className="profile-settings flex align-center">
                                     <EditProfile/>
-                                    <div className="btn btn-primary ml-1">
-                                        Fask
-                                    </div>
+                                    <CreateFask/>
                                 </div>
                             </AuthUserControl>
                             <AuthControl>

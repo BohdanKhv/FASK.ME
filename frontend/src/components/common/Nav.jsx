@@ -17,11 +17,11 @@ const Nav = () => {
         user ? (
         <nav className="main-nav">
             <div className="container nav-wrapper">
-                    <div className="h-100 flex align-center">
-                        <div className="big-logo title-3">
-                            FASK.ME
-                        </div>
+                <div className="h-100 flex align-center">
+                    <div className="big-logo title-3">
+                        FASK.ME
                     </div>
+                </div>
                 <Input
                     type="text"
                     name="search"
@@ -51,9 +51,21 @@ const Nav = () => {
             </div>
             <div className="nav-burger h-100">
                 <div className="flex align-between h-100 px-1">
-                        <div className="big-logo title-3">
-                            FASK.ME
-                        </div>
+                    <div className="big-logo title-3">
+                        FASK.ME
+                    </div>
+                    <Input
+                        type="text"
+                        name="search"
+                        placeholder="Search"
+                        label="Search"
+                        // value={''}
+                        icon={searchIcon}
+                        bodyStyle={{
+                            width: '600px',
+                            margin: '0 1.5rem',
+                        }}
+                    />
                     <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>
                         {burgerIcon}
                     </div>
