@@ -1,11 +1,10 @@
 .profile-cover {
     position: relative;
-    z-index: 1;
     height: 325px;
     background-color: var(--color-tertiary);
 }
 
-.profile-cover img {
+.profile-cover .profile-cover-image {
     height: 100%;
     width: 100%;
     object-position: center;
@@ -15,7 +14,6 @@
 .profile-info {
     margin-top: -65px;
     position: relative;
-    z-index: 2;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
@@ -28,7 +26,7 @@
     border-radius: 50%;
 }
 
-.profile-image img,
+.profile-image .profile-avatar,
 .profile-image-placeholder {
     border: 2px solid var(--color-main);
     height: 130px;

@@ -21,7 +21,6 @@ app.use(express.urlencoded({ limit: '2mb', extended: false }));
 // Router
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/profiles', require('./routes/profileRoutes'));
-app.use('/api/page', require('./routes/pageRoutes'));
 app.use('/api/questions', require('./routes/questionRoutes'));
 
 

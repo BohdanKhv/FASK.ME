@@ -2,9 +2,11 @@ import Nav from "./common/Nav";
 import Modal from "./common/Modal";
 import Sidenav from "./common/Sidenav";
 import RequireAuth from "./common/RequireAuth";
-import UserControl from "./common/UserControl";
+import AuthControl from "./common/AuthControl";
+import AuthUserControl from "./common/AuthUserControl";
 import SearchField from "./common/SearchField";
 import Input from "./common/Input";
+import Image from "./common/Image";
 
 import Profile from "./profile/Profile";
 
@@ -17,9 +19,11 @@ export {
     Modal,
     Sidenav,
     RequireAuth,
-    UserControl,
+    AuthControl,
+    AuthUserControl,
     SearchField,
     Input,
+    Image,
 
     Profile,
 

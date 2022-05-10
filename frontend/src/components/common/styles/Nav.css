@@ -2,7 +2,7 @@
     height: 70px;
     box-shadow: var(--box-shadow);
     position: relative;
-    z-index: 1000;
+    z-index: 2;
     /* margin-bottom: 40px; */
     background: var(--color-main);
 }

@@ -1,5 +1,5 @@
 :root {
-  --color-danger: #E69597;
+  --color-danger: #f43636;
   --color-success: #9be49b;
   --color-warning: #FFE08E;
   --color-info: #91c4d4;
@@ -10,7 +10,7 @@
   --color-primary: #0ed3ff;
 
   --text-light: #ffffff;
-  --text-dark: #071013;
+  --text-dark: #131415;
 
   --border-radius: 1rem;
   --box-shadow: 1px 2px 4px 0 #0710138c;
@@ -34,6 +34,10 @@ body {
   color: var(--text-dark);
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+.position-absolute {
+  position: absolute;
 }
 
 .flex {
@@ -87,27 +91,23 @@ body {
 .btn-icon {
   cursor: pointer;
   transition: var(--transition-duration);
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.btn-icon:hover {
+  background: var(--color-main);
+  box-shadow: var(--box-shadow);
+
 }
 
 .btn-icon svg {
   width: 24px;
   height: 24px;
-}
-
-.btn-icon:hover {
-  opacity: 1!important;
-}
-
-.btn-icon:hover svg {
-  fill: var(--color-primary);
-}
-
-.btn-icon.active {
-  opacity: 1;
-}
-
-.btn-icon.unactive {
-  opacity: 0.5;
 }
 
 .btn {
@@ -154,9 +154,24 @@ body {
   background-color: var(--color-info);
 }
 
-
 .btn.btn-primary {
   background-color: var(--color-primary);
+}
+
+.text-danger {
+  color: var(--color-danger);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-warning {
+  color: var(--color-warning);
 }
 
 .form-group-row {
@@ -354,6 +369,15 @@ svg {
   }
   100% {
     opacity: 100%;
+  }
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

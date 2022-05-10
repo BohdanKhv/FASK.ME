@@ -8,7 +8,18 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please add a username'],
         unique: true,
         minlength: 3,
-        maxlength: 20
+        maxlength: 20,
+        validate(value) {
+            if (value.length < 3) {
+                throw new Error('Username must be at least 3 characters');
+            } else if (value.length > 15) {
+                throw new Error('Username must be less than 15 characters');
+            }
+
+            if(/[^a-zA-Z0-9]/.test(value)) {
+                throw new Error('Username must only contain letters and numbers');
+            }
+        },
     },
     email: {
         type: String,

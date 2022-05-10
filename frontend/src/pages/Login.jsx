@@ -23,11 +23,13 @@ const Login = () => {
             console.log('user', user);
             navigate(`/${user.username}`);
         }
+    }, [user, isSuccess, msg, navigate, dispatch]);
 
-        if(isError) {
+    useEffect(() => {
+        return () => {
             dispatch(reset());
         }
-    }, [user, isSuccess, msg, navigate, dispatch]);
+    }, [])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -53,7 +55,7 @@ const Login = () => {
 
 
     return (
-        <main className="auth">
+        <main className="auth container">
             <div className="auth-wrapper">
                 <div className="auth-container">
                     <div className="form-header">
@@ -71,7 +73,7 @@ const Login = () => {
                                     value={username}
                                     onChange={onChange}
                                 >
-                                    anask.com/
+                                    fask.me/
                                 </Input>
                             </div>
                             <div className="form-group">
@@ -88,6 +90,7 @@ const Login = () => {
                             >
                                 Log in
                             </button>
+                            {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
                         </form>
                         <p className="mt-1 text-end">
                             Don't have an account? <NavLink className="text-hover" to="/register">Create One</NavLink>

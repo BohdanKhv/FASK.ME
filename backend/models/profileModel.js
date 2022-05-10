@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Page = require('./pageModel');
+// const Page = require('./pageModel');
 
 
 const profileSchema = new mongoose.Schema({
@@ -60,11 +60,11 @@ const profileSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-profileSchema.post('save', async function () {
-    await Page.create({
-        user: this.user,
-    });
-})
+// profileSchema.post('save', async function () {
+//     await Page.create({
+//         user: this.user,
+//     });
+// })
 
 
 module.exports = mongoose.model('Profile', profileSchema);

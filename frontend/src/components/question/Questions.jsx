@@ -4,7 +4,7 @@ import './styles/Questions.css';
 
 const Questions = () => {
     return (
-        <section className="questions">
+        <section className="questions container">
             <QuestionCard />
         </section>
     )

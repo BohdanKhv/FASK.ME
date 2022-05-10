@@ -27,9 +27,13 @@ const Register = () => {
         if (isSuccess || user) {
             navigate('/');
         }
-
-        dispatch(reset());
     }, [user, isError, isSuccess, msg, navigate, dispatch]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(reset());
+        }
+    }, [])
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -56,7 +60,7 @@ const Register = () => {
 
 
     return (
-        <main className="auth">
+        <main className="auth container">
             <div className="auth-wrapper">
                 <div className="auth-container">
                     <div className="form-header">
@@ -77,7 +81,7 @@ const Register = () => {
                                     value={username}
                                     onChange={onChange}
                                 >
-                                    anask.com/
+                                    fask.me/
                                 </Input>
                             </div>
                             <div className="form-group">
@@ -104,6 +108,7 @@ const Register = () => {
                             >
                                 Sign up
                             </button>
+                            {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
                         </form>
                         <p className="mt-1 text-end">
                             Already have an account? <NavLink className="text-hover" to="/login">Log in</NavLink>

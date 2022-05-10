@@ -17,7 +17,7 @@ const Nav = () => {
             <div className="container nav-wrapper">
                     <div className="h-100 flex align-center">
                         <div className="big-logo title-3">
-                            Logo placeholder
+                            FASK.ME
                         </div>
                     </div>
                 <Input
@@ -52,7 +52,7 @@ const Nav = () => {
         <nav className="auth-nav">
             <div className="container h-100 flex">
                 <div className="big-logo">
-                    Logo placeholder
+                    FASK.ME
                 </div>
             </div>
             <div 

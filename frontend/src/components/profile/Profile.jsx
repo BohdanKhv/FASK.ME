@@ -1,4 +1,6 @@
 import { useSelector } from 'react-redux';
+import { AuthUserControl, AuthControl, Image, Input } from '../';
+import { sentIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
 const Profile = () => {
@@ -10,22 +12,30 @@ const Profile = () => {
             <>
             <div className="profile-cover">
                 {profile.cover && (
-                        <img src={ profile.cover } alt="Cover" />
-                    )}
+                    <Image
+                        image={ profile.cover }
+                        alt="Cover"
+                        classList="profile-cover-image"
+                    />
+                )}
             </div>
             <div className="container">
                 {profile && (
                     <div className="profile-info">
                         <div className="profile-image flex align-center">
                             { profile.avatar ? (
-                                <img src={ profile.avatar } alt="Avatar" />
+                                <Image
+                                    image={ profile.avatar }
+                                    alt="Avatar"
+                                    classList="profile-avatar"
+                                />
                             ) : (
                                 <div className="profile-image-placeholder">
                                     {profile.username[0].toUpperCase()}
                                 </div>
                             ) }
                         </div>
-                        <div className="profile-info-content">
+                        <div className="profile-info-content container">
                             <div className="profile-username flex align-center text-center">
                                 @{profile.username}
                             </div>
@@ -37,14 +47,40 @@ const Profile = () => {
                                     {profile.bio}
                                 </div>
                             )}
-                            <div className="profile-settings flex align-center">
-                                <div className="btn">
-                                    Edit Profile
+                            <AuthUserControl>
+                                <div className="profile-settings flex align-center">
+                                    <div className="btn">
+                                        Edit Profile
+                                    </div>
+                                    <div className="btn btn-primary ml-1">
+                                        Fask
+                                    </div>
                                 </div>
-                                <div className="btn btn-primary ml-1">
-                                    Post FAQ
+                            </AuthUserControl>
+                            <AuthControl>
+                                <div className="profile-settings flex align-center">
+                                    <Input 
+                                        type="text"
+                                        name="question"
+                                        placeholder="Your question"
+                                        label="Your question"
+                                        bodyStyle={{
+                                            width: '600px',
+                                        }}
+                                        inputStyle={{
+                                            height: '33px',
+                                            opacity: '1',
+                                            padding: '0.5rem 0',
+                                        }}
+                                        labelStyle={{
+                                            display: 'none',
+                                        }}
+                                    />
+                                    <div className="btn btn-primary ml-1">
+                                        Fask
+                                    </div>
                                 </div>
-                            </div>
+                            </AuthControl>
                         </div>
                     </div>
                 )}

@@ -34,7 +34,7 @@ const getUser = async (req, res) => {
 // @access  Public
 const registerUser = async (req, res) => {
     try {
-        const { email, username, password, } = req.body;
+        const { email, username, password } = req.body;
 
         // Check if email or password is empty
         if (!email || !username || !password) {
@@ -44,7 +44,9 @@ const registerUser = async (req, res) => {
         }
 
         // Check if user exists
-        const user = await User.findOne({ username: req.body.username });
+        const user = await User.findOne({
+            "username_lower": username.toLowerCase()
+        });
 
         if (user) {
             return res.status(400).json({
@@ -92,6 +94,12 @@ const loginUser = async (req, res) => {
         const { username, password } = req.body;
 
         // Check if user exists
+        // const user = await User.findOne({ 
+        //     $or: [
+        //         { email },
+        //         { username }
+        //     ]
+        // });
         const user = await User.findOne({ username });
 
         if (!user) {
