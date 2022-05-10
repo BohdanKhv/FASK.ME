@@ -40,6 +40,8 @@
     font-size: 80px;
     box-shadow: var(--box-shadow);
     text-shadow: 1px 1px 2px var(--text-dark);
+    object-fit: cover;
+    object-position: center;
 }
 
 .profile-settings {
@@ -65,4 +67,10 @@
 .profile-bio {
     margin-top: 1rem;
     opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .profile-cover {
+        height: 225px;
+    }
 }

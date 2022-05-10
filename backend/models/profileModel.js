@@ -53,10 +53,6 @@ const profileSchema = new mongoose.Schema({
         type: Boolean,
         required: false
     },
-    page: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Page'
-    },
 }, { timestamps: true });
 
 

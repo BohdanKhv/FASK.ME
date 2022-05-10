@@ -23,24 +23,26 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                     <div className="modal-header">
                         <h3>{contentLabel}</h3>
                         {disableClose ? null : (
-                            <button className="btn-icon btn-icon-danger" onClick={() => {setModalIsOpen(false)} }>
+                            <div className="btn-icon btn-icon-danger" onClick={() => {setModalIsOpen(false)} }>
                                 {closeIcon}
-                            </button>
+                            </div>
                         )}
                     </div>
                     <div className="modal-content" style={bodyStyles}>
-                        {children}
+                        <div className="h-100">
+                            {children}
+                        </div>
                     </div>
                     <div className="modal-footer">
                         {actionDangerBtnText && (
-                            <button className="btn btn-outline-danger" onClick={onSubmitDanger}>
+                            <div className="btn btn-outline-danger" onClick={onSubmitDanger}>
                                 {actionDangerBtnText}
-                            </button>
+                            </div>
                         )}
                         {actionBtnText && (
-                            <button className="btn btn-primary" onClick={onSubmit}>
+                            <div className="btn btn-primary" onClick={onSubmit}>
                                 {actionBtnText}
-                            </button>
+                            </div>
                         )}
                     </div>
                 </div>

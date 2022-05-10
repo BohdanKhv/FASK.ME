@@ -33,9 +33,9 @@ const Sidenav = ({children, title, isSidenavOpen, setIsSidenavOpen}) => {
                         <h3 className="title-3">
                             {title}
                         </h3>
-                        <button className="btn-icon btn-icon-danger" onClick={() => {setIsSidenavOpen(false)} }>
+                        <div className="btn-icon btn-icon-danger" onClick={() => {setIsSidenavOpen(false)} }>
                             {closeIcon}
-                        </button>
+                        </div>
                     </div>
                 </div>
                 <div className="sidenav-body">

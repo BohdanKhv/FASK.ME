@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './styles/Input.css';
 
-const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, inputStyle, labelStyle}) => {
+const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, inputStyle, labelStyle, minLength, maxLength}) => {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef(null);
 
@@ -44,6 +44,8 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
                 value={value}
                 onChange={onChange}
                 placeholder={label}
+                minLength={minLength}
+                maxLength={maxLength}
             />
             <div
                 style={labelStyle}

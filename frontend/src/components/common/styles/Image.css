@@ -39,4 +39,5 @@
 .image-content {
     position: relative;
     z-index: 99999;
+    width: 100%;
 }

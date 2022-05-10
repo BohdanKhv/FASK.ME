@@ -27,7 +27,7 @@ const Image = ({image, alt, classList}) => {
                         {closeIcon}
                     </div>
                 </div>
-                <div className="image-wrapper">
+                <div className="image-wrapper container">
                     <img
                         className="image-content"
                         src={image}

@@ -9,6 +9,7 @@ import Input from "./common/Input";
 import Image from "./common/Image";
 
 import Profile from "./profile/Profile";
+import EditProfile from "./profile/EditProfile";
 
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
@@ -26,6 +27,7 @@ export {
     Image,
 
     Profile,
+    EditProfile,
 
     Questions,
     QuestionCard,

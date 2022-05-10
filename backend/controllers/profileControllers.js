@@ -9,8 +9,7 @@ const getProfile = async (req, res) => {
         const profile = await Profile.findOne({
             username: req.params.username,
         })
-        .populate('user', ['email'])
-        .populate('page');
+        .populate('user', ['email']);
 
         if (!profile) {
             return res.status(404).json({
