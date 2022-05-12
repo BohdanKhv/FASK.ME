@@ -1,23 +1,4 @@
-import { faqIcon, answeredIcon, askedIcon, inboxIcon, sentIcon } from './icons';
-
-const profileNavigation = [
-    {
-        name: 'FAQ',
-        icon: faqIcon,
-        path: '/',
-    },
-    {
-        name: 'Answered',
-        icon: answeredIcon,
-        path: '/answered',
-    },
-    {
-        name: 'Asked',
-        icon: askedIcon,
-        path: '/asked',
-    }
-];
-
+import { inboxIcon, sentIcon } from './icons';
 
 const feedNavigation = [
     {
@@ -34,6 +15,5 @@ const feedNavigation = [
 
 
 export {
-    profileNavigation,
     feedNavigation
 };

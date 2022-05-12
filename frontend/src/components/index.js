@@ -7,6 +7,7 @@ import IsUserGate from "./common/IsUserGate";
 import SearchField from "./common/SearchField";
 import Input from "./common/Input";
 import Textarea from "./common/Textarea";
+import Checkmark from "./common/Checkmark";
 import DisplayImage from "./common/DisplayImage";
 import Image from "./common/Image";
 import UploadImage from "./common/UploadImage";
@@ -16,7 +17,6 @@ import Tooltip from "./common/Tooltip";
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
 
-import QuestionNavbar from "./question/QuestionNavbar";
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
 import CreateFAQ from "./question/CreateFAQ";
@@ -33,6 +33,7 @@ export {
     SearchField,
     Input,
     Textarea,
+    Checkmark,
     DisplayImage,
     Image,
     UploadImage,
@@ -42,7 +43,6 @@ export {
     Profile,
     EditProfile,
 
-    QuestionNavbar,
     Questions,
     QuestionCard,
     CreateFAQ,

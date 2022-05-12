@@ -18,10 +18,12 @@
 .profile-info {
     margin-top: -65px;
     position: relative;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
     padding-bottom: 2rem;
+}
+
+.profile-info-content {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .profile-image {

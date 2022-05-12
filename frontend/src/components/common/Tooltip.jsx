@@ -4,7 +4,7 @@ const Tooltip = ({children, content}) => {
     return (
         <div className="tooltip">
             <span className="tooltip-text">
-                <div class="tooltip-arrow"></div>
+                <div className="tooltip-arrow"></div>
                 {content}
             </span>
             {children}

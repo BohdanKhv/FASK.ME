@@ -1,21 +1,31 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuestion } from '../../features/question/questionSlice';
-import { Input, AuthGate} from '../';
-import { arrowRepeatIcon } from '../../constance/icons';
+import { Input, AuthGate, Checkmark, Tooltip } from '../';
+import { arrowRepeatIcon, anonymousIcon } from '../../constance/icons';
 
 const Ask = () => {
     const { profile } = useSelector(state => state.profile);
     const { isSuccess, isLoading } = useSelector(state => state.question);
     const dispatch = useDispatch();
-    const [question, setQuestion] = useState('');
+    const [question, setQuestion] = useState({
+        question: '',
+        anonymous: false,
+    });
     const [err, setErr] = useState(false);
+
+    const onChangeCheckmark = (value) => {
+        setQuestion({
+            ...question,
+            anonymous: value,
+        });
+    }
 
     const onSubmit = () => {
         if (question) {
             setErr(false);
             const data = {
-                question: question,
+                question: question.question,
                 receiver: profile.user._id,
                 type: 'ask',
             }
@@ -34,6 +44,17 @@ const Ask = () => {
                     <div className="success-msg">Your question has been sent</div>
                 ) : (
                 <>
+                    <div className="mr-1">
+                        <Tooltip
+                            content="Ask a question anonymously"
+                        >
+                            <Checkmark
+                                value={question.anonymous}
+                                icon={anonymousIcon}
+                                onChange={onChangeCheckmark}
+                            />
+                        </Tooltip>
+                    </div>
                     <Input 
                         type="text"
                         name="question"
@@ -51,12 +72,15 @@ const Ask = () => {
                         labelStyle={{
                             display: 'none',
                         }}
-                        value={question}
+                        value={question.question}
                         onChange={(e) => {
                             if(err) {
                                 setErr(false);
                             }
-                            setQuestion(e.target.value); 
+                            setQuestion({
+                                ...question,
+                                question: e.target.value,
+                            });
                         }}
                     />
                     <div 

@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom';
 import { getProfileFaqQuestions, getProfileAnsweredQuestions, getProfileAskedQuestions, getProfileQuestionCount, reset } from '../../features/question/questionSlice';
-import { QuestionCard, QuestionNavbar } from '../';
+import { QuestionCard, Navbar } from '../';
+import { faqIcon, answeredIcon, askedIcon } from '../../constance/icons';
 import './styles/Questions.css';
 
 
@@ -35,7 +36,27 @@ const Questions = () => {
 
     return (
         <section className="container">
-            <QuestionNavbar/>
+            <Navbar
+                links={
+                    [
+                        {
+                            name: 'FAQ',
+                            icon: faqIcon,
+                            path: `/${username}`,
+                        },
+                        {
+                            name: 'Answered',
+                            icon: answeredIcon,
+                            path: `/${username}/answered`,
+                        },
+                        {
+                            name: 'Asked',
+                            icon: askedIcon,
+                            path: `/${username}/asked`,
+                        }
+                    ]
+                }
+            />
             <div className="questions">
                 {location === 'answered' ? (
                     <>

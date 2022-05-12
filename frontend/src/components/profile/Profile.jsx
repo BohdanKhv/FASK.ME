@@ -1,9 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { IsUserGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip } from '../';
+import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
 const Profile = () => {
+    const dispatch = useDispatch();
     const { profile, isLoading } = useSelector(state => state.profile);
 
     return (
@@ -34,16 +36,20 @@ const Profile = () => {
                                     {profile.username[0].toUpperCase()}
                                 </div>
                             ) }
-                            <div className="log-out-btn">
-                                <Tooltip
-                                    content="Log out"
-                                    tooltip="asd"
-                                >
-                                    <div className="btn-icon bg-danger">
-                                        {doorClosedIcon}
-                                    </div>
-                                </Tooltip>
-                            </div>
+                            <IsUserGate>
+                                <div className="log-out-btn">
+                                    <Tooltip
+                                        content="Log out"
+                                    >
+                                        <div 
+                                            className="btn-icon bg-danger"
+                                            onClick={() => dispatch(logout())}
+                                        >
+                                            {doorClosedIcon}
+                                        </div>
+                                    </Tooltip>
+                                </div>
+                            </IsUserGate>
                         </div>
                         <div className="profile-info-content container">
                             <div className="profile-username flex align-center text-center">
