@@ -6,9 +6,10 @@ const {
     getSentQuestions,
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
+    getProfileAskedQuestions,
     createQuestion,
     updateQuestion,
-    deleteQuestion,
+    deleteQuestion
 } = require('../controllers/questionControllers');
 
 
@@ -18,7 +19,7 @@ router
     .get('/sent', protect, getSentQuestions)
     .get('/user/:username/faq', getProfileFaqQuestions)
     .get('/user/:username/answered', getProfileAnsweredQuestions)
-    .get('/user/:username/asked', getProfileAnsweredQuestions)
+    .get('/user/:username/asked', getProfileAskedQuestions)
     .put('/:id', protect, updateQuestion)
     .delete('/:id', protect, deleteQuestion);
 

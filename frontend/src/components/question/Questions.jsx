@@ -39,6 +39,11 @@ const Questions = () => {
                         {answered.map((question, index) => (
                             <QuestionCard key={`answered-${question._id+index}`} question={question} />
                         ))}
+                        {!isLoading && answered.length === 0 && (
+                            <p className="title-3">
+                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not answered any questions yet.
+                            </p>
+                        )}
                         {isLoading && answered.length === 0 && <QuestionCard isLoading={isLoading}/>}
                     </>
                 ) : !location ? (
@@ -46,6 +51,11 @@ const Questions = () => {
                         {faq.map((question, index) => (
                             <QuestionCard key={`faq-${question._id+index}`} question={question} />
                         ))}
+                        {!isLoading && faq.length === 0 && (
+                            <p className="title-3">
+                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not asked posted any FAQ yet.
+                            </p>
+                        )}
                         {isLoading && faq.length === 0 && <QuestionCard isLoading={isLoading}/>}
                     </>
                 ) : location === 'asked' && (
@@ -53,6 +63,11 @@ const Questions = () => {
                         {asked.map((question, index) => (
                             <QuestionCard key={`asked-${question._id+index}`} question={question} />
                         ))}
+                        {!isLoading && asked.length === 0 && (
+                            <p className="title-3">
+                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not asked any questions yet.
+                            </p>
+                        )}
                         {isLoading && asked.length === 0 && <QuestionCard isLoading={isLoading}/>}
                     </>
                 )}

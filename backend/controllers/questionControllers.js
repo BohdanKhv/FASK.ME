@@ -82,11 +82,13 @@ const getProfileAnsweredQuestions = async (req, res) => {
 
         const questions = await Question
         .find({
+            sender: {$ne: user._id},
             receiver: user._id,
             isAnswered: true,
             isArchived: false,
             isPinned: true
         })
+        .populate('sender')
         .sort({ date: -1 });
 
         res.status(200).json(questions);
@@ -97,16 +99,25 @@ const getProfileAnsweredQuestions = async (req, res) => {
 }
 
 
-// @desc   Get unanswered questions
-// @route  GET /api/questions/user/:username/unanswered
+// @desc   Get asked questions
+// @route  GET /api/questions/user/:username/asked
 // @access Private
-const getUnansweredQuestions = async (req, res) => {
+const getProfileAskedQuestions = async (req, res) => {
     try {
+        const user = await User.findOne({username: req.params.username});
+
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
         const questions = await Question
         .find({
-            receiver: req.user._id,
-            isAnswered: false
+            sender: user._id,
+            isArchived: false,
+            isAnswered: true,
+            isAnonymous: false
         })
+        .populate('receiver')
         .sort({ date: -1 });
 
         res.status(200).json(questions);
@@ -208,11 +219,11 @@ const updateQuestion = async (req, res) => {
 
 
 module.exports = {
-    getProfileFaqQuestions,
     getReceivedQuestions,
-    getProfileAnsweredQuestions,
     getSentQuestions,
-    getUnansweredQuestions,
+    getProfileFaqQuestions,
+    getProfileAnsweredQuestions,
+    getProfileAskedQuestions,
     createQuestion,
     updateQuestion,
     deleteQuestion

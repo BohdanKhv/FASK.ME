@@ -20,18 +20,22 @@ const questionModelSchema = new mongoose.Schema({
     },
     isAnswered: {
         type: Boolean,
+        default: false,
         required: false
     },
     isArchived: {
         type: Boolean,
+        default: false,
         required: false
     },
     isPinned: {
         type: Boolean,
+        default: false,
         required: false
     },
     isAnonymous: {
         type: Boolean,
+        default: false,
         required: false
     },
 }, { timestamps: true });
