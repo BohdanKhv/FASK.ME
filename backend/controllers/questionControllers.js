@@ -113,6 +113,7 @@ const getProfileAskedQuestions = async (req, res) => {
         const questions = await Question
         .find({
             sender: user._id,
+            receiver: {$ne: user._id},
             isArchived: false,
             isAnswered: true,
             isAnonymous: false

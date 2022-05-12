@@ -1,4 +1,5 @@
 const Profile = require('../models/profileModel');
+const Question = require('../models/questionModel');
 
 
 // @desc   Get profile
@@ -17,7 +18,40 @@ const getProfile = async (req, res) => {
             });
         }
 
-        res.status(200).json(profile);
+        // Get questions count
+        const faq = await Question.countDocuments({
+            receiver: profile.user._id,
+            sender: profile.user._id,
+            isArchived: false,
+        });
+        
+        const answered = await Question.countDocuments({
+            receiver: profile.user._id,
+            sender: {$ne: profile.user._id},
+            isAnswered: true,
+            isArchived: false,
+        });
+
+        const asked = await Question.countDocuments({
+            receiver: {$ne: profile.user._id},
+            sender: profile.user._id,
+            isArchived: false,
+        });
+
+        const count = {
+            faq: faq,
+            answered,
+            asked,
+        }
+
+        profile.count = 'count';
+
+        const profileObj = {
+            profile,
+            count,
+        }
+
+        res.status(200).json(profileObj);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
