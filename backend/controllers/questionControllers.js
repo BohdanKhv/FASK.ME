@@ -81,8 +81,6 @@ const getProfileQuestionCount = async (req, res) => {
             asked,
         }
 
-        console.log(count);
-
         res.status(200).json(count);
     } catch (err) {
         console.error(err.message);

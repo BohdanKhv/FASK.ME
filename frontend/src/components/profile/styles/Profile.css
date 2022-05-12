@@ -73,6 +73,15 @@
     opacity: 0.7;
 }
 
+.log-out-btn {
+    position: absolute;
+    left: 0;
+}
+
+.log-out-btn .btn-icon {
+    padding: 0.75rem;
+}
+
 @media (max-width: 768px) {
     .profile {
         min-height: 50vh;

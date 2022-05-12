@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
-import { IsUserGate, Ask, DisplayImage, EditProfile, CreateFAQ } from '../';
-import { sentIcon } from '../../constance/icons';
+import { IsUserGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip } from '../';
+import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
 const Profile = () => {
@@ -34,6 +34,16 @@ const Profile = () => {
                                     {profile.username[0].toUpperCase()}
                                 </div>
                             ) }
+                            <div className="log-out-btn">
+                                <Tooltip
+                                    content="Log out"
+                                    tooltip="asd"
+                                >
+                                    <div className="btn-icon bg-danger">
+                                        {doorClosedIcon}
+                                    </div>
+                                </Tooltip>
+                            </div>
                         </div>
                         <div className="profile-info-content container">
                             <div className="profile-username flex align-center text-center">

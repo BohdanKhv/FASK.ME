@@ -11,6 +11,7 @@ import DisplayImage from "./common/DisplayImage";
 import Image from "./common/Image";
 import UploadImage from "./common/UploadImage";
 import Navbar from "./common/Navbar";
+import Tooltip from "./common/Tooltip";
 
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
@@ -36,6 +37,7 @@ export {
     Image,
     UploadImage,
     Navbar,
+    Tooltip,
 
     Profile,
     EditProfile,
