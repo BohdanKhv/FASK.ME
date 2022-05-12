@@ -6,7 +6,8 @@ const initialState = {
     faq: [],
     answered: [],
     asked: [],
-    questions: [],
+    inbox: [],
+    sent: [],
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -182,7 +183,8 @@ const questionSlice = createSlice({
         reset: (state) => {
             state.faq = [];
             state.answered = [];
-            state.questions = [];
+            state.inbox = [];
+            state.sent = [];
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
@@ -193,20 +195,17 @@ const questionSlice = createSlice({
         builder.addCase(getReceivedQuestions.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(getReceivedQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.inbox = action.payload;
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(getReceivedQuestions.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
 
@@ -214,20 +213,17 @@ const questionSlice = createSlice({
         builder.addCase(getSentQuestions.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(getSentQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.sent = action.payload;
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(getSentQuestions.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
 
@@ -235,20 +231,17 @@ const questionSlice = createSlice({
         builder.addCase(getProfileFaqQuestions.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(getProfileFaqQuestions.fulfilled, (state, action) => {
             state.faq = action.payload;
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(getProfileFaqQuestions.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
 
@@ -256,20 +249,17 @@ const questionSlice = createSlice({
         builder.addCase(getProfileAnsweredQuestions.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(getProfileAnsweredQuestions.fulfilled, (state, action) => {
             state.answered = action.payload;
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(getProfileAnsweredQuestions.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
 
@@ -277,20 +267,17 @@ const questionSlice = createSlice({
         builder.addCase(getProfileAskedQuestions.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.fulfilled, (state, action) => {
             state.asked = action.payload;
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
 
@@ -302,7 +289,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(createQuestion.fulfilled, (state, action) => {
-            state.faq.push(action.payload);
+            state.sent.push(action.payload);
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
@@ -319,21 +306,18 @@ const questionSlice = createSlice({
         builder.addCase(updateQuestion.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(updateQuestion.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
-            const index = state.questions.findIndex(question => question._id === action.payload._id);
-            state.questions[index] = action.payload;
+            const index = state.inbox.findIndex(question => question._id === action.payload._id);
+            state.inbox[index] = action.payload;
         });
         builder.addCase(updateQuestion.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
 
@@ -341,20 +325,19 @@ const questionSlice = createSlice({
         builder.addCase(deleteQuestion.pending, (state, action) => {
             state.isLoading = true;
             state.isError = false;
-            state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(deleteQuestion.fulfilled, (state, action) => {
-            state.questions = state.questions.filter(question => question._id !== action.payload._id);
+            // TODO: remove from state
+            console.log('action => sent | inbox | answered | faq');
+            state.sent = state.sent.filter(question => question._id !== action.payload._id);
             state.isLoading = false;
             state.isError = false;
-            state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(deleteQuestion.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
-            state.isSuccess = false;
             state.msg = action.payload;
         });
     }

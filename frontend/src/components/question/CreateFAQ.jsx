@@ -39,6 +39,7 @@ const CreateFAQ = () => {
             const data = {
                 question: faq.question,
                 answer: faq.answer,
+                type: 'faq',
                 isPinned: true,
             }
             dispatch(createQuestion(data));

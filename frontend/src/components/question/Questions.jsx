@@ -53,7 +53,7 @@ const Questions = () => {
                         ))}
                         {!isLoading && faq.length === 0 && (
                             <p className="title-3">
-                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not asked posted any FAQ yet.
+                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not posted any FAQ yet.
                             </p>
                         )}
                         {isLoading && faq.length === 0 && <QuestionCard isLoading={isLoading}/>}

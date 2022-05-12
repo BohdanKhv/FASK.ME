@@ -39,6 +39,7 @@
 .image-content {
     position: relative;
     z-index: 99999;
-    width: 100%;
+    max-width: 100%;
+    width: fit-content;
     transition: var(--transition-duration);
 }

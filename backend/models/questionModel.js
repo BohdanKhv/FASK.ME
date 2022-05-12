@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const type = ['faq', 'ask'];
 
 const questionModelSchema = new mongoose.Schema({
     sender: {
@@ -9,6 +10,11 @@ const questionModelSchema = new mongoose.Schema({
     receiver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    type: {
+        type: String,
+        enum: type,
+        required: true,
     },
     question: {
         type: String,

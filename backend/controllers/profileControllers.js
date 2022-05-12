@@ -20,22 +20,27 @@ const getProfile = async (req, res) => {
 
         // Get questions count
         const faq = await Question.countDocuments({
-            receiver: profile.user._id,
             sender: profile.user._id,
+            type: 'faq',
             isArchived: false,
         });
         
         const answered = await Question.countDocuments({
             receiver: profile.user._id,
-            sender: {$ne: profile.user._id},
+            type: 'ask',
             isAnswered: true,
             isArchived: false,
+            isAnswered: true,
+            isPinned: true,
         });
 
         const asked = await Question.countDocuments({
-            receiver: {$ne: profile.user._id},
             sender: profile.user._id,
+            type: 'ask',
             isArchived: false,
+            isAnswered: true,
+            isPinned: true,
+            isAnonymous: false,
         });
 
         const count = {

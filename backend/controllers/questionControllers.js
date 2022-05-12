@@ -42,7 +42,7 @@ const getSentQuestions = async (req, res) => {
 }
 
 
-// @desc   Get profile pinned questions
+// @desc   Get profile pinned faq
 // @route  GET /api/questions/user/:username/faq
 // @access public
 const getProfileFaqQuestions = async (req, res) => {
@@ -56,7 +56,7 @@ const getProfileFaqQuestions = async (req, res) => {
         const questions = await Question
         .find({
             sender: user._id,
-            receiver: user._id,
+            type: 'faq',
             isPinned: true
         })
         .sort({ date: -1 });
@@ -82,8 +82,8 @@ const getProfileAnsweredQuestions = async (req, res) => {
 
         const questions = await Question
         .find({
-            sender: {$ne: user._id},
             receiver: user._id,
+            type: 'ask',
             isAnswered: true,
             isArchived: false,
             isPinned: true
@@ -113,7 +113,7 @@ const getProfileAskedQuestions = async (req, res) => {
         const questions = await Question
         .find({
             sender: user._id,
-            receiver: {$ne: user._id},
+            type: 'ask',
             isArchived: false,
             isAnswered: true,
             isAnonymous: false
@@ -145,7 +145,8 @@ const createQuestion = async (req, res) => {
         const question = await Question
         .create({
             sender: req.user._id,
-            receiver: receiver._id,
+            receiver: req.body.type !== 'faq' ? receiver._id : null,
+            type: req.body.type,
             question: req.body.question,
             isPinned: req.body.isPinned,
             isAnswered: req.body.answer ? true : false,
