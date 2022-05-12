@@ -20,12 +20,14 @@ const EditProfile = () => {
 
     const uploadImage = (label, url) => {
         if(label === 'Avatar') {
+            setIsOpen(false);
             return dispatch(updateProfile({
                 avatar: url
             }));
         }
 
         if(label === 'Cover') {
+            setIsOpen(false);
             return dispatch(updateProfile({
                 cover: url
             }));

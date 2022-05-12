@@ -3,13 +3,13 @@ import { downArrow, pinIcon, trashIcon } from '../../constance/icons';
 import './styles/QuestionCard.css';
 
 
-const QuestionCard = () => {
+const QuestionCard = ({question, isLoading}) => {
     const [showAnswer, setShowAnswer] = useState(false);
     const [testClick, setTestClick] = useState(false);
 
     return (
         <div 
-            className={`question-card${showAnswer ? ' show-answer' : ''}`}
+            className={`question-card${showAnswer ? ' show-answer' : ''}${isLoading ? ' blink': ''}`}
         >
             <div 
                 className="question-card-header flex flex-align-center space-between"
@@ -20,7 +20,7 @@ const QuestionCard = () => {
                         Q
                     </div>
                     <p>
-                        When is the new album comming out?
+                        {question?.question}
                     </p>
                 </div>
                 {downArrow}
@@ -33,7 +33,7 @@ const QuestionCard = () => {
                         A
                     </div>
                     <p>
-                        It's coming out on December 1st, 2076.
+                        {question?.answer}
                     </p>
                 </div>
             </div>

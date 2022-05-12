@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { burgerIcon, doorClosedIcon, homeIcon, searchIcon, sentIcon, userIcon } from '../../constance/icons';
 import { logout } from '../../features/auth/authSlice';
+import { logoNameSvg, logoSvg } from '../../constance/logo';
 import { Input, Sidenav } from '../';
 import './styles/Nav.css';
 
@@ -18,8 +19,8 @@ const Nav = () => {
         <nav className="main-nav">
             <div className="container nav-wrapper">
                 <div className="h-100 flex align-center">
-                    <div className="big-logo title-3">
-                        FASK.ME
+                    <div className="logo">
+                        {logoNameSvg}
                     </div>
                 </div>
                 <Input
@@ -51,8 +52,10 @@ const Nav = () => {
             </div>
             <div className="nav-burger h-100">
                 <div className="flex align-between h-100 px-1">
-                    <div className="big-logo title-3">
-                        FASK.ME
+                    <div className="h-100 flex align-center">
+                        <div className="logo">
+                            {logoSvg}
+                        </div>
                     </div>
                     <Input
                         type="text"
@@ -105,8 +108,8 @@ const Nav = () => {
         ) : location === 'login' || location === 'register' ? (
         <nav className="auth-nav">
             <div className="container h-100 flex">
-                <div className="big-logo">
-                    FASK.ME
+                <div className="logo">
+                    {logoNameSvg}
                 </div>
             </div>
             <div 

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { closeIcon } from '../../constance/icons';
+import { arrowRepeatIcon, closeIcon } from '../../constance/icons';
 import './styles/Modal.css';
 
-const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose}) => {
+const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading}) => {
 
     const onClickOutside = (e) => {
         if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
@@ -17,7 +17,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
     return (
         <>
         {modalIsOpen ? (
-        <div className="modal-overlay" onClick={onClickOutside} style={style}>
+        <div className="modal-overlay" onMouseDown={onClickOutside} style={style}>
             <div className="modal-wrapper">
                 <div className="modal-body">
                     <div className="modal-header">
@@ -41,7 +41,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                         )}
                         {actionBtnText && (
                             <div className="btn btn-primary" onClick={onSubmit}>
-                                {actionBtnText}
+                                {isLoading ? <div className="modal-spinner">{arrowRepeatIcon}</div> : actionBtnText}
                             </div>
                         )}
                     </div>

@@ -8,7 +8,7 @@
 }
 
 .auth-nav {
-    height: 70px;
+    height: 150px;
 }
 
 .auth-nav .flex {
@@ -17,8 +17,14 @@
     z-index: 10;
 }
 
-.auth-nav .big-logo {
-    font-size: 1.5rem;
+.main-nav .logo svg {
+    height: 50px;
+    width: auto;
+}
+
+.auth-nav .logo svg {
+    height: 100px;
+    width: auto;
 }
 
 nav .nav-wrapper {
@@ -122,5 +128,9 @@ nav li a:active {
         color: var(--text-dark);
         border-left: 3px solid var(--color-primary);
         border-bottom: 0;
+    }
+
+    .auth-nav .flex {
+        justify-content: center;
     }
 }

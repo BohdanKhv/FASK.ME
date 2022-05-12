@@ -42,7 +42,6 @@
     font-size: 1.25rem;
     font-weight: 500;
     transition: var(--transition-duration);
-    border-bottom: 1px solid var(--color-secondary);
     top: 15px;
 }
 

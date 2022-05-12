@@ -7,7 +7,12 @@ const User = require('../models/userModel');
 // @access Private
 const getReceivedQuestions = async (req, res) => {
     try {
-        const questions = await Question.find({receiver: req.user._id}).sort({ date: -1 });
+        const questions = await Question
+        .find({
+            receiver: req.user._id,
+            isArchived: false
+        })
+        .sort({ date: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -22,7 +27,12 @@ const getReceivedQuestions = async (req, res) => {
 // @access Private
 const getSentQuestions = async (req, res) => {
     try {
-        const questions = await Question.find({sender: req.user._id}).sort({ date: -1 });
+        const questions = await Question
+        .find({
+            sender: req.user._id,
+            isArchived: false
+        })
+        .sort({ date: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -32,10 +42,10 @@ const getSentQuestions = async (req, res) => {
 }
 
 
-// @desc   Get pinned questions
-// @route  GET /api/questions/user/:username/pinned
-// @access Private
-const getPinnedQuestions = async (req, res) => {
+// @desc   Get profile pinned questions
+// @route  GET /api/questions/user/:username/profile
+// @access public
+const getProfileQuestions = async (req, res) => {
     try {
         const user = await User.findOne({username: req.params.username});
 
@@ -43,10 +53,41 @@ const getPinnedQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        const questions = await Question.find({
+        const questions = await Question
+        .find({
+            sender: user._id,
             receiver: user._id,
             isPinned: true
-        }).sort({ date: -1 });
+        })
+        .sort({ date: -1 });
+
+        res.status(200).json(questions);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+
+// @desc   Get profile answered questions
+// @route  GET /api/questions/user/:username/answered
+// @access public
+const getProfileAnsweredQuestions = async (req, res) => {
+    try {
+        const user = await User.findOne({username: req.params.username});
+
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        const questions = await Question
+        .find({
+            receiver: user._id,
+            isAnswered: true,
+            isArchived: false,
+            isPinned: true
+        })
+        .sort({ date: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -61,10 +102,12 @@ const getPinnedQuestions = async (req, res) => {
 // @access Private
 const getUnansweredQuestions = async (req, res) => {
     try {
-        const questions = await Question.find({
+        const questions = await Question
+        .find({
             receiver: req.user._id,
             isAnswered: false
-        }).sort({ date: -1 });
+        })
+        .sort({ date: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -79,16 +122,20 @@ const getUnansweredQuestions = async (req, res) => {
 // @access Private
 const createQuestion = async (req, res) => {
     try {
-        const receiver = await User.findOne({username: req.body.receiver});
+        const receiver = await User.findById(
+            req.body.receiver || req.user._id
+        );
 
         if (!receiver) {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        const question = await Question.create({
+        const question = await Question
+        .create({
             sender: req.user._id,
             receiver: receiver._id,
             question: req.body.question,
+            isPinned: req.body.isPinned,
             isAnswered: req.body.answer ? true : false,
             answer: req.body.answer,
         });
@@ -112,7 +159,10 @@ const deleteQuestion = async (req, res) => {
             return res.status(404).json({ msg: 'Question not found' });
         }
 
-        if (question.sender.toString() !== req.user._id.toString()) {
+        if (
+            question.sender.toString() !== req.user._id.toString() || 
+            question.receiver.toString() !== req.user._id.toString()
+        ) {
             return res.status(401).json({ msg: 'User not authorized' });
         }
 
@@ -141,7 +191,8 @@ const updateQuestion = async (req, res) => {
             return res.status(401).json({ msg: 'User not authorized' });
         }
         
-        const updatedQuestion = await Question.findByIdAndUpdate(
+        const updatedQuestion = await Question
+        .findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true }
@@ -157,9 +208,10 @@ const updateQuestion = async (req, res) => {
 
 
 module.exports = {
+    getProfileQuestions,
     getReceivedQuestions,
+    getProfileAnsweredQuestions,
     getSentQuestions,
-    getPinnedQuestions,
     getUnansweredQuestions,
     createQuestion,
     updateQuestion,

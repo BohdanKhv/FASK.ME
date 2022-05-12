@@ -14,6 +14,7 @@ import UploadImage from "./common/UploadImage";
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
 
+import QuestionNavbar from "./question/QuestionNavbar";
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
 import CreateFAQ from "./question/CreateFAQ";
@@ -37,6 +38,7 @@ export {
     Profile,
     EditProfile,
 
+    QuestionNavbar,
     Questions,
     QuestionCard,
     CreateFAQ,

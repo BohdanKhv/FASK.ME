@@ -1,28 +1,63 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Textarea } from '../';
-// import {   } from '../../features/question/questionSlice';
+import { createQuestion } from '../../features/question/questionSlice';
 
 const CreateFAQ = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [err, setErr] = useState('');
-    const dispatch = useDispatch();
+    const [inputErr, setInputErr] = useState({
+        question: false,
+        answer: false,
+    });
     const [faq, setFaq] = useState({
         question: '',
         answer: '',
-        link: '',
-        tags: '',
     });
-    
+    const { isError, isLoading, isSuccess, msg } = useSelector(state => state.question);
+    const dispatch = useDispatch();
+
+
+
+    useEffect(() => {
+        if (isSuccess) {
+            setIsOpen(false);
+            setInputErr({
+                question: false,
+                answer: false,
+            });
+            setFaq({
+                question: '',
+                answer: '',
+            });
+        }
+    }, [isSuccess]);
+
 
     const onSubmit = () => {
-        if(faq.question && faq.answer) {
-            setErr('');
-
+        if(faq.question.length > 0 && faq.answer.length > 0) {
+            const data = {
+                question: faq.question,
+                answer: faq.answer,
+                isPinned: true,
+            }
+            dispatch(createQuestion(data));
         } else {
-            setErr('Please fill all the fields');
+            if(faq.question.length === 0) {
+                return setInputErr({
+                    ...inputErr,
+                    question: true,
+                });
+            }
+
+            if(faq.answer.length === 0) {
+                return setInputErr({
+                    ...inputErr,
+                    answer: true,
+                });
+            }
         }
     }
+
 
     return (
         <div className="edit-profile">
@@ -32,7 +67,11 @@ const CreateFAQ = () => {
                 contentLabel="Create FAQ"
                 actionDangerBtnText="Cancel"
                 actionBtnText="Post"
-                onSubmitDanger={() => { setIsOpen(false) }}
+                onSubmit={onSubmit}
+                onSubmitDanger={() => {
+                    setIsOpen(false);
+                }}
+                isLoading={isLoading}
             >
                 <div className="edit-profile-form">
                     <div className="form-group">
@@ -40,7 +79,18 @@ const CreateFAQ = () => {
                             label="Q | Enter your question"
                             name="question"
                             value={faq.question}
-                            onChange={(e) => { setFaq({ ...faq, question: e.target.value }) }}
+                            bodyStyle={{
+                                borderColor: inputErr.question ? 'var(--color-danger)' : '',
+                            }}
+                            onChange={(e) => {
+                                if(inputErr.question) {
+                                    setInputErr({
+                                        ...inputErr,
+                                        question: false,
+                                    });
+                                }
+                                setFaq({ ...faq, question: e.target.value });
+                            }}
                             rows={3}
                             cols={5}
                         />
@@ -52,17 +102,28 @@ const CreateFAQ = () => {
                             label="A | Enter your answer"
                             name="answer"
                             value={faq.answer}
-                            onChange={(e) => { setFaq({ ...faq, answer: e.target.value }) }}
+                            bodyStyle={{
+                                borderColor: inputErr.answer ? 'var(--color-danger)' : '',
+                            }}
+                            onChange={(e) => {
+                                if(inputErr.answer) {
+                                    setInputErr({
+                                        ...inputErr,
+                                        answer: false,
+                                    });
+                                }
+                                setFaq({ ...faq, answer: e.target.value });
+                            }}
                             rows={3}
                             cols={5}
                         />
                     </div>
                 </div>
-                {err && <div className="text-danger px-1 pt-1">{err}</div>}
+                {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
             </Modal>
             <div 
                 className="btn btn-primary ml-1"
-                onClick={onSubmit}
+                onClick={() => { setIsOpen(true) }}
             >
                 Create FAQ
             </div>

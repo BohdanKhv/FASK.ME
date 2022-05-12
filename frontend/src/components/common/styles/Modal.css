@@ -65,12 +65,25 @@
     margin-left: 15px;
 }
 
+.modal-spinner svg {
+    animation: spin 1s linear infinite;
+}
+
 @media (max-width: 768px) {
     .modal-overlay .modal-wrapper .modal-body {
         text-align: initial;
         min-width: 90vw;
         max-width: 90vw;
         margin: 0 1rem;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }
 

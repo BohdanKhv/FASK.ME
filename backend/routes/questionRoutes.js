@@ -4,7 +4,8 @@ const { protect } = require('../middleware/authMiddleware');
 const {
     getReceivedQuestions,
     getSentQuestions,
-    getPinnedQuestions,
+    getProfileQuestions,
+    getProfileAnsweredQuestions,
     getUnansweredQuestions,
     createQuestion,
     updateQuestion,
@@ -17,7 +18,8 @@ router
     .get('/received', protect, getReceivedQuestions)
     .get('/sent', protect, getSentQuestions)
     .get('/unanswered', protect, getUnansweredQuestions)
-    .get('/user/:username/pinned', getPinnedQuestions)
+    .get('/user/:username/profile', getProfileQuestions)
+    .get('/user/:username/answered', getProfileAnsweredQuestions)
     .put('/:id', protect, updateQuestion)
     .delete('/:id', protect, deleteQuestion);
 
