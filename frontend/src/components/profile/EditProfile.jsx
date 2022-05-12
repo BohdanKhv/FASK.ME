@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Input, UploadImage } from '../';
+import { Modal, Input, Textarea, UploadImage } from '../';
 import { updateProfile } from '../../features/profile/profileSlice';
 import './styles/EditProfile.css';
 
@@ -31,6 +31,15 @@ const EditProfile = () => {
             }));
         }
     }
+
+    useEffect(() => {
+        if(!isOpen) {
+            setEditProfile({
+                fullName: profile.fullName || '',
+                bio: profile.bio || '',
+            });
+        }
+    }, [isOpen]);
 
     const saveProfile = () => {
         const { fullName, bio } = editProfile;
@@ -103,12 +112,9 @@ const EditProfile = () => {
                 </div>
                 <div className="edit-profile-form">
                     <div className="form-group">
-                        <Input
-                            type="text"
-                            placeholder="Bio"
+                        <Textarea
                             label="Bio"
                             name="bio"
-                            maxLength={100}
                             value={editProfile.bio}
                             onChange={(e) => {
                                 setEditProfile({
@@ -116,6 +122,8 @@ const EditProfile = () => {
                                     bio: e.target.value,
                                 });
                             }}
+                            rows={3}
+                            cols={5}
                         />
                     </div>
                 </div>

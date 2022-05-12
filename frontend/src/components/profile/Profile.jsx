@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AuthUserControl, AuthControl, Image, Input, EditProfile, CreateFAQ } from '../';
+import { IsUserGate, Ask, DisplayImage, EditProfile, CreateFAQ } from '../';
 import { sentIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
@@ -12,7 +12,7 @@ const Profile = () => {
             <>
             <div className="profile-cover">
                 {profile.cover && (
-                    <Image
+                    <DisplayImage
                         image={ profile.cover }
                         alt="Cover"
                         classList="profile-cover-image"
@@ -24,7 +24,7 @@ const Profile = () => {
                     <div className="profile-info">
                         <div className="profile-image flex align-center">
                             { profile.avatar ? (
-                                <Image
+                                <DisplayImage
                                     image={ profile.avatar }
                                     alt="Avatar"
                                     classList="profile-avatar"
@@ -47,36 +47,13 @@ const Profile = () => {
                                     {profile.bio}
                                 </div>
                             )}
-                            <AuthUserControl>
+                            <IsUserGate>
                                 <div className="profile-settings flex align-center">
                                     <EditProfile/>
                                     <CreateFAQ/>
                                 </div>
-                            </AuthUserControl>
-                            <AuthControl>
-                                <div className="profile-settings flex align-center">
-                                    <Input 
-                                        type="text"
-                                        name="question"
-                                        placeholder="Your question"
-                                        label="Your question"
-                                        bodyStyle={{
-                                            width: '600px',
-                                        }}
-                                        inputStyle={{
-                                            height: '33px',
-                                            opacity: '1',
-                                            padding: '0.5rem 0',
-                                        }}
-                                        labelStyle={{
-                                            display: 'none',
-                                        }}
-                                    />
-                                    <div className="btn btn-primary ml-1">
-                                        Fask
-                                    </div>
-                                </div>
-                            </AuthControl>
+                            </IsUserGate>
+                            <Ask/>
                         </div>
                     </div>
                 )}

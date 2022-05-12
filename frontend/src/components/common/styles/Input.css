@@ -51,9 +51,10 @@
 }
 
 .input-label.focused {
-    top: 0px;
+    top: 4px;
     opacity: 0.8;
-    transform: scale(0.75) translateX(-10px);
+    font-size: 0.9rem;
+    /* transform: scale(0.75) translateX(-10px); */
 }
 
 .input-pre {

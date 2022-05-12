@@ -29,7 +29,7 @@ const Textarea = ({children, icon, type, name, label, value, onChange, bodyStyle
             style={bodyStyle}
         >
             {children && (
-                <div className={`textarea-pre${isFocused || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}>
+                <div className={`textarea-pre${isFocused || value || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}>
                     <p>
                         {children}
                     </p>
@@ -38,7 +38,7 @@ const Textarea = ({children, icon, type, name, label, value, onChange, bodyStyle
             <textarea
                 style={inputStyle}
                 ref={textareaRef}
-                className={`${isFocused || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? 'focused' : ''}`}
+                className={`${isFocused || value || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? 'focused' : ''}`}
                 type={type}
                 name={name}
                 value={value}
@@ -51,7 +51,7 @@ const Textarea = ({children, icon, type, name, label, value, onChange, bodyStyle
             />
             <div
                 style={labelStyle}
-                className={`textarea-label${isFocused || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}
+                className={`textarea-label${isFocused || value || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}
             >
                 {icon}
                 {label}

@@ -24,3 +24,7 @@
     bottom: 0;
     transition: var(--transition-duration);
 }
+
+.upload-image {
+    transition: var(--transition-duration);
+}

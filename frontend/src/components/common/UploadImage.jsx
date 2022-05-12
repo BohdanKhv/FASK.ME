@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { storage } from '../../firebase';
+import { Image } from '../';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import './styles/UploadImage.css';
 
@@ -46,10 +47,10 @@ const UploadImage = ({ image, label, folder, fileName, containerClass, updateDat
                 }}
             />
             {image && (
-                <img
-                    src={image} 
+                <Image
+                    image={image} 
                     alt={label}
-                    className={`upload-image ${imageClass}`}
+                    classList={`upload-image ${imageClass}`}
                 />
             )}
             <input

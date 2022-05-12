@@ -2,11 +2,12 @@ import Nav from "./common/Nav";
 import Modal from "./common/Modal";
 import Sidenav from "./common/Sidenav";
 import RequireAuth from "./common/RequireAuth";
-import AuthControl from "./common/AuthControl";
-import AuthUserControl from "./common/AuthUserControl";
+import AuthGate from "./common/AuthGate";
+import IsUserGate from "./common/IsUserGate";
 import SearchField from "./common/SearchField";
 import Input from "./common/Input";
 import Textarea from "./common/Textarea";
+import DisplayImage from "./common/DisplayImage";
 import Image from "./common/Image";
 import UploadImage from "./common/UploadImage";
 
@@ -16,6 +17,7 @@ import EditProfile from "./profile/EditProfile";
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
 import CreateFAQ from "./question/CreateFAQ";
+import Ask from "./question/Ask";
 
 
 export {
@@ -23,11 +25,12 @@ export {
     Modal,
     Sidenav,
     RequireAuth,
-    AuthControl,
-    AuthUserControl,
+    AuthGate,
+    IsUserGate,
     SearchField,
     Input,
     Textarea,
+    DisplayImage,
     Image,
     UploadImage,
 
@@ -36,5 +39,6 @@ export {
 
     Questions,
     QuestionCard,
-    CreateFAQ
+    CreateFAQ,
+    Ask
 }

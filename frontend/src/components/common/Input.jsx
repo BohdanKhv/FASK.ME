@@ -29,7 +29,7 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
             style={bodyStyle}
         >
             {children && (
-                <div className={`input-pre${isFocused || ( inputRef.current && inputRef.current.value.length !== 0 ) ? ' focused' : ''}`}>
+                <div className={`input-pre${isFocused || value || ( inputRef.current && inputRef.current.value.length !== 0 ) ? ' focused' : ''}`}>
                     <p>
                         {children}
                     </p>
@@ -38,7 +38,7 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
             <input
                 style={inputStyle}
                 ref={inputRef}
-                className={`${isFocused || ( inputRef.current && inputRef.current.value.length !== 0 ) ? 'focused' : ''}`}
+                className={`${isFocused || value || ( inputRef.current && inputRef.current.value.length !== 0 ) ? 'focused' : ''}`}
                 type={type}
                 name={name}
                 value={value}
@@ -49,7 +49,7 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
             />
             <div
                 style={labelStyle}
-                className={`input-label${isFocused || ( inputRef.current && inputRef.current.value.length !== 0 ) ? ' focused' : ''}`}
+                className={`input-label${isFocused || value || ( inputRef.current && inputRef.current.value.length !== 0 ) ? ' focused' : ''}`}
             >
                 {icon}
                 {label}

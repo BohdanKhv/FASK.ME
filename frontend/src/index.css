@@ -72,6 +72,10 @@ body {
   display: none;
 }
 
+.opacity-0 {
+  opacity: 0;
+}
+
 .align-center {
   align-items: center;
   justify-content: center;
@@ -95,7 +99,7 @@ body {
 .btn-icon {
   cursor: pointer;
   transition: var(--transition-duration);
-  background-color: transparent;
+  background-color:  var(--color-main);
   border-radius: 50%;
   display: flex;
   justify-content: center;
