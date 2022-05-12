@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Textarea } from '../';
 
-const CreateFask = () => {
+const CreateFAQ = () => {
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
     const [fask, setFask] = useState({
@@ -17,7 +17,7 @@ const CreateFask = () => {
             <Modal
                 modalIsOpen={isOpen}
                 setModalIsOpen={setIsOpen}
-                contentLabel="Create Fask"
+                contentLabel="Create FAQ"
                 actionDangerBtnText="Cancel"
                 actionBtnText="Post"
                 onSubmitDanger={() => { setIsOpen(false) }}
@@ -51,10 +51,10 @@ const CreateFask = () => {
                 className="btn btn-primary ml-1"
                 onClick={() => { setIsOpen(true) }}
             >
-                Fask
+                Create FAQ
             </div>
         </div>
     )
 }
 
-export default CreateFask
+export default CreateFAQ

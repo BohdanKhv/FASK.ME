@@ -1,12 +1,10 @@
-import { useDispatch } from "react-redux"
-import { logout } from "../features/auth/authService"
+import { useSelector } from "react-redux";
+import { Main, Feed } from "../pages";
 
 const Home = () => {
-    const dispatch = useDispatch()
+    const user = useSelector(state => state.auth.user)
 
-    return (
-        <div onClick={() => dispatch(logout())}>Home</div>
-    )
+    return user ? <Feed /> : <Main />
 }
 
 export default Home

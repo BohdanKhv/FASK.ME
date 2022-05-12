@@ -1,0 +1,26 @@
+.upload-image-container {
+    transition: var(--transition-duration);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-image-container:hover {
+    box-shadow: var(--box-shadow);
+}
+
+.upload-image-container:active {
+    filter: brightness(90%);
+}
+
+.upload-image-input {
+    display: none;
+}
+
+.upload-image-progress {
+    position: absolute;
+    background-color: var(--color-primary)!important;
+    width: 100%;
+    bottom: 0;
+    transition: var(--transition-duration);
+}

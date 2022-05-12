@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Input } from '../';
-import './styles/EditProfile.css'
+import { Modal, Input, UploadImage } from '../';
+import { updateProfile } from '../../features/profile/profileSlice';
+import './styles/EditProfile.css';
 
 const EditProfile = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,14 +12,34 @@ const EditProfile = () => {
     const [editProfile, setEditProfile] = useState({
         fullName: profile.fullName || '',
         bio: profile.bio || '',
-        avatar: profile.avatar || '',
-        cover: profile.cover || '',
     });
     const [links, setLinks] = useState([
         profile.links,
         '',
     ]);
 
+    const uploadImage = (label, url) => {
+        if(label === 'Avatar') {
+            return dispatch(updateProfile({
+                avatar: url
+            }));
+        }
+
+        if(label === 'Cover') {
+            return dispatch(updateProfile({
+                cover: url
+            }));
+        }
+    }
+
+    const saveProfile = () => {
+        const { fullName, bio } = editProfile;
+        dispatch(updateProfile({
+            fullName,
+            bio,
+        }));
+        setIsOpen(false);
+    }
 
     return (
         <div className="edit-profile">
@@ -28,25 +49,36 @@ const EditProfile = () => {
                 contentLabel="Edit Profile"
                 actionDangerBtnText="Cancel"
                 actionBtnText="Save"
+                onSubmit={saveProfile}
                 onSubmitDanger={() => { setIsOpen(false) }}
             >
                 <div className="flex align-between">
                     <div>
                         <div className="edit-avatar">
-                            {editProfile.avatar && (
-                                <img src={editProfile.avatar} alt="Avatar" />
-                            )}
+                            <UploadImage
+                                image={profile.avatar}
+                                label="Avatar"
+                                folder="avatars"
+                                fileName={`${profile.username}-avatar`}
+                                containerClass="edit-avatar"
+                                imageClass="edit-avatar-image"
+                                updateData={uploadImage}
+                            />
                         </div>
                         <p className="title-4 px-1 pb-1 text-center">
                             Avatar
                         </p>
                     </div>
                     <div className="flex-grow ml-1">
-                        <div className="edit-cover">
-                            {editProfile.cover && (
-                                <img src={editProfile.cover} alt="Cover" />
-                            )}
-                        </div>
+                        <UploadImage
+                            image={profile.cover}
+                            label="Cover"
+                            folder="covers"
+                            fileName={`${profile.username}-cover`}
+                            containerClass="edit-cover"
+                            imageClass="edit-cover-image"
+                            updateData={uploadImage}
+                        />
                         <p className="title-4 px-1 pb-1 text-center">
                             Cover
                         </p>

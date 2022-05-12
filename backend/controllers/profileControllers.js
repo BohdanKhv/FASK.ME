@@ -44,7 +44,7 @@ const updateProfile = async (req, res) => {
             { user: req.user._id }, 
             { $set: req.body },
             { new: true }
-        );
+        ).populate('user', ['email']);
 
         res.status(200).json(updatedProfile);
     } catch (err) {
