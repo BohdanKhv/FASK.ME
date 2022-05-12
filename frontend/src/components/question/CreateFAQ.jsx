@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { answareIcon, questionIcon } from '../../constance/icons';
 import { Modal, Textarea } from '../';
 import { createQuestion } from '../../features/question/questionSlice';
 
@@ -76,8 +77,9 @@ const CreateFAQ = () => {
                 <div className="edit-profile-form">
                     <div className="form-group">
                         <Textarea
-                            label="Q | Enter your question"
+                            label="Enter your question"
                             name="question"
+                            icon={questionIcon}
                             value={faq.question}
                             bodyStyle={{
                                 borderColor: inputErr.question ? 'var(--color-danger)' : '',
@@ -99,8 +101,9 @@ const CreateFAQ = () => {
                 <div className="edit-profile-form">
                     <div className="form-group">
                         <Textarea
-                            label="A | Enter your answer"
+                            label="Enter your answer"
                             name="answer"
+                            icon={answareIcon}
                             value={faq.answer}
                             bodyStyle={{
                                 borderColor: inputErr.answer ? 'var(--color-danger)' : '',

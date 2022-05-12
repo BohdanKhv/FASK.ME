@@ -32,7 +32,7 @@ const getSentQuestions = async (token) => {
 
 // get pinned questions
 const getProfileFaqQuestions = async (username) => {
-    const res = await axios.get(`${API_URL}/user/${username}/profile`);
+    const res = await axios.get(`${API_URL}/user/${username}/faq`);
 
     return res.data;
 }

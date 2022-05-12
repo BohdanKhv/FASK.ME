@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { downArrow, pinIcon, trashIcon } from '../../constance/icons';
+import { downArrow, pinIcon, trashIcon, answareIcon, questionIcon } from '../../constance/icons';
 import './styles/QuestionCard.css';
 
 
@@ -16,21 +16,23 @@ const QuestionCard = ({question, isLoading}) => {
                 onClick={() => setShowAnswer(!showAnswer)}
             >
                 <div className="flex flex-align-center">
-                    <div className="question text-center">
-                        Q
+                    <div className="question flex align-center">
+                        {questionIcon}
                     </div>
                     <p>
                         {question?.question}
                     </p>
                 </div>
-                {downArrow}
+                <div className="toggle-icon flex align-center">
+                    {downArrow}
+                </div>
             </div>
             <div 
                 className="question-card-body flex-align-center"
             >
                 <div className="flex flex-align-center">
-                    <div className="answer text-center">
-                        A
+                    <div className="answer flex align-center">
+                        {answareIcon}
                     </div>
                     <p>
                         {question?.answer}

@@ -43,9 +43,9 @@ const getSentQuestions = async (req, res) => {
 
 
 // @desc   Get profile pinned questions
-// @route  GET /api/questions/user/:username/profile
+// @route  GET /api/questions/user/:username/faq
 // @access public
-const getProfileQuestions = async (req, res) => {
+const getProfileFaqQuestions = async (req, res) => {
     try {
         const user = await User.findOne({username: req.params.username});
 
@@ -208,7 +208,7 @@ const updateQuestion = async (req, res) => {
 
 
 module.exports = {
-    getProfileQuestions,
+    getProfileFaqQuestions,
     getReceivedQuestions,
     getProfileAnsweredQuestions,
     getSentQuestions,
