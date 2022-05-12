@@ -24,26 +24,50 @@ const questionModelSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    isAnswered: {
-        type: Boolean,
-        default: false,
-        required: false
+    metaData: {
+        read: {
+            isRead: {
+                type: Boolean,
+                default: false,
+                required: false
+            },
+            readAt: {
+                type: Date,
+                required: false
+            }
+        },
+        isAnswered: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
+        isArchived: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
+        isPinned: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
+        isAnonymous: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
     },
-    isArchived: {
-        type: Boolean,
-        default: false,
-        required: false
-    },
-    isPinned: {
-        type: Boolean,
-        default: false,
-        required: false
-    },
-    isAnonymous: {
-        type: Boolean,
-        default: false,
-        required: false
-    },
+    readBy: [{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+        readAt: {
+            type: Date,
+            default: Date.now,
+            required: false
+        }
+    }],
 }, { timestamps: true });
 
 

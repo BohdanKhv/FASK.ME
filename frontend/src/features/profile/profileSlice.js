@@ -4,7 +4,6 @@ import profileService from './profileService';
 
 const initialState = {
     profile: null,
-    count: null,
     isLoading: false,
     isError: false,
     msg: '',
@@ -59,7 +58,6 @@ const profileSlice = createSlice({
         // Reset state
         reset: (state) => {
             state.profile = null;
-            state.count = null;
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
@@ -75,8 +73,7 @@ const profileSlice = createSlice({
         builder.addCase(getProfile.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.profile = action.payload.profile;
-            state.count = action.payload.count;
+            state.profile = action.payload;
         });
         builder.addCase(getProfile.rejected, (state, action) => {
             state.isLoading = false;

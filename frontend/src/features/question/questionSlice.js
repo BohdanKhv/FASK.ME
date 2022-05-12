@@ -8,6 +8,7 @@ const initialState = {
     asked: [],
     inbox: [],
     sent: [],
+    count: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -112,6 +113,24 @@ export const getProfileAskedQuestions = createAsyncThunk(
 );
 
 
+// Get count of questions
+export const getProfileQuestionCount = createAsyncThunk(
+    "question/getProfileQuestionCount",
+    async (username, thunkAPI) => {
+        try {
+            return await questionService.getProfileQuestionCount(username);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 
 // Create a question
 export const createQuestion = createAsyncThunk(
@@ -185,6 +204,7 @@ const questionSlice = createSlice({
             state.answered = [];
             state.inbox = [];
             state.sent = [];
+            state.count = null;
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
@@ -279,6 +299,11 @@ const questionSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
+        });
+
+        // Get profile question count
+        builder.addCase(getProfileQuestionCount.fulfilled, (state, action) => {
+            state.count = action.payload;
         });
 
         // Create question

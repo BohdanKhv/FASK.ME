@@ -7,3 +7,10 @@
     margin: 0 auto;
     padding-bottom: 50px;
 }
+
+
+@media (max-width: 768px) {
+    .questions p.title-3 {
+        text-align: center;
+    }
+}

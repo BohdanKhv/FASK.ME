@@ -10,6 +10,7 @@ const App = () => {
         <Nav />
           <Routes>
             <Route path='/' element={<Home/>} />
+            <Route path='/sent' element={<Home/>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/register' element={<Register/>} />
             <Route path='/:username' element={<User/>} />

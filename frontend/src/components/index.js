@@ -10,6 +10,7 @@ import Textarea from "./common/Textarea";
 import DisplayImage from "./common/DisplayImage";
 import Image from "./common/Image";
 import UploadImage from "./common/UploadImage";
+import Navbar from "./common/Navbar";
 
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
@@ -34,6 +35,7 @@ export {
     DisplayImage,
     Image,
     UploadImage,
+    Navbar,
 
     Profile,
     EditProfile,

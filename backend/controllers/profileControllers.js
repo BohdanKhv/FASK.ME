@@ -18,45 +18,7 @@ const getProfile = async (req, res) => {
             });
         }
 
-        // Get questions count
-        const faq = await Question.countDocuments({
-            sender: profile.user._id,
-            type: 'faq',
-            isArchived: false,
-        });
-        
-        const answered = await Question.countDocuments({
-            receiver: profile.user._id,
-            type: 'ask',
-            isAnswered: true,
-            isArchived: false,
-            isAnswered: true,
-            isPinned: true,
-        });
-
-        const asked = await Question.countDocuments({
-            sender: profile.user._id,
-            type: 'ask',
-            isArchived: false,
-            isAnswered: true,
-            isPinned: true,
-            isAnonymous: false,
-        });
-
-        const count = {
-            faq: faq,
-            answered,
-            asked,
-        }
-
-        profile.count = 'count';
-
-        const profileObj = {
-            profile,
-            count,
-        }
-
-        res.status(200).json(profileObj);
+        res.status(200).json(profile);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

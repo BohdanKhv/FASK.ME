@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom';
-import { getProfileFaqQuestions, getProfileAnsweredQuestions, getProfileAskedQuestions, reset } from '../../features/question/questionSlice';
+import { getProfileFaqQuestions, getProfileAnsweredQuestions, getProfileAskedQuestions, getProfileQuestionCount, reset } from '../../features/question/questionSlice';
 import { QuestionCard, QuestionNavbar } from '../';
 import './styles/Questions.css';
 
@@ -14,6 +14,7 @@ const Questions = () => {
 
 
     useEffect(() => {
+
         if(!location) {
             dispatch(getProfileFaqQuestions(username));
         } else if (location === 'answered') {
@@ -25,6 +26,8 @@ const Questions = () => {
 
 
     useEffect(() => {
+        dispatch(getProfileQuestionCount(username));
+
         return () => {
             dispatch(reset());
         }

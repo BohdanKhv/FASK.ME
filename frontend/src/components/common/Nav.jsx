@@ -38,7 +38,7 @@ const Nav = () => {
                 <div className="nav-right">
                     <ul className="nav-links">
                         <li>
-                            <NavLink to={`/`}>
+                            <NavLink to={`/`} className="notify">
                                 {homeIcon}
                             </NavLink>
                         </li>

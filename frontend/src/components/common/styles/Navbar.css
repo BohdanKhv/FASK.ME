@@ -1,0 +1,36 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 2px solid var(--color-secondary);
+}
+
+.navbar-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 1rem;
+    margin-top: -1px;
+    border-top: 2px solid var(--color-tertiary);
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 1.25rem;
+    opacity: 0.25;
+    transition: var(--transition-duration);
+}
+
+.navbar-item svg {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.navbar-item:hover {
+    opacity: 1;
+}
+
+.navbar-item.active {
+    opacity: 1;
+    border-color: var(--color-tertiary);
+}

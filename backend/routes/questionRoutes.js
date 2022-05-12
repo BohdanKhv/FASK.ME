@@ -7,6 +7,7 @@ const {
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
+    getProfileQuestionCount,
     createQuestion,
     updateQuestion,
     deleteQuestion
@@ -20,6 +21,7 @@ router
     .get('/user/:username/faq', getProfileFaqQuestions)
     .get('/user/:username/answered', getProfileAnsweredQuestions)
     .get('/user/:username/asked', getProfileAskedQuestions)
+    .get('/user/:username/count', getProfileQuestionCount)
     .put('/:id', protect, updateQuestion)
     .delete('/:id', protect, deleteQuestion);
 

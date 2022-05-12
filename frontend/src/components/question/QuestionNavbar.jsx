@@ -7,7 +7,7 @@ import './styles/QuestionNavbar.css';
 const QuestionNavbar = () => {
     const { username } = useParams();
     const location = useLocation().pathname.split('/')[2];
-    const { count } = useSelector(state => state.profile);
+    const { count } = useSelector(state => state.question);
 
     return (
         <div className="question-navbar">

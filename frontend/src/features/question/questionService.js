@@ -54,6 +54,14 @@ const getProfileAskedQuestions = async (username) => {
 }
 
 
+// get profile question count
+const getProfileQuestionCount = async (username) => {
+    const res = await axios.get(`${API_URL}/user/${username}/count`);
+
+    return res.data;
+}
+
+
 // Create a question
 const createQuestion = async (question, token) => {
     const config = {
@@ -100,6 +108,7 @@ const questionService = {
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
+    getProfileQuestionCount,
     createQuestion,
     updateQuestion,
     deleteQuestion

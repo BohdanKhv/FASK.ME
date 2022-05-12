@@ -10,7 +10,7 @@ const getReceivedQuestions = async (req, res) => {
         const questions = await Question
         .find({
             receiver: req.user._id,
-            isArchived: false
+            'metaData.isArchived': false
         })
         .sort({ date: -1 });
 
@@ -30,11 +30,60 @@ const getSentQuestions = async (req, res) => {
         const questions = await Question
         .find({
             sender: req.user._id,
-            isArchived: false
+            'metaData.isArchived': false
         })
         .sort({ date: -1 });
 
         res.status(200).json(questions);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+
+// @desc   Get count of questions
+// @route  GET /api/questions/user/:username/count
+// @access Public
+const getProfileQuestionCount = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            username: req.params.username
+        }).select('_id');
+
+        // Get questions count
+        const faq = await Question.countDocuments({
+            sender: user._id,
+            type: 'faq',
+            'metaData.isArchived': false,
+        });
+        
+        const answered = await Question.countDocuments({
+            receiver: user._id,
+            type: 'ask',
+            'metaData.isAnswered': true,
+            'metaData.isArchived': false,
+            'metaData.isPinned': true,
+        });
+
+        const asked = await Question.countDocuments({
+            sender: user._id,
+            type: 'ask',
+            'metaData.isArchived': false,
+            'metaData.isAnswered': true,
+            'metaData.isPinned': true,
+            'metaData.isAnonymous': false,
+        });
+
+        const count = {
+            faq: faq,
+            answered,
+            asked,
+        }
+
+        console.log(count);
+
+        res.status(200).json(count);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -57,7 +106,7 @@ const getProfileFaqQuestions = async (req, res) => {
         .find({
             sender: user._id,
             type: 'faq',
-            isPinned: true
+            'metaData.isPinned': true
         })
         .sort({ date: -1 });
 
@@ -84,9 +133,9 @@ const getProfileAnsweredQuestions = async (req, res) => {
         .find({
             receiver: user._id,
             type: 'ask',
-            isAnswered: true,
-            isArchived: false,
-            isPinned: true
+            'metaData.isAnswered': true,
+            'metaData.isArchived': false,
+            'metaData.isPinned': true
         })
         .populate('sender')
         .sort({ date: -1 });
@@ -114,9 +163,9 @@ const getProfileAskedQuestions = async (req, res) => {
         .find({
             sender: user._id,
             type: 'ask',
-            isArchived: false,
-            isAnswered: true,
-            isAnonymous: false
+            'metaData.isArchived': false,
+            'metaData.isAnswered': true,
+            'metaData.isAnonymous': false
         })
         .populate('receiver')
         .sort({ date: -1 });
@@ -148,9 +197,9 @@ const createQuestion = async (req, res) => {
             receiver: req.body.type !== 'faq' ? receiver._id : null,
             type: req.body.type,
             question: req.body.question,
-            isPinned: req.body.isPinned,
-            isAnswered: req.body.answer ? true : false,
             answer: req.body.answer,
+            'metaData.isPinned': req.body.isPinned,
+            'metaData.isAnswered': req.body.answer ? true : false,
         });
 
         res.status(201).json(question);
@@ -226,6 +275,7 @@ module.exports = {
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
+    getProfileQuestionCount,
     createQuestion,
     updateQuestion,
     deleteQuestion
