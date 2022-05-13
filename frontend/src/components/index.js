@@ -13,6 +13,7 @@ import Image from "./common/Image";
 import UploadImage from "./common/UploadImage";
 import Navbar from "./common/Navbar";
 import Tooltip from "./common/Tooltip";
+import Alert from "./common/Alert";
 
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
@@ -39,6 +40,7 @@ export {
     UploadImage,
     Navbar,
     Tooltip,
+    Alert,
 
     Profile,
     EditProfile,

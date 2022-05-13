@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Input, Textarea, UploadImage } from '../';
+import { Modal, Input, Textarea, UploadImage, Alert } from '../';
 import { updateProfile } from '../../features/profile/profileSlice';
 import './styles/EditProfile.css';
 
 const EditProfile = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [err, setErr] = useState(null);
     const dispatch = useDispatch();
     const { profile } = useSelector((state) => state.profile);
 
@@ -63,6 +64,11 @@ const EditProfile = () => {
                 onSubmit={saveProfile}
                 onSubmitDanger={() => { setIsOpen(false) }}
             >
+                <Alert
+                    status={'danger'}
+                    message={err}
+                    setMessage={setErr}
+                />
                 <div className="flex align-between">
                     <div>
                         <div className="edit-avatar">
@@ -74,6 +80,8 @@ const EditProfile = () => {
                                 containerClass="edit-avatar"
                                 imageClass="edit-avatar-image"
                                 updateData={uploadImage}
+                                maxFileSize={3145728}
+                                setErr={setErr}
                             />
                         </div>
                         <p className="title-4 px-1 pb-1 text-center">
@@ -89,6 +97,8 @@ const EditProfile = () => {
                             containerClass="edit-cover"
                             imageClass="edit-cover-image"
                             updateData={uploadImage}
+                            maxFileSize={3145728}
+                            setErr={setErr}
                         />
                         <p className="title-4 px-1 pb-1 text-center">
                             Cover

@@ -1,0 +1,45 @@
+.alert {
+    position: absolute;
+    width: -webkit-fill-available;
+    top: -1rem;
+    left: 0;
+    z-index: 99;
+    background-color: var(--color-secondary);
+    margin: 0 25px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    animation: fadeInOut 3s ease-in-out forwards;
+    overflow: hidden;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.alert-success {
+    background: var(--color-success);
+}
+
+.alert-danger {
+    background: var(--color-danger);
+}
+
+.alert-warning {
+    background: var(--color-warning);
+}
+
+@keyframes fadeInOut {
+    0% {
+        height: 0;
+    }
+    10% {
+        height: 20px;
+    }
+    90% {
+        height: 20px;
+    }
+    100% {
+        height: 0;
+    }
+}

@@ -42,12 +42,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     color: var(--text-dark);
-    font-size: 80px;
     box-shadow: var(--box-shadow);
     text-shadow: 1px 1px 2px var(--text-dark);
     object-fit: cover;
     object-position: center;
+}
+
+.profile-image-placeholder {
+    font-size: 80px;
 }
 
 .profile-settings {
