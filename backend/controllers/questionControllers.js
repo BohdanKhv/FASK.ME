@@ -190,13 +190,17 @@ const createQuestion = async (req, res) => {
         }
 
         if(req.body.type === 'ask') {
-            // Check if question already exists
+            // check if user is already asked question to the same user and is not answered
             const question = await Question.findOne({
                 sender: req.user._id,
                 receiver: receiver._id,
                 type: 'ask',
                 'metaData.isAnswered': false,
             });
+
+            if (question) {
+                return res.status(400).json({ msg: `You've already asked this user. You have to wait until ${receiver.username} responds.` });
+            }
         }
 
         const question = await Question

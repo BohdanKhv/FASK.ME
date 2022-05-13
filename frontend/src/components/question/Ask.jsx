@@ -29,11 +29,15 @@ const Ask = () => {
             const data = {
                 question: question.question,
                 receiver: profile.user._id,
+                anonymous: question.anonymous,
                 type: 'ask',
             }
 
             dispatch(createQuestion(data));
-            setQuestion('');
+            setQuestion({
+                question: '',
+                anonymous: false,
+            });
         } else {
             setErr(true);
         }
