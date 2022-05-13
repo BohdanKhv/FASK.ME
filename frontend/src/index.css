@@ -362,6 +362,14 @@ input:active label {
   letter-spacing: 1px;
 }
 
+.text-sm {
+  font-size: 0.9rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
 .box {
   box-shadow: var(--box-shadow);
   background-color: var(--color-main);
@@ -385,6 +393,11 @@ input:active label {
 
 .border-bottom {
   border-bottom: 2px solid var(--color-secondary);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-dark);
 }
 
 .blink {

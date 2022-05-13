@@ -12,7 +12,7 @@ const Navbar = ({ links }) => {
                 <Link
                     key={`navbar-${link.name+index}`}
                     to={`${link.path}`} 
-                    className={`navbar-item${location === link.path ? ' active' : ''}`}
+                    className={`navbar-item${location === link.path ? ' active' : ''}${link.notify ? ' notify' : ''}`}
                 >
                     { link.icon }
                     { link.name }

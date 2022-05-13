@@ -25,17 +25,6 @@ const questionModelSchema = new mongoose.Schema({
         required: false
     },
     metaData: {
-        read: {
-            isRead: {
-                type: Boolean,
-                default: false,
-                required: false
-            },
-            readAt: {
-                type: Date,
-                required: false
-            }
-        },
         isAnswered: {
             type: Boolean,
             default: false,

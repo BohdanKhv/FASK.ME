@@ -16,7 +16,6 @@ const getProfile = async (username) => {
 const updateProfile = async (profileData, token) => {
     const config = {
         headers: {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
         },
     };
@@ -26,9 +25,23 @@ const updateProfile = async (profileData, token) => {
 }
 
 
+// Follow profile
+const followToggleProfile = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const res = await axios.get(API_URL + id + '/followToggle', config);
+
+    return res.data;
+}
+
+
 const profileService = {
     getProfile,
     updateProfile,
+    followToggleProfile,
 }
 
 export default profileService;

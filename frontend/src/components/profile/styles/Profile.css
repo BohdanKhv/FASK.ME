@@ -27,7 +27,7 @@
 }
 
 .profile-image {
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
     border-radius: 50%;
 }
@@ -84,18 +84,14 @@
     opacity: 0.7;
 }
 
-.log-out-btn {
-    position: absolute;
-    left: 0;
-}
-
-.log-out-btn .btn-icon {
+.action-right .btn-icon {
     padding: 0.75rem;
 }
 
-.follow-btn {
+.action-right {
     position: absolute;
     right: 0;
+    z-index: 1;
 }
 
 @media (max-width: 768px) {

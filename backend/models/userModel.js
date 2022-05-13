@@ -35,14 +35,21 @@ const userSchema = new mongoose.Schema({
         minlength: 6,
         // select: false
     },
+    profile: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Profile',
+        required: true
+    }
 }, { timestamps: true });
 
 
 userSchema.post('save', async function () {
-    await Profile.create({
+    const profile = await Profile.create({
         user: this._id,
         username: this.username,
     });
+
+    this.profile = profile._id;
 })
 
 

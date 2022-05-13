@@ -40,7 +40,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                             </div>
                         )}
                         {actionBtnText && (
-                            <div className="btn btn-primary" onClick={onSubmit}>
+                            <div className="btn btn-primary" onClick={!isLoading ? onSubmit : null}>
                                 {isLoading ? <div className="modal-spinner">{arrowRepeatIcon}</div> : actionBtnText}
                             </div>
                         )}

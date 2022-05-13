@@ -4,8 +4,10 @@ import profileService from './profileService';
 
 const initialState = {
     profile: null,
+    isFollowLoading: false,
     isLoading: false,
     isError: false,
+    isSuccess: false,
     msg: '',
 };
 
@@ -49,6 +51,25 @@ export const updateProfile = createAsyncThunk(
 );
 
 
+// Follow profile
+export const followToggleProfile = createAsyncThunk(
+    'profile/followToggleProfile',
+    async (username, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await profileService.followToggleProfile(username, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 
 // Create slice
 const profileSlice = createSlice({
@@ -61,6 +82,7 @@ const profileSlice = createSlice({
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
+            state.followLoading = false;
             state.msg = '';
         }
     },
@@ -94,6 +116,19 @@ const profileSlice = createSlice({
         builder.addCase(updateProfile.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Follow profile
+        builder.addCase(followToggleProfile.pending, (state, action) => {
+            state.isFollowLoading = true;
+        });
+        builder.addCase(followToggleProfile.fulfilled, (state, action) => {
+            state.isFollowLoading = false;
+            state.profile = action.payload;
+        });
+        builder.addCase(followToggleProfile.rejected, (state, action) => {
+            state.isFollowLoading = false;
             state.msg = action.payload;
         });
     }

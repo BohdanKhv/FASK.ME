@@ -14,7 +14,7 @@ const CreateFAQ = () => {
         question: '',
         answer: '',
     });
-    const { isError, isLoading, isSuccess, msg } = useSelector(state => state.question);
+    const { isError, isCreateLoading, isSuccess, msg } = useSelector(state => state.question);
     const dispatch = useDispatch();
 
 
@@ -72,7 +72,7 @@ const CreateFAQ = () => {
                 onSubmitDanger={() => {
                     setIsOpen(false);
                 }}
-                isLoading={isLoading}
+                isLoading={isCreateLoading}
             >
                 <div className="edit-profile-form">
                     <div className="form-group">

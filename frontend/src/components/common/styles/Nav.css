@@ -42,7 +42,7 @@ nav ul.nav-links {
     align-items: center;
 }
 
-.notify::after {
+nav .notify::after {
     content: '';
     width: 0.35rem;
     height: 0.35rem;

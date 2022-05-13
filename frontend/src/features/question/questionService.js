@@ -75,6 +75,19 @@ const getProfileQuestionCount = async (username) => {
 }
 
 
+// get followers questions
+const getFollowersQuestions = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+    const res = await axios.get(`${API_URL}/followers`, config);
+
+    return res.data;
+}
+
+
 // Create a question
 const createQuestion = async (question, token) => {
     const config = {
@@ -123,6 +136,7 @@ const questionService = {
     getProfileAskedQuestions,
     getUserPrivateQuestions,
     getProfileQuestionCount,
+    getFollowersQuestions,
     createQuestion,
     updateQuestion,
     deleteQuestion

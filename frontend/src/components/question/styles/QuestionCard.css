@@ -1,21 +1,24 @@
 .question-card {
     background-color: var(--color-secondary);
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     border-radius: var(--border-radius);
     transition: var(--transition-duration);
-    width: 100%;
+}
+
+.question-card .content {
+    padding: 0.75rem 0;
 }
 
 .question-card:active {
-    opacity: 0.75;
+    filter: brightness(95%);
 }
 
-.question-card-header {
+.open-question {
     cursor: pointer;
 }
 
 .question-card-header p {
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 500;
     margin-right: 0.5rem;
 }
@@ -29,9 +32,9 @@
 
 .question-card-body {
     font-size: 16px;
-    height: 0;
+    max-height: 0;
+    transition: max-height 0.15s ease-out;
     opacity: 0;
-    padding: 0;
     overflow: hidden;
     transition: var(--transition-duration);
     border-top: 2px solid var(--color-main);
@@ -43,11 +46,10 @@
 }
 
 .question-card.show-answer .question-card-body {
-    height: auto;
+    max-height: 500px;
+    transition: max-height 0.25s ease-in;
     opacity: 1;
     overflow: visible;
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
 }
 
 .question-card-footer {
@@ -57,11 +59,9 @@
 
 .question,
 .answer {
-    min-width: 35px;
-    max-width: 35px;
-    margin-right: 0.75rem;
-    padding-right: 0.25rem;
     font-size: 1.5rem;
+    padding-right: 0.25rem;
+    margin-right: 0.75rem;
     border-right: 1px solid var(--color-tertiary);
 }
 
@@ -69,4 +69,33 @@
 .answer svg {
     width: 30px;
     height: 30px;
+}
+
+.sender {
+    border-bottom: 2px solid var(--color-main);
+    padding-bottom: 0.75rem;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+
+.receiver {
+    border-top: 2px solid var(--color-main);
+    padding-top: 0.75rem;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+
+.user-info-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 0.25rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+.question-card .user-info-name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 0 0.25rem;
 }

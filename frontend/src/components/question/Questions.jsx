@@ -112,7 +112,7 @@ const Questions = () => {
                             <QuestionCard key={`privatelyHidden-${question._id+index}`} question={question} />
                         ))}
                         {!isLoading && privatelyHidden.length === 0 && (
-                            <p className="title-3">
+                            <p className="title-3 text-center">
                                 You have no private questions.
                             </p>
                         )}
@@ -124,7 +124,7 @@ const Questions = () => {
                             <QuestionCard key={`answered-${question._id+index}`} question={question} />
                         ))}
                         {!isLoading && answered.length === 0 && (
-                            <p className="title-3">
+                            <p className="title-3 text-center">
                                 {username.slice(0,1).toUpperCase()+username.slice(1)} has not answered any questions yet.
                             </p>
                         )}
@@ -136,7 +136,7 @@ const Questions = () => {
                             <QuestionCard key={`faq-${question._id+index}`} question={question} />
                         ))}
                         {!isLoading && faq.length === 0 && (
-                            <p className="title-3">
+                            <p className="title-3 text-center">
                                 {username.slice(0,1).toUpperCase()+username.slice(1)} has not posted any FAQ yet.
                             </p>
                         )}
@@ -148,7 +148,7 @@ const Questions = () => {
                             <QuestionCard key={`asked-${question._id+index}`} question={question} />
                         ))}
                         {!isLoading && asked.length === 0 && (
-                            <p className="title-3">
+                            <p className="title-3 text-center">
                                 {username.slice(0,1).toUpperCase()+username.slice(1)} has not asked any questions yet.
                             </p>
                         )}

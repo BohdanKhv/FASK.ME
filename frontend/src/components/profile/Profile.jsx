@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, AuthGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
+import { IsUserGate, FollowToggle, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
+
 const Profile = () => {
     const dispatch = useDispatch();
-    const { profile, isLoading } = useSelector(state => state.profile);
+    const { profile, isLoading, isFollowLoading } = useSelector(state => state.profile);
 
     return (
         <section className="profile">
@@ -37,8 +38,8 @@ const Profile = () => {
                                     {profile.username[0].toUpperCase()}
                                 </div>
                             ) }
-                            <IsUserGate>
-                                <div className="log-out-btn">
+                            <div className="action-right">
+                                <IsUserGate>
                                     <Tooltip
                                         content="Log out"
                                     >
@@ -49,18 +50,9 @@ const Profile = () => {
                                             {doorClosedIcon}
                                         </div>
                                     </Tooltip>
-                                </div>
-                            </IsUserGate>
-                            <AuthGate>
-                                <div className="follow-btn">
-                                    <div 
-                                        className="btn btn-sm btn-primary"
-                                        onClick={() => console.log("follow")}
-                                    >
-                                        Follow
-                                    </div>
-                                </div>
-                            </AuthGate>
+                                </IsUserGate>
+                                <FollowToggle/>
+                            </div>
                         </div>
                         <div className="profile-info-content container">
                             <div className="profile-username flex align-center text-center">

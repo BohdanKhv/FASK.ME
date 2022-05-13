@@ -1,5 +1,6 @@
 .tooltip {
     position: relative;
+    z-index: 9999;
 }
 
 .tooltip-text {
@@ -24,7 +25,7 @@
 
 .tooltip-arrow {
     width: 50px;
-    height: 25px;
+    height: 15px;
     position: absolute;
     top: 100%;
     left: 50%;

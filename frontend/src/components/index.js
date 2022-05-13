@@ -17,10 +17,14 @@ import RequireAuth from "./gate/RequireAuth";
 import AuthGate from "./gate/AuthGate";
 import IsUserGate from "./gate/IsUserGate";
 import AuthInitial from "./gate/AuthInitial";
+import SenderGate from "./gate/SenderGate";
+import ReceiverGate from "./gate/ReceiverGate";
+import RecSenGate from "./gate/RecSenGate";
 
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
 import ProfileNotFound from "./profile/ProfileNotFound";
+import FollowToggle from "./profile/FollowToggle";
 
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
@@ -48,13 +52,17 @@ export {
     AuthGate,
     IsUserGate,
     AuthInitial,
+    SenderGate,
+    ReceiverGate,
+    RecSenGate,
 
     Profile,
     EditProfile,
     ProfileNotFound,
+    FollowToggle,
 
     Questions,
     QuestionCard,
     CreateFAQ,
-    Ask
+    Ask,
 }

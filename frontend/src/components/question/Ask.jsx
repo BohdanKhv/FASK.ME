@@ -8,7 +8,7 @@ import { Alert } from '../';
 
 const Ask = () => {
     const { profile } = useSelector(state => state.profile);
-    const { isSuccess, isLoading, msg } = useSelector(state => state.question);
+    const { isSuccess, isCreateLoading, msg } = useSelector(state => state.question);
     const dispatch = useDispatch();
     const [question, setQuestion] = useState({
         question: '',
@@ -98,9 +98,9 @@ const Ask = () => {
                     >
                         <div 
                             className="btn btn-primary"
-                            onClick={isLoading ? null : onSubmit}
+                            onClick={isCreateLoading ? null : onSubmit}
                         >
-                            {isLoading ? <div className="spinner">{arrowRepeatIcon}</div> : 'Ask'}
+                            {isCreateLoading ? <div className="spinner">{arrowRepeatIcon}</div> : 'Ask'}
                         </div>
                     </Tooltip>
                 </>

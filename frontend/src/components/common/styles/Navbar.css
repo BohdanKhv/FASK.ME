@@ -37,3 +37,17 @@
     opacity: 1;
     border-color: var(--color-tertiary);
 }
+
+.navbar .notify {
+    position: relative;
+}
+
+.navbar .notify::after {    
+    content: '';
+    width: 0.35rem;
+    height: 0.35rem;
+    background-color: var(--color-danger);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+}

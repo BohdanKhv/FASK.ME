@@ -8,9 +8,10 @@ const initialState = {
     asked: [],
     privatelyHidden: [],
     inbox: [],
-    sent: [],
+    feed: [],
     count: null,
     isLoading: false,
+    isCreateLoading: false,
     isError: false,
     isSuccess: false,
     msg: ''
@@ -153,6 +154,26 @@ export const getProfileQuestionCount = createAsyncThunk(
 );
 
 
+// Get followers questions
+export const getFollowersQuestions = createAsyncThunk(
+    "question/getFollowersQuestions",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await questionService.getFollowersQuestions(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create a question
 export const createQuestion = createAsyncThunk(
     "question/createQuestion",
@@ -226,7 +247,7 @@ const questionSlice = createSlice({
             state.asked = [];
             state.privatelyHidden = [];
             state.inbox = [];
-            state.sent = [];
+            state.feed = [];
             state.count = null;
             state.isError = false;
             state.isSuccess = false;
@@ -259,7 +280,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getSentQuestions.fulfilled, (state, action) => {
-            state.sent = action.payload;
+            state.feed = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -347,22 +368,44 @@ const questionSlice = createSlice({
             state.count = action.payload;
         });
 
+        // Get followers questions
+        builder.addCase(getFollowersQuestions.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+            state.msg = '';
+        });
+        builder.addCase(getFollowersQuestions.fulfilled, (state, action) => {
+            state.feed = action.payload;
+            state.isLoading = false;
+            state.isError = false;
+            state.msg = '';
+        });
+        builder.addCase(getFollowersQuestions.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
         // Create question
         builder.addCase(createQuestion.pending, (state, action) => {
-            state.isLoading = true;
+            state.isCreateLoading = true;
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
         });
         builder.addCase(createQuestion.fulfilled, (state, action) => {
-            state.sent.push(action.payload);
-            state.isLoading = false;
+            if(action.payload.type === 'faq') {
+                state.faq.push(action.payload);
+            } else {
+                state.feed.push(action.payload);
+            }
+            state.isCreateLoading = false;
             state.isError = false;
             state.isSuccess = true;
             state.msg = '';
         });
         builder.addCase(createQuestion.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isCreateLoading = false;
             state.isError = true;
             state.isSuccess = false;
             state.msg = action.payload;
@@ -370,39 +413,65 @@ const questionSlice = createSlice({
 
         // Update question
         builder.addCase(updateQuestion.pending, (state, action) => {
-            state.isLoading = true;
+            state.isCreateLoading = true;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(updateQuestion.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.isCreateLoading = false;
             state.isError = false;
             state.msg = '';
-            const index = state.inbox.findIndex(question => question._id === action.payload._id);
-            state.inbox[index] = action.payload;
+            if(state.inbox.some(q => q._id === action.payload._id)) {
+                const index = state.inbox.findIndex(question => question._id === action.payload._id);
+                state.inbox[index] = action.payload;
+            }
+            if(state.feed.some(q => q._id === action.payload._id)) {
+                const index = state.feed.findIndex(question => question._id === action.payload._id);
+                state.feed[index] = action.payload;
+            }
+            if(state.answered.some(q => q._id === action.payload._id)) {
+                const index = state.answered.findIndex(question => question._id === action.payload._id);
+                state.answered[index] = action.payload;
+            }
+            if(state.privatelyHidden.some(q => q._id === action.payload._id)) {
+                const index = state.privatelyHidden.findIndex(question => question._id === action.payload._id);
+                state.privatelyHidden[index] = action.payload;
+            }
         });
         builder.addCase(updateQuestion.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isCreateLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });
 
         // Delete question
         builder.addCase(deleteQuestion.pending, (state, action) => {
-            state.isLoading = true;
+            state.isCreateLoading = true;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(deleteQuestion.fulfilled, (state, action) => {
-            // TODO: remove from state
-            console.log('action => sent | inbox | answered | faq');
-            state.sent = state.sent.filter(question => question._id !== action.payload._id);
-            state.isLoading = false;
             state.isError = false;
             state.msg = '';
+            state.isCreateLoading = false;
+            if(state.inbox.some(q => q._id === action.payload._id)) {
+                state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
+            }
+            if(state.feed.some(q => q._id === action.payload._id)) {
+                state.feed = state.feed.filter(question => question._id !== action.payload._id);
+            }
+            if(state.asked.some(q => q._id === action.payload._id)) {
+                state.asked = state.asked.filter(question => question._id !== action.payload._id);
+            }
+            if(state.answered.some(q => q._id === action.payload._id)) {
+                state.answered = state.answered.filter(question => question._id !== action.payload._id);
+            }
+            if(state.privatelyHidden.some(q => q._id === action.payload._id)) {
+                state.privatelyHidden = state.privatelyHidden.filter(question => question._id !== action.payload._id);
+            }
         });
         builder.addCase(deleteQuestion.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isCreateLoading = false;
             state.isError = true;
             state.msg = action.payload;
         });

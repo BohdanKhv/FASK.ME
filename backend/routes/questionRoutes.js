@@ -8,6 +8,7 @@ const {
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
     getUserPrivateQuestions,
+    getFollowersQuestions,
     getProfileQuestionCount,
     createQuestion,
     updateQuestion,
@@ -20,6 +21,7 @@ router
     .get('/received', protect, getReceivedQuestions)
     .get('/sent', protect, getSentQuestions)
     .get('/private', protect, getUserPrivateQuestions)
+    .get('/followers', protect, getFollowersQuestions)
     .get('/user/:username/faq', getProfileFaqQuestions)
     .get('/user/:username/answered', getProfileAnsweredQuestions)
     .get('/user/:username/asked', getProfileAskedQuestions)

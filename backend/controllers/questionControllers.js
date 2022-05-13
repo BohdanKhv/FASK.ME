@@ -1,5 +1,6 @@
 const Question = require('../models/questionModel');
 const User = require('../models/userModel');
+const Profile = require('../models/profileModel');
 
 
 // @desc   Get received questions
@@ -11,6 +12,18 @@ const getReceivedQuestions = async (req, res) => {
         .find({
             receiver: req.user._id,
             'metaData.isArchived': false
+        })
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
         })
         .sort({ date: -1 });
 
@@ -30,7 +43,20 @@ const getSentQuestions = async (req, res) => {
         const questions = await Question
         .find({
             sender: req.user._id,
+            type: 'ask',
             'metaData.isArchived': false
+        })
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
         })
         .sort({ date: -1 });
 
@@ -144,7 +170,18 @@ const getProfileAnsweredQuestions = async (req, res) => {
             'metaData.isArchived': false,
             'metaData.isPrivate': false
         })
-        .populate('sender')
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
+        })
         .sort({ date: -1 });
 
         res.status(200).json(questions);
@@ -176,7 +213,18 @@ const getProfileAskedQuestions = async (req, res) => {
             'metaData.isAnswered': true,
             'metaData.isAnonymous': false
         })
-        .populate('receiver')
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
+        })
         .sort({ date: -1 });
 
         res.status(200).json(questions);
@@ -197,8 +245,86 @@ const getUserPrivateQuestions = async (req, res) => {
             'metaData.isPrivate': true,
             'metaData.isArchived': false
         })
-        .populate('sender')
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
+        })
         .sort({ date: -1 });
+
+        res.status(200).json(questions);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+
+// @desc   Get followers questions
+// @route  GET /api/questions/followers
+// @access Private
+const getFollowersQuestions = async (req, res) => {
+    try {
+        const profile = await Profile.findOne({
+            user: req.user._id
+        });
+
+        if (!profile) {
+            return res.status(404).json({ msg: 'Profile not found' });
+        }
+
+        const questionsReceived = await Question.find({
+            receiver: {
+                $in: profile.following
+            },
+            'metaData.isArchived': false,
+            'metaData.isAnswered': true,
+            'metaData.isPrivate': false
+        })
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .sort({ date: -1 });
+
+        const questionsSent = await Question.find({
+            sender: {
+                $in: profile.following
+            },
+            'metaData.isArchived': false,
+            'metaData.isAnswered': true,
+            'metaData.isPrivate': false
+        })
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .sort({ date: -1 });
+
+        const questions = [...questionsReceived, ...questionsSent];
 
         res.status(200).json(questions);
     } catch (err) {
@@ -268,12 +394,12 @@ const deleteQuestion = async (req, res) => {
             question.sender.toString() !== req.user._id.toString() || 
             question.receiver.toString() !== req.user._id.toString()
         ) {
+            await question.remove();
+
+            return res.status(200).json(question);
+        } else {
             return res.status(401).json({ msg: 'User not authorized' });
         }
-
-        await question.remove();
-
-        res.status(200).json(question);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -319,6 +445,7 @@ module.exports = {
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
     getUserPrivateQuestions,
+    getFollowersQuestions,
     getProfileQuestionCount,
     createQuestion,
     updateQuestion,
