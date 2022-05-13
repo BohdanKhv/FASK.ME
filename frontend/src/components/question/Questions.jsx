@@ -1,26 +1,60 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams, useLocation } from 'react-router-dom';
-import { getProfileFaqQuestions, getProfileAnsweredQuestions, getProfileAskedQuestions, getProfileQuestionCount, reset } from '../../features/question/questionSlice';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { 
+    getProfileFaqQuestions,
+    getProfileAnsweredQuestions,
+    getProfileAskedQuestions,
+    getUserPrivateQuestions,
+    getProfileQuestionCount,
+    reset 
+} from '../../features/question/questionSlice';
 import { QuestionCard, Navbar } from '../';
-import { faqIcon, answeredIcon, askedIcon } from '../../constance/icons';
+import { faqIcon, answeredIcon, askedIcon, lockIcon } from '../../constance/icons';
 import './styles/Questions.css';
 
 
 const Questions = () => {
     const dispatch = useDispatch();
-    const { username } = useParams();
+    const navigate = useNavigate();
     const location = useLocation().pathname.split('/')[2];
-    const { faq, answered, asked, count, isLoading } = useSelector(state => state.question);
+    const { username } = useParams();
+    const user = useSelector((state) => state.auth.user);
+    const { faq, answered, asked, privatelyHidden, count, isLoading } = useSelector(state => state.question);
+    const [profileNavLinks, setProfileNavLinks] = useState([
+        {
+            name: 'FAQ',
+            icon: faqIcon,
+            path: `/${username}`,
+            count: count ? count.faq : 0,
+        },
+        {
+            name: 'Answered',
+            icon: answeredIcon,
+            path: `/${username}/answered`,
+            count: count ? count.answered : 0,
+        },
+        {
+            name: 'Asked',
+            icon: askedIcon,
+            path: `/${username}/asked`,
+            count: count ? count.asked : 0,
+        }
+    ])
 
 
     useEffect(() => {
-
         if(!location) {
             dispatch(getProfileFaqQuestions(username));
+        } else if (location === 'private') {
+            if(user && (user.username === username)) {
+                dispatch(getUserPrivateQuestions());
+            } else {
+                navigate(`/${username}`);
+            }
         } else if (location === 'answered') {
             dispatch(getProfileAnsweredQuestions(username));
-        } else if (location === 'aksed') {
+        } else if (location === 'asked') {
             dispatch(getProfileAskedQuestions(username));
         }
     }, [location]);
@@ -28,6 +62,16 @@ const Questions = () => {
 
     useEffect(() => {
         dispatch(getProfileQuestionCount(username));
+        if(user && (username === user.username)) {
+            setProfileNavLinks([
+                ...profileNavLinks,
+                {
+                    name: 'Private',
+                    icon: lockIcon,
+                    path: `/${user.username}/private`,
+                }
+            ])
+        }
 
         return () => {
             dispatch(reset());
@@ -37,31 +81,22 @@ const Questions = () => {
     return (
         <section className="container">
             <Navbar
-                links={
-                    [
-                        {
-                            name: 'FAQ',
-                            icon: faqIcon,
-                            path: `/${username}`,
-                            count: count?.faq,
-                        },
-                        {
-                            name: 'Answered',
-                            icon: answeredIcon,
-                            path: `/${username}/answered`,
-                            count: count?.answered,
-                        },
-                        {
-                            name: 'Asked',
-                            icon: askedIcon,
-                            path: `/${username}/asked`,
-                            count: count?.asked,
-                        }
-                    ]
-                }
+                links={profileNavLinks}
             />
             <div className="questions">
-                {location === 'answered' ? (
+                {location === 'private' ? (
+                    <>
+                        {privatelyHidden.map((question, index) => (
+                            <QuestionCard key={`privatelyHidden-${question._id+index}`} question={question} />
+                        ))}
+                        {!isLoading && privatelyHidden.length === 0 && (
+                            <p className="title-3">
+                                You have no private questions.
+                            </p>
+                        )}
+                        {isLoading && answered.length === 0 && <QuestionCard isLoading={isLoading}/>}
+                    </>
+                ) : location === 'answered' ? (
                     <>
                         {answered.map((question, index) => (
                             <QuestionCard key={`answered-${question._id+index}`} question={question} />

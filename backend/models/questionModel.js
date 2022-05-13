@@ -46,10 +46,9 @@ const questionModelSchema = new mongoose.Schema({
             default: false,
             required: false
         },
-        isPinned: {
+        isPrivate: {
             type: Boolean,
             default: false,
-            required: false
         },
         isAnonymous: {
             type: Boolean,

@@ -48,8 +48,14 @@ const getSentQuestions = async (req, res) => {
 const getProfileQuestionCount = async (req, res) => {
     try {
         const user = await User.findOne({
-            username: req.params.username
+            "username_lower": req.params.username.toLowerCase()
         }).select('_id');
+
+        if (!user) {
+            return res.status(404).json({
+                msg: 'User not found',
+            });
+        }
 
         // Get questions count
         const faq = await Question.countDocuments({
@@ -63,7 +69,7 @@ const getProfileQuestionCount = async (req, res) => {
             type: 'ask',
             'metaData.isAnswered': true,
             'metaData.isArchived': false,
-            'metaData.isPinned': true,
+            'metaData.isPrivate': false,
         });
 
         const asked = await Question.countDocuments({
@@ -71,7 +77,7 @@ const getProfileQuestionCount = async (req, res) => {
             type: 'ask',
             'metaData.isArchived': false,
             'metaData.isAnswered': true,
-            'metaData.isPinned': true,
+            'metaData.isPrivate': false,
             'metaData.isAnonymous': false,
         });
 
@@ -89,12 +95,14 @@ const getProfileQuestionCount = async (req, res) => {
 }
 
 
-// @desc   Get profile pinned faq
+// @desc   Get profile faq
 // @route  GET /api/questions/user/:username/faq
 // @access public
 const getProfileFaqQuestions = async (req, res) => {
     try {
-        const user = await User.findOne({username: req.params.username});
+        const user = await User.findOne({
+            "username_lower": req.params.username.toLowerCase()
+        });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -104,7 +112,6 @@ const getProfileFaqQuestions = async (req, res) => {
         .find({
             sender: user._id,
             type: 'faq',
-            'metaData.isPinned': true
         })
         .sort({ date: -1 });
 
@@ -121,7 +128,9 @@ const getProfileFaqQuestions = async (req, res) => {
 // @access public
 const getProfileAnsweredQuestions = async (req, res) => {
     try {
-        const user = await User.findOne({username: req.params.username});
+        const user = await User.findOne({
+            "username_lower": req.params.username.toLowerCase()
+        });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -133,7 +142,7 @@ const getProfileAnsweredQuestions = async (req, res) => {
             type: 'ask',
             'metaData.isAnswered': true,
             'metaData.isArchived': false,
-            'metaData.isPinned': true
+            'metaData.isPrivate': false
         })
         .populate('sender')
         .sort({ date: -1 });
@@ -148,10 +157,12 @@ const getProfileAnsweredQuestions = async (req, res) => {
 
 // @desc   Get asked questions
 // @route  GET /api/questions/user/:username/asked
-// @access Private
+// @access Public
 const getProfileAskedQuestions = async (req, res) => {
     try {
-        const user = await User.findOne({username: req.params.username});
+        const user = await User.findOne({
+            "username_lower": req.params.username.toLowerCase()
+        });
 
         if (!user) {
             return res.status(404).json({ msg: 'User not found' });
@@ -166,6 +177,27 @@ const getProfileAskedQuestions = async (req, res) => {
             'metaData.isAnonymous': false
         })
         .populate('receiver')
+        .sort({ date: -1 });
+
+        res.status(200).json(questions);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+
+
+// @desc   Get private questions
+// @route  GET /api/questions/user/:username/private
+// @access Private
+const getUserPrivateQuestions = async (req, res) => {
+    try {
+        const questions = await Question.find({
+            receiver: req.user._id,
+            'metaData.isPrivate': true,
+            'metaData.isArchived': false
+        })
+        .populate('sender')
         .sort({ date: -1 });
 
         res.status(200).json(questions);
@@ -210,7 +242,6 @@ const createQuestion = async (req, res) => {
             type: req.body.type,
             question: req.body.question,
             answer: req.body.answer,
-            'metaData.isPinned': req.body.isPinned,
             'metaData.isAnswered': req.body.answer ? true : false,
         });
 
@@ -287,6 +318,7 @@ module.exports = {
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
+    getUserPrivateQuestions,
     getProfileQuestionCount,
     createQuestion,
     updateQuestion,

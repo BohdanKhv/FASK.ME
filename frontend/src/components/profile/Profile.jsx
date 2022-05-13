@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip } from '../';
+import { IsUserGate, AuthGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip } from '../';
 import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
@@ -42,7 +42,7 @@ const Profile = () => {
                                         content="Log out"
                                     >
                                         <div 
-                                            className="btn-icon bg-danger"
+                                            className="btn-icon"
                                             onClick={() => dispatch(logout())}
                                         >
                                             {doorClosedIcon}
@@ -50,6 +50,16 @@ const Profile = () => {
                                     </Tooltip>
                                 </div>
                             </IsUserGate>
+                            <AuthGate>
+                                <div className="follow-btn">
+                                    <div 
+                                        className="btn btn-sm btn-primary"
+                                        onClick={() => console.log("follow")}
+                                    >
+                                        Follow
+                                    </div>
+                                </div>
+                            </AuthGate>
                         </div>
                         <div className="profile-info-content container">
                             <div className="profile-username flex align-center text-center">

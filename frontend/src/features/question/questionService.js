@@ -54,6 +54,19 @@ const getProfileAskedQuestions = async (username) => {
 }
 
 
+// get user private questions
+const getUserPrivateQuestions = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+    const res = await axios.get(`${API_URL}/private`, config);
+
+    return res.data;
+}
+
+
 // get profile question count
 const getProfileQuestionCount = async (username) => {
     const res = await axios.get(`${API_URL}/user/${username}/count`);
@@ -108,6 +121,7 @@ const questionService = {
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
+    getUserPrivateQuestions,
     getProfileQuestionCount,
     createQuestion,
     updateQuestion,

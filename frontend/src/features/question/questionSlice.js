@@ -6,6 +6,7 @@ const initialState = {
     faq: [],
     answered: [],
     asked: [],
+    privatelyHidden: [],
     inbox: [],
     sent: [],
     count: null,
@@ -113,6 +114,26 @@ export const getProfileAskedQuestions = createAsyncThunk(
 );
 
 
+// Get user private questions
+export const getUserPrivateQuestions = createAsyncThunk(
+    "question/getUserPrivateQuestions",
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await questionService.getUserPrivateQuestions(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Get count of questions
 export const getProfileQuestionCount = createAsyncThunk(
     "question/getProfileQuestionCount",
@@ -202,6 +223,8 @@ const questionSlice = createSlice({
         reset: (state) => {
             state.faq = [];
             state.answered = [];
+            state.asked = [];
+            state.privatelyHidden = [];
             state.inbox = [];
             state.sent = [];
             state.count = null;
@@ -296,6 +319,24 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.msg = action.payload;
+        });
+
+        // Get private questions
+        builder.addCase(getUserPrivateQuestions.pending, (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+            state.msg = '';
+        });
+        builder.addCase(getUserPrivateQuestions.fulfilled, (state, action) => {
+            state.privatelyHidden = action.payload;
+            state.isLoading = false;
+            state.isError = false;
+            state.msg = '';
+        });
+        builder.addCase(getUserPrivateQuestions.rejected, (state, action) => {
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;

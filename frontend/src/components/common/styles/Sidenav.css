@@ -35,6 +35,11 @@
     padding: 1rem;
 }
 
+.sidenav-logo svg {
+    height: 30px;
+    width: 100%;
+}
+
 @keyframes openSidenav {
     0% {
         transform: translateX(100%);

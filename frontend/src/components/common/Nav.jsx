@@ -76,7 +76,7 @@ const Nav = () => {
                 <Sidenav
                     isSidenavOpen={sidenav}
                     setIsSidenavOpen={setSidenav}
-                    title="Menu"
+                    logo={logoNameSvg}
                 >
                 <ul className="nav-burger-links">
                         <li>

@@ -17,7 +17,7 @@ const Navbar = ({ links }) => {
                     { link.icon }
                     { link.name }
                     { link.count !== null ? (
-                        <p>{link.count}</p>
+                        <p className="text-secondary">{link.count}</p>
                     ) : null}
                 </Link>
             ))}

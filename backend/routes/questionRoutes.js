@@ -7,6 +7,7 @@ const {
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
+    getUserPrivateQuestions,
     getProfileQuestionCount,
     createQuestion,
     updateQuestion,
@@ -18,6 +19,7 @@ router
     .post('/', protect, createQuestion)
     .get('/received', protect, getReceivedQuestions)
     .get('/sent', protect, getSentQuestions)
+    .get('/private', protect, getUserPrivateQuestions)
     .get('/user/:username/faq', getProfileFaqQuestions)
     .get('/user/:username/answered', getProfileAnsweredQuestions)
     .get('/user/:username/asked', getProfileAskedQuestions)

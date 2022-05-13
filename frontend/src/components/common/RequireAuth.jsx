@@ -12,7 +12,7 @@ const RequireAuth = ({children}) => {
         }
     }, [user, navigate]);
 
-    return children;
+    return user && children;
 
 }
 

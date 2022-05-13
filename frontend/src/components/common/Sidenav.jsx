@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { closeIcon } from '../../constance/icons';
 import './styles/Sidenav.css';
 
-const Sidenav = ({children, title, isSidenavOpen, setIsSidenavOpen}) => {
+const Sidenav = ({children, title, isSidenavOpen, setIsSidenavOpen, logo}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const onClickOutside = (e) => {
@@ -31,7 +31,7 @@ const Sidenav = ({children, title, isSidenavOpen, setIsSidenavOpen}) => {
                 <div className="sidenav-header">
                     <div className="flex align-between">
                         <h3 className="title-3">
-                            {title}
+                            {logo && (<span className="sidenav-logo">{logo}</span>)}{title}
                         </h3>
                         <div className="btn-icon btn-icon-danger" onClick={() => {setIsSidenavOpen(false)} }>
                             {closeIcon}
