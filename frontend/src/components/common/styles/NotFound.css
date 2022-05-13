@@ -1,0 +1,29 @@
+.not-found {
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+}
+
+.not-found .message {
+    text-transform: capitalize;
+}
+
+.not-found-wrapper {
+    background: var(--color-main);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
+.not-found .code {
+    font-size: 3rem;
+    color: var(--color-danger);
+}
+
+.not-found p a {
+    font-size: 2rem;
+    text-transform: capitalize;
+}

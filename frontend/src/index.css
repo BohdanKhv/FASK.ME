@@ -142,6 +142,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -152,6 +153,15 @@ body {
 .btn:active {
   outline: none;
   filter: brightness(90%);
+}
+
+.btn.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--color-main);
+}
+
+.btn.btn-light {
+  background-color: var(--color-main);
 }
 
 .btn.btn-danger {

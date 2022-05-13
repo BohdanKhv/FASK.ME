@@ -13,6 +13,9 @@ const Nav = () => {
     const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
     const user = useSelector((state) => state.auth.user);
+    const { msg } = useSelector((state) => state.profile);
+    const receivedQuestions = useSelector((state) => state.question.receivedQuestions)
+    ?.filter(question => question.read.isRead);
 
     return (
         user ? (
@@ -38,7 +41,7 @@ const Nav = () => {
                 <div className="nav-right">
                     <ul className="nav-links">
                         <li>
-                            <NavLink to={`/`} className="notify">
+                            <NavLink to={`/`} className={`${receivedQuestions?.length > 0 ? "notify" : ""}`}>
                                 {homeIcon}
                             </NavLink>
                         </li>
@@ -83,8 +86,9 @@ const Nav = () => {
                             <NavLink 
                                 to={`/`}
                                 onClick={() => {setSidenav(false)}}
+                                className={`${receivedQuestions?.length > 0 ? "notify-burger" : ""}`}
                             >
-                                {homeIcon}
+                                    {homeIcon}
                                 <span className="ml-1">
                                     Home
                                 </span>
@@ -105,7 +109,10 @@ const Nav = () => {
                 </Sidenav>
             </div>
         </nav>
-        ) : location === 'login' || location === 'register' ? (
+        ) : 
+        location === 'login' || 
+        location === 'register' || 
+        (!user && msg == 'Profile not found') ? (
         <nav className="auth-nav">
             <div className="container h-100 flex">
                 <div className="logo">

@@ -8,7 +8,7 @@ const Question = require('../models/questionModel');
 const getProfile = async (req, res) => {
     try {
         const profile = await Profile.findOne({
-            "username_lower": req.params.username.toLowerCase()
+            'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         })
         .populate('user', ['email']);
 

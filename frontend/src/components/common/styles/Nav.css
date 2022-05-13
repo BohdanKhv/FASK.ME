@@ -42,7 +42,7 @@ nav ul.nav-links {
     align-items: center;
 }
 
-.nav-links a.notify::after {
+.notify::after {
     content: '';
     width: 0.35rem;
     height: 0.35rem;
@@ -50,6 +50,16 @@ nav ul.nav-links {
     border-radius: 50%;
     position: absolute;
     bottom: 15px;
+}
+
+.notify-burger::after {
+    content: '';
+    width: 0.35rem;
+    height: 0.35rem;
+    background-color: var(--color-danger);
+    border-radius: 50%;
+    position: absolute;
+    left: 15px;
 }
 
 nav ul li {

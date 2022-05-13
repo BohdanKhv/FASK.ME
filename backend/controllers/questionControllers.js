@@ -48,7 +48,7 @@ const getSentQuestions = async (req, res) => {
 const getProfileQuestionCount = async (req, res) => {
     try {
         const user = await User.findOne({
-            "username_lower": req.params.username.toLowerCase()
+            'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         }).select('_id');
 
         if (!user) {
@@ -101,7 +101,7 @@ const getProfileQuestionCount = async (req, res) => {
 const getProfileFaqQuestions = async (req, res) => {
     try {
         const user = await User.findOne({
-            "username_lower": req.params.username.toLowerCase()
+            'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         });
 
         if (!user) {
@@ -129,7 +129,7 @@ const getProfileFaqQuestions = async (req, res) => {
 const getProfileAnsweredQuestions = async (req, res) => {
     try {
         const user = await User.findOne({
-            "username_lower": req.params.username.toLowerCase()
+            'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         });
 
         if (!user) {
@@ -161,7 +161,7 @@ const getProfileAnsweredQuestions = async (req, res) => {
 const getProfileAskedQuestions = async (req, res) => {
     try {
         const user = await User.findOne({
-            "username_lower": req.params.username.toLowerCase()
+            'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         });
 
         if (!user) {

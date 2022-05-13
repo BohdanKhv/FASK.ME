@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, AuthGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip } from '../';
+import { IsUserGate, AuthGate, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
@@ -10,6 +10,7 @@ const Profile = () => {
 
     return (
         <section className="profile">
+            <ProfileNotFound />
             {!isLoading && profile && (
             <>
             <div className="profile-cover">

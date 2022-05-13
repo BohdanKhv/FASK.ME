@@ -20,58 +20,80 @@ const Questions = () => {
     const location = useLocation().pathname.split('/')[2];
     const { username } = useParams();
     const user = useSelector((state) => state.auth.user);
+    const { profile } = useSelector((state) => state.profile);
     const { faq, answered, asked, privatelyHidden, count, isLoading } = useSelector(state => state.question);
-    const [profileNavLinks, setProfileNavLinks] = useState([
-        {
-            name: 'FAQ',
-            icon: faqIcon,
-            path: `/${username}`,
-            count: count ? count.faq : 0,
-        },
-        {
-            name: 'Answered',
-            icon: answeredIcon,
-            path: `/${username}/answered`,
-            count: count ? count.answered : 0,
-        },
-        {
-            name: 'Asked',
-            icon: askedIcon,
-            path: `/${username}/asked`,
-            count: count ? count.asked : 0,
-        }
-    ])
+    const [profileNavLinks, setProfileNavLinks] = useState([])
 
 
     useEffect(() => {
         if(!location) {
-            dispatch(getProfileFaqQuestions(username));
+            dispatch(getProfileFaqQuestions(profile.username));
         } else if (location === 'private') {
-            if(user && (user.username === username)) {
+            if(user && (user.username === profile.username)) {
                 dispatch(getUserPrivateQuestions());
             } else {
-                navigate(`/${username}`);
+                navigate(`/${profile.username}`);
             }
         } else if (location === 'answered') {
-            dispatch(getProfileAnsweredQuestions(username));
+            dispatch(getProfileAnsweredQuestions(profile.username));
         } else if (location === 'asked') {
-            dispatch(getProfileAskedQuestions(username));
+            dispatch(getProfileAskedQuestions(profile.username));
         }
     }, [location]);
 
-
     useEffect(() => {
-        dispatch(getProfileQuestionCount(username));
-        if(user && (username === user.username)) {
-            setProfileNavLinks([
-                ...profileNavLinks,
+        if(user && (profile.username === user.username)) {
+            return setProfileNavLinks([
+                {
+                    name: 'FAQ',
+                    icon: faqIcon,
+                    path: `/${profile.username}`,
+                    count: count ? count.faq : 0,
+                },
+                {
+                    name: 'Answered',
+                    icon: answeredIcon,
+                    path: `/${profile.username}/answered`,
+                    count: count ? count.answered : 0,
+                },
+                {
+                    name: 'Asked',
+                    icon: askedIcon,
+                    path: `/${profile.username}/asked`,
+                    count: count ? count.asked : 0,
+                },
                 {
                     name: 'Private',
                     icon: lockIcon,
                     path: `/${user.username}/private`,
                 }
-            ])
+            ]);
+        } else {
+            return setProfileNavLinks([
+                {
+                    name: 'FAQ',
+                    icon: faqIcon,
+                    path: `/${profile.username}`,
+                    count: count ? count.faq : 0,
+                },
+                {
+                    name: 'Answered',
+                    icon: answeredIcon,
+                    path: `/${profile.username}/answered`,
+                    count: count ? count.answered : 0,
+                },
+                {
+                    name: 'Asked',
+                    icon: askedIcon,
+                    path: `/${profile.username}/asked`,
+                    count: count ? count.asked : 0,
+                },
+            ]);
         }
+    }, [count]);
+
+    useEffect(() => {
+        dispatch(getProfileQuestionCount(profile.username));
 
         return () => {
             dispatch(reset());

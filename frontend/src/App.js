@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Login, Register, User, Home } from './pages';
-import { Nav, RequireAuth } from './components';
+import { Nav, AuthInitial } from './components';
 
 
 const App = () => {

@@ -1,11 +1,29 @@
-import { useDispatch } from "react-redux"
-import { logout } from "../features/auth/authService"
+import { useDispatch } from "react-redux";
+import { inboxIcon, sentIcon,  } from "../constance/icons";
+import { Navbar } from "../components";
+
+const feedNavigation = [
+    {
+        name: 'Inbox',
+        icon: inboxIcon,
+        path: '/',
+    },
+    {
+        name: 'Sent',
+        icon: sentIcon,
+        path: '/sent',
+    },
+];
 
 const Feed = () => {
     const dispatch = useDispatch()
 
     return (
-        <div onClick={() => dispatch(logout())}>Feed</div>
+        <section className="feed-page">
+            <Navbar
+                links={feedNavigation}
+            />
+        </section>
     )
 }
 
