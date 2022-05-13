@@ -16,8 +16,8 @@ const Navbar = ({ links }) => {
                 >
                     { link.icon }
                     { link.name }
-                    { link.count ? (
-                        <p>{link ? link.count : 0}</p>
+                    { link.count !== null ? (
+                        <p>{link.count}</p>
                     ) : null}
                 </Link>
             ))}

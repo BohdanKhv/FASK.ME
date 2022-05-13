@@ -11,7 +11,7 @@ const Questions = () => {
     const dispatch = useDispatch();
     const { username } = useParams();
     const location = useLocation().pathname.split('/')[2];
-    const { faq, answered, asked, isLoading } = useSelector(state => state.question);
+    const { faq, answered, asked, count, isLoading } = useSelector(state => state.question);
 
 
     useEffect(() => {
@@ -43,16 +43,19 @@ const Questions = () => {
                             name: 'FAQ',
                             icon: faqIcon,
                             path: `/${username}`,
+                            count: count?.faq,
                         },
                         {
                             name: 'Answered',
                             icon: answeredIcon,
                             path: `/${username}/answered`,
+                            count: count?.answered,
                         },
                         {
                             name: 'Asked',
                             icon: askedIcon,
                             path: `/${username}/asked`,
+                            count: count?.asked,
                         }
                     ]
                 }

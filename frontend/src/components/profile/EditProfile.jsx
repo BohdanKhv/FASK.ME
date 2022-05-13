@@ -67,7 +67,9 @@ const EditProfile = () => {
                 <Alert
                     status={'danger'}
                     message={err}
-                    setMessage={setErr}
+                    bodyStyle={{
+                        maxHeight: '20px',
+                    }}
                 />
                 <div className="flex align-between">
                     <div>
@@ -142,7 +144,10 @@ const EditProfile = () => {
             </Modal>
             <div 
                 className="btn"
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                    setErr(null);
+                    setIsOpen(true);
+                }}
             >
                 Edit Profile
             </div>

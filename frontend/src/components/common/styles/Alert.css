@@ -9,12 +9,11 @@
     text-align: center;
     font-size: 0.85rem;
     font-weight: 600;
-    animation: fadeInOut 3s ease-in-out forwards;
+    animation: slideDownUp 3s ease-in-out forwards;
     overflow: hidden;
-    height: auto;
     display: flex;
     justify-content: center;
-    align-self: center;
+    align-items: center;
 }
 
 .alert-success {
@@ -29,17 +28,17 @@
     background: var(--color-warning);
 }
 
-@keyframes fadeInOut {
+@keyframes slideDownUp {
     0% {
-        height: 0;
+        opacity: 0;
     }
     10% {
-        height: 20px;
+        opacity: 1;
     }
     90% {
-        height: 20px;
+        opacity: 1;
     }
     100% {
-        height: 0;
+        opacity: 0;
     }
 }

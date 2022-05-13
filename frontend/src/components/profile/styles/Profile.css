@@ -56,6 +56,11 @@
 
 .profile-settings {
     margin-top: 2rem;
+    position: relative;
+}
+
+.profile-settings .input-alert {
+    width: 600px;
 }
 
 .profile-username {

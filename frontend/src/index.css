@@ -1,5 +1,5 @@
 :root {
-  --color-danger: #f43636;
+  --color-danger: #ed6e6e;
   --color-success: #9be49b;
   --color-warning: #FFE08E;
   --color-info: #91c4d4;
@@ -388,7 +388,19 @@ svg {
 }
 
 .spinner svg {
-    animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+.input-alert {
+  position: relative;
+  overflow: hidden;
+}
+
+.input-alert .alert {
+  top: 0;
+  border-radius: var(--border-radius);
+  margin: 0 16px;
+  height: 100%;
 }
 
 @keyframes spin {

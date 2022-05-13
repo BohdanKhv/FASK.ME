@@ -189,6 +189,16 @@ const createQuestion = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
+        if(req.body.type === 'ask') {
+            // Check if question already exists
+            const question = await Question.findOne({
+                sender: req.user._id,
+                receiver: receiver._id,
+                type: 'ask',
+                'metaData.isAnswered': false,
+            });
+        }
+
         const question = await Question
         .create({
             sender: req.user._id,
