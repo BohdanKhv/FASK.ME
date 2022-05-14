@@ -1,22 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { downArrow, pinIcon, trashIcon, answareIcon, questionIcon, lockIcon, arrowRepeatIcon } from '../../constance/icons';
-import { ReceiverGate, SenderGate, RecSenGate, Tooltip } from '../';
-import { deleteQuestion, updateQuestion } from '../../features/question/questionSlice';
+import { downArrow, answareIcon, questionIcon } from '../../constance/icons';
+import { TakePrivate, DeleteQuestion } from '../';
 import './styles/QuestionCard.css';
+import { PostAnswer, ReceiverGate, SenderGate } from '../';
 
 
 const QuestionCard = ({question, isOpen}) => {
-    const dispatch = useDispatch();
-    const { isCreateLoading } = useSelector((state) => state.question);
-    const [showAnswer, setShowAnswer] = useState(false);
-    const [testClick, setTestClick] = useState(false);
+    const [showAnswer, setShowAnswer] = useState(isOpen || false);
 
     return (
         question && (
         <div 
-            className={`question-card${showAnswer || isOpen ? ' show-answer' : ''}`}
+            className={`question-card${showAnswer ? ' show-answer' : ''}`}
         >
             <div 
                 className="question-card-header"
@@ -82,94 +78,56 @@ const QuestionCard = ({question, isOpen}) => {
                             {question.answer}
                         </p>
                     ) : (
-                        <p>
-                            No answer yet.
-                        </p>
+                        <>
+                        <ReceiverGate
+                            receiver={question.receiver}
+                        >
+                            <PostAnswer
+                                question={question}
+                            />
+                        </ReceiverGate>
+                        <SenderGate
+                            sender={question.sender}
+                        >
+                            <p>
+                                No answer yet.
+                            </p>
+                        </SenderGate>
+                        </>
                     )}
                 </div>
-                    <div className="receiver flex space-between">
-                        <div className="user-info flex">
-                            {question.type !== 'faq' && question.receiver && (
-                            <>
-                                { question.receiver.profile.avatar ? (
-                                    <img
-                                        src={ question.receiver.profile.avatar }
-                                        alt="Avatar"
-                                        className="user-info-avatar"
-                                    />
-                                ) : (
-                                    <div className="profile-image-placeholder">
-                                        {question.receiver.profile.username[0].toUpperCase()}
-                                    </div>
-                                ) }
-                                <Link to={`/${question.receiver.profile.username}`} className="user-info-name text-hover">
-                                    @{question.receiver.profile.username}
-                                </Link>
-                            </>
-                            )}
-                        </div>
-                        <div 
-                            className="flex actions"
-                        >
-                            <RecSenGate
-                                sender={question.sender}
-                                receiver={question.receiver ? question.receiver : null}
-                            >
-                                <Tooltip
-                                    content="Delete"
-                                    classList="ml-1"
-                                >
-                                    {isCreateLoading ? (
-                                        <div 
-                                            className="btn-icon spinner"
-                                        >
-                                            {arrowRepeatIcon}
-                                            </div>
-                                    ) : (
-                                        <div 
-                                            className="btn-icon"
-                                            onClick={() => 
-                                                dispatch(deleteQuestion(question._id))
-                                            }
-                                        >
-                                            {trashIcon}
-                                        </div>
-                                    )}
-                                </Tooltip>
-                            </RecSenGate>
-                            <ReceiverGate
-                                receiver={question.receiver ? question.receiver : null}
-                            >
-                                <Tooltip
-                                    content="Mark as Private"
-                                    classList="ml-1"
-                                >
-                                    {isCreateLoading ? (
-                                        <div 
-                                            className="btn-icon spinner"
-                                        >
-                                            {arrowRepeatIcon}
-                                            </div>
-                                    ) : (
-                                        <div 
-                                            className="btn-icon"
-                                            onClick={() => 
-                                                dispatch(
-                                                    updateQuestion({
-                                                    _id: question._id,
-                                                    metaData: {
-                                                        isPrivate: true
-                                                    }
-                                                }))
-                                            }
-                                        >
-                                            {lockIcon}
-                                        </div>
-                                    )}
-                                </Tooltip>
-                            </ReceiverGate>
-                        </div>
+                <div className="receiver flex space-between">
+                    <div className="user-info flex">
+                        {question.type !== 'faq' && question.receiver && (
+                        <>
+                            { question.receiver.profile.avatar ? (
+                                <img
+                                    src={ question.receiver.profile.avatar }
+                                    alt="Avatar"
+                                    className="user-info-avatar"
+                                />
+                            ) : (
+                                <div className="profile-image-placeholder">
+                                    {question.receiver.profile.username[0].toUpperCase()}
+                                </div>
+                            ) }
+                            <Link to={`/${question.receiver.profile.username}`} className="user-info-name text-hover">
+                                @{question.receiver.profile.username}
+                            </Link>
+                        </>
+                        )}
                     </div>
+                    <div 
+                        className="flex actions"
+                    >
+                        <DeleteQuestion
+                            question={question}
+                        />
+                        <TakePrivate
+                            question={question}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
         )

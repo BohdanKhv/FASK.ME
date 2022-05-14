@@ -11,7 +11,8 @@ const getReceivedQuestions = async (req, res) => {
         const questions = await Question
         .find({
             receiver: req.user._id,
-            'metaData.isArchived': false
+            'metaData.isArchived': false,
+            'metaData.isAnswered': false,
         })
         .populate({
             path: 'sender',
@@ -427,7 +428,19 @@ const updateQuestion = async (req, res) => {
             req.params.id,
             req.body,
             { new: true }
-        );
+        )
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .populate({
+            path: 'receiver',
+            populate: {
+                path: 'profile',
+            }
+        });
 
         res.status(200).json(updatedQuestion);
     } catch (err) {

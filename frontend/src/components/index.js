@@ -30,6 +30,9 @@ import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
 import CreateFAQ from "./question/CreateFAQ";
 import Ask from "./question/Ask";
+import PostAnswer from "./question/PostAnswer";
+import TakePrivate from "./question/TakePrivate";
+import DeleteQuestion from "./question/DeleteQuestion";
 
 
 export {
@@ -65,4 +68,7 @@ export {
     QuestionCard,
     CreateFAQ,
     Ask,
+    PostAnswer,
+    TakePrivate,
+    DeleteQuestion
 }

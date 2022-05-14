@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { faqIcon, inboxIcon, sentIcon } from "../constance/icons";
-import { getFollowersQuestions, getSentQuestions } from '../features/question/questionSlice';
+import { faqIcon, inboxIcon, sentIcon, arrowRepeatIcon } from "../constance/icons";
+import { getFollowersQuestions, getSentQuestions, reset } from '../features/question/questionSlice';
 import { CreateFAQ, Navbar, QuestionCard, Tooltip } from "../components";
 
 
@@ -10,7 +10,7 @@ const Feed = () => {
     const dispatch = useDispatch()
     const location = useLocation().pathname.split("/")[1]
     const { user } = useSelector((state) => state.auth);
-    const { inbox, feed, isLoading } = useSelector((state) => state.question);
+    const { inbox, questions, isLoading } = useSelector((state) => state.question);
 
 
     const feedNavigation = [
@@ -38,6 +38,10 @@ const Feed = () => {
         } else if(location === 'sent') {
             dispatch(getSentQuestions())
         }
+
+        return () => {
+            dispatch(reset())
+        }
     }, [location])
 
     return (
@@ -57,30 +61,39 @@ const Feed = () => {
                 links={feedNavigation}
             />
             <div className="questions">
-                {!location ? (
-                    feed.map((question) => (
-                        <QuestionCard
-                            key={`feed-${question._id}`}
-                            question={question}
-                        />
-                    ))
-                ) : location === 'sent' ? (
-                    feed.map((question) => (
-                        <QuestionCard
-                            key={`sent-${question._id}`}
-                            question={question}
-                            isOpen={true}
-                        />
-                    ))
+                {!location || location === 'sent' ? (
+                    !isLoading && questions.length === 0 ? (
+                        <p className="title-3 text-center">
+                            {location === 'sent' ? 'You have not sent any questions yet.' : 'Follow someone to see their questions here.'}
+                        </p>
+                    ) : (
+                        questions.map((question) => (
+                            <QuestionCard
+                                key={`questions-${question._id}`}
+                                question={question}
+                            />
+                        ))
+                    )
                 ) : (
-                    inbox.map((question) => (
-                        <QuestionCard
-                            key={`inbox-${question._id}`}
-                            question={question}
-                            isOpen={true}
-                        />
-                    ))
+                    !isLoading && inbox.length === 0 ? (
+                        <p className="title-3 text-center">
+                            You have no questions in your inbox.
+                        </p>
+                    ) : (
+                        inbox.map((question) => (
+                            <QuestionCard
+                                key={`inbox-${question._id}`}
+                                question={question}
+                                isOpen={true}
+                            />
+                        ))
+                    )
                 )}
+                {isLoading && 
+                    <div className="flex align-center mb-1">
+                        <div className="btn-icon spinner">{arrowRepeatIcon}</div>
+                    </div>
+                }
             </div>
         </section>
     )

@@ -10,7 +10,7 @@ import {
     reset 
 } from '../../features/question/questionSlice';
 import { QuestionCard, Navbar } from '../';
-import { faqIcon, answeredIcon, askedIcon, lockIcon } from '../../constance/icons';
+import { faqIcon, answeredIcon, askedIcon, lockIcon, arrowRepeatIcon } from '../../constance/icons';
 import './styles/Questions.css';
 
 
@@ -21,7 +21,7 @@ const Questions = () => {
     const { username } = useParams();
     const user = useSelector((state) => state.auth.user);
     const { profile } = useSelector((state) => state.profile);
-    const { faq, answered, asked, privatelyHidden, count, isLoading } = useSelector(state => state.question);
+    const { questions, count, isLoading } = useSelector(state => state.question);
     const [profileNavLinks, setProfileNavLinks] = useState([])
 
 
@@ -38,6 +38,10 @@ const Questions = () => {
             dispatch(getProfileAnsweredQuestions(profile.username));
         } else if (location === 'asked') {
             dispatch(getProfileAskedQuestions(profile.username));
+        }
+
+        return () => {
+            dispatch(reset())
         }
     }, [location]);
 
@@ -106,55 +110,27 @@ const Questions = () => {
                 links={profileNavLinks}
             />
             <div className="questions">
-                {location === 'private' ? (
-                    <>
-                        {privatelyHidden.map((question, index) => (
-                            <QuestionCard key={`privatelyHidden-${question._id+index}`} question={question} />
-                        ))}
-                        {!isLoading && privatelyHidden.length === 0 && (
-                            <p className="title-3 text-center">
-                                You have no private questions.
-                            </p>
+                {questions.map((question, index) => (
+                    <QuestionCard key={`privatelyHidden-${question._id+index}`} question={question} />
+                ))}
+                {!isLoading && questions.length === 0 && (
+                    <p className="title-3 text-center">
+                        {location === 'private' ? (
+                            'You have no private questions.'
+                        ) : location === 'answered' ? (
+                            `${username} has not answered any questions yet.`
+                        ) : location === 'asked' ? (
+                            `${username} has not asked any questions yet.`
+                        ) : !location && (
+                            `${username} has not posted any FAQ yet.`
                         )}
-                        {isLoading && answered.length === 0 && <QuestionCard isLoading={isLoading}/>}
-                    </>
-                ) : location === 'answered' ? (
-                    <>
-                        {answered.map((question, index) => (
-                            <QuestionCard key={`answered-${question._id+index}`} question={question} />
-                        ))}
-                        {!isLoading && answered.length === 0 && (
-                            <p className="title-3 text-center">
-                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not answered any questions yet.
-                            </p>
-                        )}
-                        {isLoading && answered.length === 0 && <QuestionCard isLoading={isLoading}/>}
-                    </>
-                ) : !location ? (
-                    <>
-                        {faq.map((question, index) => (
-                            <QuestionCard key={`faq-${question._id+index}`} question={question} />
-                        ))}
-                        {!isLoading && faq.length === 0 && (
-                            <p className="title-3 text-center">
-                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not posted any FAQ yet.
-                            </p>
-                        )}
-                        {isLoading && faq.length === 0 && <QuestionCard isLoading={isLoading}/>}
-                    </>
-                ) : location === 'asked' && (
-                    <>
-                        {asked.map((question, index) => (
-                            <QuestionCard key={`asked-${question._id+index}`} question={question} />
-                        ))}
-                        {!isLoading && asked.length === 0 && (
-                            <p className="title-3 text-center">
-                                {username.slice(0,1).toUpperCase()+username.slice(1)} has not asked any questions yet.
-                            </p>
-                        )}
-                        {isLoading && asked.length === 0 && <QuestionCard isLoading={isLoading}/>}
-                    </>
+                    </p>
                 )}
+                {isLoading && 
+                    <div className="flex align-center mb-1">
+                        <div className="btn-icon spinner">{arrowRepeatIcon}</div>
+                    </div>
+                }
             </div>
         </section>
     )

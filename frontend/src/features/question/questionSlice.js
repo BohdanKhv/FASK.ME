@@ -3,12 +3,8 @@ import questionService from "./questionService";
 
 
 const initialState = {
-    faq: [],
-    answered: [],
-    asked: [],
-    privatelyHidden: [],
     inbox: [],
-    feed: [],
+    questions: [],
     count: null,
     isLoading: false,
     isCreateLoading: false,
@@ -242,12 +238,7 @@ const questionSlice = createSlice({
     reducers: {
         // Reset state
         reset: (state) => {
-            state.faq = [];
-            state.answered = [];
-            state.asked = [];
-            state.privatelyHidden = [];
-            state.inbox = [];
-            state.feed = [];
+            state.questions = [];
             state.count = null;
             state.isError = false;
             state.isSuccess = false;
@@ -280,7 +271,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getSentQuestions.fulfilled, (state, action) => {
-            state.feed = action.payload;
+            state.questions = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -298,7 +289,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileFaqQuestions.fulfilled, (state, action) => {
-            state.faq = action.payload;
+            state.questions = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -316,7 +307,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAnsweredQuestions.fulfilled, (state, action) => {
-            state.answered = action.payload;
+            state.questions = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -334,7 +325,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.fulfilled, (state, action) => {
-            state.asked = action.payload;
+            state.questions = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -352,7 +343,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getUserPrivateQuestions.fulfilled, (state, action) => {
-            state.privatelyHidden = action.payload;
+            state.questions = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -375,7 +366,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getFollowersQuestions.fulfilled, (state, action) => {
-            state.feed = action.payload;
+            state.questions = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -394,11 +385,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(createQuestion.fulfilled, (state, action) => {
-            if(action.payload.type === 'faq') {
-                state.faq.push(action.payload);
-            } else {
-                state.feed.push(action.payload);
-            }
+            state.questions.push(action.payload);
             state.isCreateLoading = false;
             state.isError = false;
             state.isSuccess = true;
@@ -421,22 +408,9 @@ const questionSlice = createSlice({
             state.isCreateLoading = false;
             state.isError = false;
             state.msg = '';
-            if(state.inbox.some(q => q._id === action.payload._id)) {
-                const index = state.inbox.findIndex(question => question._id === action.payload._id);
-                state.inbox[index] = action.payload;
-            }
-            if(state.feed.some(q => q._id === action.payload._id)) {
-                const index = state.feed.findIndex(question => question._id === action.payload._id);
-                state.feed[index] = action.payload;
-            }
-            if(state.answered.some(q => q._id === action.payload._id)) {
-                const index = state.answered.findIndex(question => question._id === action.payload._id);
-                state.answered[index] = action.payload;
-            }
-            if(state.privatelyHidden.some(q => q._id === action.payload._id)) {
-                const index = state.privatelyHidden.findIndex(question => question._id === action.payload._id);
-                state.privatelyHidden[index] = action.payload;
-            }
+            state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
+            const index = state.questions.findIndex(question => question._id === action.payload._id);
+            state.questions[index] = action.payload;
         });
         builder.addCase(updateQuestion.rejected, (state, action) => {
             state.isCreateLoading = false;
@@ -454,21 +428,8 @@ const questionSlice = createSlice({
             state.isError = false;
             state.msg = '';
             state.isCreateLoading = false;
-            if(state.inbox.some(q => q._id === action.payload._id)) {
-                state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
-            }
-            if(state.feed.some(q => q._id === action.payload._id)) {
-                state.feed = state.feed.filter(question => question._id !== action.payload._id);
-            }
-            if(state.asked.some(q => q._id === action.payload._id)) {
-                state.asked = state.asked.filter(question => question._id !== action.payload._id);
-            }
-            if(state.answered.some(q => q._id === action.payload._id)) {
-                state.answered = state.answered.filter(question => question._id !== action.payload._id);
-            }
-            if(state.privatelyHidden.some(q => q._id === action.payload._id)) {
-                state.privatelyHidden = state.privatelyHidden.filter(question => question._id !== action.payload._id);
-            }
+            state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
+            state.questions = state.questions.filter(question => question._id !== action.payload._id);
         });
         builder.addCase(deleteQuestion.rejected, (state, action) => {
             state.isCreateLoading = false;
