@@ -1,6 +1,5 @@
 .tooltip {
     position: relative;
-    z-index: 9999;
 }
 
 .tooltip-text {
@@ -12,7 +11,6 @@
     border-radius: var(--border-radius);
     padding: 0.5rem;
     position: absolute;
-    z-index: 1;
     bottom: 140%;
     left: 50%;
     margin-left: -68px;

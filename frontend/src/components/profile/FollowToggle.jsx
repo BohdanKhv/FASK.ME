@@ -11,26 +11,30 @@ const FollowToggle = () => {
 
 
     const handleFollow = () => {
-        dispatch(followToggleProfile(profile._id));
+        // dispatch(followToggleProfile(profile._id));
     }
 
     return (
+        <>
         <AuthGate>
-            <div 
-                className="btn btn-sm btn-primary spinner"
-                onClick={!isFollowLoading ? handleFollow : null}
-            >
-                {isFollowLoading ? (
-                    arrowRepeatIcon
-                ) : (
-                    profile.followers.includes(user._id) ? (
-                        'Unfollow'
+            {user && (
+                <div 
+                    className="btn btn-sm btn-primary spinner"
+                    onClick={!isFollowLoading ? handleFollow : null}
+                >
+                    {isFollowLoading ? (
+                        arrowRepeatIcon
                     ) : (
-                        'Follow'
-                    )
-                )}
-            </div>
+                        profile.followers.includes(user._id) ? (
+                            'Unfollow'
+                        ) : (
+                            'Follow'
+                        )
+                    )}
+                </div>
+            )}
         </AuthGate>
+        </>
     )
 }
 

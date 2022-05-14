@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { downArrow, answareIcon, questionIcon } from '../../constance/icons';
-import { TakePrivate, DeleteQuestion } from '../';
+import { TakePrivate, DeleteQuestion, ClickCount } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate } from '../';
 
@@ -21,28 +21,27 @@ const QuestionCard = ({question, isOpen}) => {
                     <div className="sender flex space-between">
                         <div className="user-info-sender flex">
                             <img className="user-info-avatar" src={question.sender.profile.avatar} alt="avatar" />
-                            <Link to={`/${question.sender.profile.username}`} className="user-info-name text-hover">
-                                @{question.sender.profile.username}
-                            </Link>
-                        </div>
-                        { question.type === 'faq' ? 
-                            <div className="title-4">
-                                FAQ
-                            </div>
-                        : 
-                            <div className="flex flex-column align-center">
-                                <div className="title-4">
-                                    Asked
-                                </div>
-                                <div className="text-xs text-secondary">
-                                    {!question.metaData.isAnswered ? (
-                                        'Pending'
+                            <div className="div">
+                                <Link to={`/${question.sender.profile.username}`} className="user-info-name text-hover">
+                                    {question.sender.profile.username}
+                                </Link>
+                                <div className="status text-xs text-secondary">
+                                    { question.type === 'faq' ? (
+                                        'FAQ'
                                     ) : (
-                                        'Answered'
+                                        'Asked'
                                     )}
                                 </div>
                             </div>
-                        }
+                        </div>
+                        <div className="created-at">
+                            <div className="date">
+                                {new Date(question.createdAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </div>
+                            <div className="time">
+                                {new Date(question.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' })}
+                            </div>
+                        </div>
                     </div>
                 )}
                 <div
@@ -51,9 +50,9 @@ const QuestionCard = ({question, isOpen}) => {
                 >
                     <div className="flex-grow">
                         <div className="flex">
-                            <div className="answer flex align-center">
+                            {/* <div className="answer flex align-center">
                                 {questionIcon}
-                            </div>
+                            </div> */}
                             <div className="flex-grow">
                                 <p>
                                     {question?.question}
@@ -70,9 +69,9 @@ const QuestionCard = ({question, isOpen}) => {
                 className="question-card-body flex-align-center"
             >
                 <div className="flex content">
-                    <div className="answer flex align-center">
+                    {/* <div className="answer flex align-center">
                         {answareIcon}
-                    </div>
+                    </div> */}
                     {question.answer ? (
                         <p>
                             {question.answer}
@@ -96,9 +95,11 @@ const QuestionCard = ({question, isOpen}) => {
                         </>
                     )}
                 </div>
+            </div>
+            <div className="question-card-footer">
                 <div className="receiver flex space-between">
                     <div className="user-info flex">
-                        {question.type !== 'faq' && question.receiver && (
+                        {question.type !== 'faq' && question.receiver ? (
                         <>
                             { question.receiver.profile.avatar ? (
                                 <img
@@ -111,10 +112,23 @@ const QuestionCard = ({question, isOpen}) => {
                                     {question.receiver.profile.username[0].toUpperCase()}
                                 </div>
                             ) }
-                            <Link to={`/${question.receiver.profile.username}`} className="user-info-name text-hover">
-                                @{question.receiver.profile.username}
-                            </Link>
+                            <div>
+                                <Link to={`/${question.receiver.profile.username}`} className="user-info-name text-hover">
+                                    {question.receiver.profile.username}
+                                </Link>
+                                <div className="status text-xs text-secondary">
+                                    {!question.metaData.isAnswered ? (
+                                        'Pending'
+                                    ) : (
+                                        'Answered'
+                                    )}
+                                </div>
+                            </div>
                         </>
+                        ) : question.type === 'faq' && (
+                            <ClickCount
+                                question={question}
+                            />
                         )}
                     </div>
                     <div 

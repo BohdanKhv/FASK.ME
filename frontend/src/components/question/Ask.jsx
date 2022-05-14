@@ -91,6 +91,7 @@ const Ask = () => {
                                     question: e.target.value,
                                 });
                             }}
+                            isDisabled={isCreateLoading}
                         />
                     </div>
                     <Tooltip

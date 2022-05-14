@@ -6,6 +6,7 @@ const initialState = {
     profile: null,
     isFollowLoading: false,
     isLoading: false,
+    isUpdating: false,
     isError: false,
     isSuccess: false,
     msg: '',
@@ -82,7 +83,8 @@ const profileSlice = createSlice({
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
-            state.followLoading = false;
+            state.isUpdating = false;
+            state.isFollowLoading = false;
             state.msg = '';
         }
     },
@@ -105,16 +107,17 @@ const profileSlice = createSlice({
 
         // Update profile
         builder.addCase(updateProfile.pending, (state, action) => {
-            state.isLoading = true;
+            state.isUpdating = true;
             state.isError = false;
+            state.msg = '';
         });
         builder.addCase(updateProfile.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.isUpdating = false;
             state.isSuccess = true;
             state.profile = action.payload;
         });
         builder.addCase(updateProfile.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isUpdating = false;
             state.isError = true;
             state.msg = action.payload;
         });

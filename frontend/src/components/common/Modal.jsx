@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { arrowRepeatIcon, closeIcon } from '../../constance/icons';
 import './styles/Modal.css';
 
-const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading}) => {
+const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading, isError}) => {
 
     const onClickOutside = (e) => {
         if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
@@ -13,6 +13,14 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
             }
         }
     }
+
+    useEffect(() => {
+        if(!isError) {
+            if(!isLoading ) {
+                setModalIsOpen(false);
+            }
+        }
+    }, [isLoading, isError]);
 
     return (
         <>

@@ -2,7 +2,8 @@
     padding-top: 2rem;
     max-width: 600px;
     margin: 0 auto;
-    padding-bottom: 50vh;
+    min-height: 70vh;
+    margin-bottom: 100px;
 }
 
 

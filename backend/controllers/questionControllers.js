@@ -26,7 +26,7 @@ const getReceivedQuestions = async (req, res) => {
                 path: 'profile',
             }
         })
-        .sort({ date: -1 });
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -59,7 +59,7 @@ const getSentQuestions = async (req, res) => {
                 path: 'profile',
             }
         })
-        .sort({ date: -1 });
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -140,7 +140,13 @@ const getProfileFaqQuestions = async (req, res) => {
             sender: user._id,
             type: 'faq',
         })
-        .sort({ date: -1 });
+        .populate({
+            path: 'sender',
+            populate: {
+                path: 'profile',
+            }
+        })
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -183,7 +189,7 @@ const getProfileAnsweredQuestions = async (req, res) => {
                 path: 'profile',
             }
         })
-        .sort({ date: -1 });
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -226,7 +232,7 @@ const getProfileAskedQuestions = async (req, res) => {
                 path: 'profile',
             }
         })
-        .sort({ date: -1 });
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -258,7 +264,7 @@ const getUserPrivateQuestions = async (req, res) => {
                 path: 'profile',
             }
         })
-        .sort({ date: -1 });
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -281,10 +287,19 @@ const getFollowersQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'Profile not found' });
         }
 
-        const questionsReceived = await Question.find({
-            receiver: {
-                $in: profile.following
-            },
+        const questions = await Question.find({
+            $or: [
+                {
+                    receiver: {
+                        $in: profile.following
+                    }
+                },
+                {
+                    sender: {
+                        $in: profile.following
+                    }
+                }
+            ],
             'metaData.isArchived': false,
             'metaData.isAnswered': true,
             'metaData.isPrivate': false
@@ -301,31 +316,7 @@ const getFollowersQuestions = async (req, res) => {
                 path: 'profile',
             }
         })
-        .sort({ date: -1 });
-
-        const questionsSent = await Question.find({
-            sender: {
-                $in: profile.following
-            },
-            'metaData.isArchived': false,
-            'metaData.isAnswered': true,
-            'metaData.isPrivate': false
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ date: -1 });
-
-        const questions = [...questionsReceived, ...questionsSent];
+        .sort({ createdAt: -1 });
 
         res.status(200).json(questions);
     } catch (err) {
@@ -340,15 +331,13 @@ const getFollowersQuestions = async (req, res) => {
 // @access Private
 const createQuestion = async (req, res) => {
     try {
-        const receiver = await User.findById(
-            req.body.receiver || req.user._id
-        );
-
-        if (!receiver) {
-            return res.status(404).json({ msg: 'User not found' });
-        }
-
         if(req.body.type === 'ask') {
+            const receiver = await User.findById(req.body.receiver);
+
+            if (!receiver) {
+                return res.status(404).json({ msg: 'User not found' });
+            }
+
             // check if user is already asked question to the same user and is not answered
             const question = await Question.findOne({
                 sender: req.user._id,
@@ -360,22 +349,39 @@ const createQuestion = async (req, res) => {
             if (question) {
                 return res.status(400).json({ msg: `You've already asked this user. You have to wait until ${receiver.username} responds.` });
             }
+
+            const newQuestion = await Question
+            .create({
+                sender: req.user,
+                receiver: receiver,
+                type: 'ask',
+                question: req.body.question,
+                'metaData.isAnswered': false,
+            });
+
+            return res.status(201).json(newQuestion);
+        } else if(req.body.type === 'faq') {
+            const sender = await User.findById(req.user._id).populate('profile');
+
+            if (!sender) {
+                return res.status(404).json({ msg: 'User not found' });
+            }
+
+            const newQuestion = await Question
+            .create({
+                sender: sender,
+                receiver: null,
+                type: 'faq',
+                question: req.body.question,
+                answer: req.body.answer,
+                'metaData.isAnswered': true,
+            });
+    
+            return res.status(201).json(newQuestion);
         }
-
-        const question = await Question
-        .create({
-            sender: req.user._id,
-            receiver: req.body.type !== 'faq' ? receiver._id : null,
-            type: req.body.type,
-            question: req.body.question,
-            answer: req.body.answer,
-            'metaData.isAnswered': req.body.answer ? true : false,
-        });
-
-        res.status(201).json(question);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 

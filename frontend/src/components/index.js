@@ -12,6 +12,7 @@ import Navbar from "./common/Navbar";
 import Tooltip from "./common/Tooltip";
 import Alert from "./common/Alert";
 import NotFound from "./common/NotFound";
+import Slime from "./common/Slime";
 
 import RequireAuth from "./gate/RequireAuth";
 import AuthGate from "./gate/AuthGate";
@@ -33,6 +34,7 @@ import Ask from "./question/Ask";
 import PostAnswer from "./question/PostAnswer";
 import TakePrivate from "./question/TakePrivate";
 import DeleteQuestion from "./question/DeleteQuestion";
+import ClickCount from "./question/ClickCount";
 
 
 export {
@@ -50,6 +52,7 @@ export {
     Tooltip,
     Alert,
     NotFound,
+    Slime,
 
     RequireAuth,
     AuthGate,
@@ -70,5 +73,6 @@ export {
     Ask,
     PostAnswer,
     TakePrivate,
-    DeleteQuestion
+    DeleteQuestion,
+    ClickCount
 }

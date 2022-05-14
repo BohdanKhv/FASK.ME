@@ -239,7 +239,6 @@ const questionSlice = createSlice({
         // Reset state
         reset: (state) => {
             state.questions = [];
-            state.count = null;
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
@@ -385,7 +384,9 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(createQuestion.fulfilled, (state, action) => {
-            state.questions.push(action.payload);
+            if(action.payload.type === 'faq') {
+                state.questions.unshift(action.payload);
+            }
             state.isCreateLoading = false;
             state.isError = false;
             state.isSuccess = true;

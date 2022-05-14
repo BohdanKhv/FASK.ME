@@ -22,6 +22,10 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -384,6 +388,15 @@ input:active label {
   text-decoration: none;
   color: var(--text-dark);
   transition: var(--transition-duration);
+}
+
+.text-hover.text-hover-light {
+  background-color: var(--color-main);
+  border-radius: 0.5rem;
+}
+
+.text-hover-light:hover {
+  box-shadow: var(--box-shadow);
 }
 
 .text-hover:hover {

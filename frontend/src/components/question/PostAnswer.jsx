@@ -34,6 +34,10 @@ const PostAnswer = ({question}) => {
                 rows={4}
                 cols={50}
                 maxLength={500}
+                isDisabled={isCreateLoading}
+                inputStyle={{
+                    maxHeight: '20vh',
+                }}
             />
             <div className="flex flex-end">
             <div

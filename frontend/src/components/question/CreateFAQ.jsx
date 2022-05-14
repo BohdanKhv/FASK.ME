@@ -73,6 +73,7 @@ const CreateFAQ = () => {
                     setIsOpen(false);
                 }}
                 isLoading={isCreateLoading}
+                isError={isError}
             >
                 <div className="edit-profile-form">
                     <div className="form-group">
@@ -83,6 +84,9 @@ const CreateFAQ = () => {
                             value={faq.question}
                             bodyStyle={{
                                 borderColor: inputErr.question ? 'var(--color-danger)' : '',
+                            }}
+                            inputStyle={{
+                                maxHeight: '20vh',
                             }}
                             onChange={(e) => {
                                 if(inputErr.question) {
@@ -95,6 +99,8 @@ const CreateFAQ = () => {
                             }}
                             rows={3}
                             cols={5}
+                            maxLength={500}
+                            isDisabled={isCreateLoading}
                         />
                     </div>
                 </div>
@@ -108,6 +114,9 @@ const CreateFAQ = () => {
                             bodyStyle={{
                                 borderColor: inputErr.answer ? 'var(--color-danger)' : '',
                             }}
+                            inputStyle={{
+                                maxHeight: '20vh',
+                            }}
                             onChange={(e) => {
                                 if(inputErr.answer) {
                                     setInputErr({
@@ -119,6 +128,8 @@ const CreateFAQ = () => {
                             }}
                             rows={3}
                             cols={5}
+                            maxLength={500}
+                            isDisabled={isCreateLoading}
                         />
                     </div>
                 </div>

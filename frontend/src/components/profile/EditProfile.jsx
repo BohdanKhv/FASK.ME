@@ -8,7 +8,7 @@ const EditProfile = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [err, setErr] = useState(null);
     const dispatch = useDispatch();
-    const { profile } = useSelector((state) => state.profile);
+    const { profile, isUpdating, isError, msg } = useSelector((state) => state.profile);
 
     const [editProfile, setEditProfile] = useState({
         fullName: profile.fullName || '',
@@ -50,7 +50,6 @@ const EditProfile = () => {
             fullName,
             bio,
         }));
-        setIsOpen(false);
     }
 
     return (
@@ -61,8 +60,10 @@ const EditProfile = () => {
                 contentLabel="Edit Profile"
                 actionDangerBtnText="Cancel"
                 actionBtnText="Save"
-                onSubmit={saveProfile}
+                onSubmit={!isUpdating ? saveProfile : null}
+                isLoading={isUpdating}
                 onSubmitDanger={() => { setIsOpen(false) }}
+                isError={isError}
             >
                 <Alert
                     status={'danger'}
@@ -121,6 +122,7 @@ const EditProfile = () => {
                                     fullName: e.target.value,
                                 });
                             }}
+                            isDisabled={isUpdating}
                         />
                     </div>
                 </div>
@@ -138,9 +140,15 @@ const EditProfile = () => {
                             }}
                             rows={3}
                             cols={5}
+                            maxLength={200}
+                            isDisabled={isUpdating}
+                            inputStyle={{
+                                maxHeight: '10vh'
+                            }}
                         />
                     </div>
                 </div>
+                {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
             </Modal>
             <div 
                 className="btn"

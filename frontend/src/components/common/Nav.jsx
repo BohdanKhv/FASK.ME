@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { burgerIcon, doorClosedIcon, homeIcon, searchIcon, sentIcon, userIcon } from '../../constance/icons';
 import { logout } from '../../features/auth/authSlice';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
-import { Input, Sidenav } from '../';
+import { Input, Sidenav, Slime } from '../';
 import './styles/Nav.css';
 
 
@@ -111,16 +111,16 @@ const Nav = () => {
         location === 'login' || 
         location === 'register' || 
         (!user && msg == 'Profile not found') ? (
+        <>
+        <Slime/>
         <nav className="auth-nav">
             <div className="container h-100 flex">
                 <div className="logo">
                     {logoNameSvg}
                 </div>
             </div>
-            <div 
-                className={`left-window${location === 'login' ? ' login' : ' register'}`}
-            />
         </nav>
+        </>
         ) : (
             null
         )

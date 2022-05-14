@@ -47,10 +47,10 @@ const updateProfile = async (req, res) => {
             { new: true }
         ).populate('user', ['email']);
 
-        res.status(200).json(updatedProfile);
+        return res.status(200).json(updatedProfile);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -95,7 +95,7 @@ const followToggleProfile = async (req, res) => {
         }
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 

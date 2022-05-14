@@ -13,7 +13,7 @@ const ProfileNotFound = () => {
                     {!user ? ( 
                         <div>
                             <p className="title-2 py-1">
-                                <Link to="/register" className="text-hover">{username}</Link> username if free to use.
+                                {`${username} username if free.`}
                             </p>
                             <div className="flex align-between mt-1">
                                 <Link to="/register" className="btn">

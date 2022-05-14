@@ -24,7 +24,7 @@
     opacity: 0;
     transition: var(--transition-duration);
     font-family: inherit;
-    resize: none;
+    resize: vertical;
     overflow: hidden;
     line-height: 1.1rem;
 }

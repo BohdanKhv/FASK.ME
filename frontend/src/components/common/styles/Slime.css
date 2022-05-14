@@ -1,0 +1,53 @@
+.slime-wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    overflow: hidden;
+}
+
+.slime {
+    float: right;
+    width: 60vw;
+    height: 100vh;
+    background-color: var(--color-primary);
+    border-top-left-radius: 80%;
+    border-bottom-left-radius: 20%;
+    transition: var(--transition-duration);
+    animation: slime 30s infinite;
+    box-shadow: var(--box-shadow);
+}
+
+@media (max-width: 768px) {
+    .slime {
+        transform: translateY(50%);
+        height: 70vh;
+        width: 90vw;
+    }
+}
+
+@keyframes slime {
+    0% {
+        border-top-left-radius: 10%;
+        border-top-right-radius: 20%;
+        border-bottom-left-radius: 90%;
+    }
+    25% {
+        border-top-left-radius: 95%;
+        border-top-right-radius: 0%;
+        border-bottom-left-radius: 10%;
+    }
+    50% {
+        border-top-left-radius: 80%;
+        border-bottom-left-radius: 40%;
+    }
+    75% {
+        border-top-left-radius: 60%;
+        border-top-right-radius: 40%;
+        border-bottom-left-radius: 60%;
+    }
+    100% {
+        border-top-left-radius: 10%;
+        border-top-right-radius: 20%;
+        border-bottom-left-radius: 90%;
+    }
+}
