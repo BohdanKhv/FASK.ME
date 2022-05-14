@@ -151,7 +151,7 @@ const EditProfile = () => {
                 {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
             </Modal>
             <div 
-                className="btn"
+                className="btn btn-sm"
                 onClick={() => {
                     setErr(null);
                     setIsOpen(true);

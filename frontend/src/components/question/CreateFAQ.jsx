@@ -136,7 +136,7 @@ const CreateFAQ = () => {
                 {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
             </Modal>
             <div 
-                className="btn btn-primary ml-1"
+                className="btn btn-primary ml-1 btn-sm"
                 onClick={() => { setIsOpen(true) }}
             >
                 Create FAQ

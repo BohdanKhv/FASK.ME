@@ -264,6 +264,10 @@ input:active label {
   margin-top: 1rem;
 }
 
+.mt-3 {
+  margin-top: 0.5rem;
+}
+
 .mr-1 {
   margin-right: 1rem;
 }
@@ -390,12 +394,21 @@ input:active label {
   transition: var(--transition-duration);
 }
 
-.text-hover.text-hover-light {
+.text-hover.text-hover-main {
   background-color: var(--color-main);
   border-radius: 0.5rem;
 }
 
-.text-hover-light:hover {
+.text-hover-main:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.text-hover.text-hover-secondary {
+  background-color: var(--color-secondary);
+  border-radius: 0.5rem;
+}
+
+.text-hover-secondary:hover {
   box-shadow: var(--box-shadow);
 }
 

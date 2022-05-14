@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, FollowToggle, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
+import { IsUserGate, FollowToggle, Following, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
@@ -38,6 +38,8 @@ const Profile = () => {
                                     {profile.username[0].toUpperCase()}
                                 </div>
                             ) }
+                            <div className="action-left">
+                            </div>
                             <div className="action-right">
                                 <IsUserGate>
                                     <Tooltip
@@ -58,11 +60,14 @@ const Profile = () => {
                             <div className="profile-username flex align-center text-center">
                                 @{profile.username}
                             </div>
-                            <div className="profile-fullname flex align-center text-center">
+                            <div className="profile-fullname flex align-center text-center mt-3">
                                 {profile.fullName}
                             </div>
+                            <div className="flex align-center mt-3">
+                                <Following/>
+                            </div>
                             {profile.bio && (
-                                <div className="profile-bio flex align-center text-center">
+                                <div className="profile-bio flex align-center text-center mt-3">
                                     {profile.bio}
                                 </div>
                             )}

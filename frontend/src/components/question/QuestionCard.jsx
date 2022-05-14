@@ -21,7 +21,7 @@ const QuestionCard = ({question, isOpen}) => {
                     <div className="sender flex space-between">
                         <div className="user-info-sender flex">
                             <img className="user-info-avatar" src={question.sender.profile.avatar} alt="avatar" />
-                            <div className="div">
+                            <div>
                                 <Link to={`/${question.sender.profile.username}`} className="user-info-name text-hover">
                                     {question.sender.profile.username}
                                 </Link>
@@ -50,9 +50,6 @@ const QuestionCard = ({question, isOpen}) => {
                 >
                     <div className="flex-grow">
                         <div className="flex">
-                            {/* <div className="answer flex align-center">
-                                {questionIcon}
-                            </div> */}
                             <div className="flex-grow">
                                 <p>
                                     {question?.question}
@@ -69,9 +66,6 @@ const QuestionCard = ({question, isOpen}) => {
                 className="question-card-body flex-align-center"
             >
                 <div className="flex content">
-                    {/* <div className="answer flex align-center">
-                        {answareIcon}
-                    </div> */}
                     {question.answer ? (
                         <p>
                             {question.answer}
