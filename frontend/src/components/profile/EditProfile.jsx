@@ -139,6 +139,7 @@ const EditProfile = () => {
                                 setState={setAvatar}
                                 state={avatar}
                                 progress={avatarProgress}
+                                maxWidth={400}
                             />
                         </div>
                         <p className="title-4 px-1 pb-1 text-center">
@@ -154,6 +155,7 @@ const EditProfile = () => {
                             setState={setCover}
                             state={cover}
                             progress={coverProgress}
+                            maxWidth={1600}
                         />
                         <p className="title-4 px-1 pb-1 text-center">
                             Cover

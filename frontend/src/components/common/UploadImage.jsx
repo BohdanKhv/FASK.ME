@@ -1,9 +1,42 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import Compressor from 'compressorjs';
 import { Image } from '../';
 import './styles/UploadImage.css';
 
-const UploadImage = ({ image, containerClass, imageClass, setState, state, progress }) => {
+const UploadImage = ({ image, containerClass, imageClass, setState, state, progress, maxWidth }) => {
     const inputRef = useRef(null);
+    const [imgCompressor, setImgCompressor] = useState(null);
+
+    const format = (size) => {
+        if (size === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(size) / Math.log(k));
+        return parseFloat((size / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
+    const calculate = (t) => {
+        return (
+          Math.round((performance.now() - t + Number.EPSILON) * 100) / 100 + 'ms'
+        );
+    };
+
+    useEffect(() => {
+        if (imgCompressor) {
+            const t0 = performance.now();
+            new Compressor(imgCompressor, {
+                quality: 0.6,
+                maxWidth: maxWidth,
+                convertSize: 1000000, // 1MB
+                success(blob) {
+                    console.log('compressorjs', format(blob.size), calculate(t0));
+                    setState(
+                        blob
+                    )
+                },
+            });
+        }
+    }, [imgCompressor]);
 
     return (
         <div
@@ -31,10 +64,7 @@ const UploadImage = ({ image, containerClass, imageClass, setState, state, progr
                 ref={inputRef}
                 onChange={(e) => {
                     if ((e.target.files[0] && e.target.files[0].type === 'image/png') || (e.target.files[0] && e.target.files[0].type === 'image/jpeg')) {
-                        // console.log(e.target.files[0]);
-                        setState(
-                            e.target.files[0]
-                        )
+                        setImgCompressor(e.target.files[0]);
                     }
                 }}
             />
