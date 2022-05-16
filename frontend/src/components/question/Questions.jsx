@@ -26,22 +26,24 @@ const Questions = () => {
 
 
     useEffect(() => {
+        let promise = null;
         if(!location) {
-            dispatch(getProfileFaqQuestions(profile.username));
+            promise = dispatch(getProfileFaqQuestions(profile.username));
         } else if (location === 'private') {
             if(user && (user.username === profile.username)) {
-                dispatch(getUserPrivateQuestions());
+                promise = dispatch(getUserPrivateQuestions());
             } else {
                 navigate(`/${profile.username}`);
             }
         } else if (location === 'answered') {
-            dispatch(getProfileAnsweredQuestions(profile.username));
+            promise = dispatch(getProfileAnsweredQuestions(profile.username));
         } else if (location === 'asked') {
-            dispatch(getProfileAskedQuestions(profile.username));
+            promise = dispatch(getProfileAskedQuestions(profile.username));
         }
 
         return () => {
-            dispatch(reset())
+            promise && promise.abort();
+            dispatch(reset());
         }
     }, [location]);
 

@@ -5,6 +5,8 @@ import profileService from './profileService';
 const initialState = {
     profile: null,
     follows: [],
+    search: [],
+    isSearchLoading: false,
     isFollowLoading: false,
     isLoading: false,
     isUpdating: false,
@@ -18,6 +20,7 @@ const initialState = {
 export const getProfile = createAsyncThunk(
     'profile/getProfile',
     async (data, thunkAPI) => {
+        console.log(data)
         try {
             return await profileService.getProfile(data);
         } catch (error) {
@@ -76,6 +79,25 @@ export const followToggleProfile = createAsyncThunk(
 // Get many profiles
 export const getProfiles = createAsyncThunk(
     'profile/getProfiles',
+    async (uId, thunkAPI) => {
+        try {
+            return await profileService.getProfiles(uId);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Get search profiles
+export const searchProfiles = createAsyncThunk(
+    'profile/searchProfiles',
     async (uId, thunkAPI) => {
         try {
             return await profileService.getProfiles(uId);
@@ -174,6 +196,19 @@ const profileSlice = createSlice({
         });
         builder.addCase(getProfiles.rejected, (state, action) => {
             state.isFollowLoading = false;
+            state.msg = action.payload;
+        });
+
+        // Search
+        builder.addCase(searchProfiles.pending, (state, action) => {
+            state.isSearchLoading = true;
+        });
+        builder.addCase(searchProfiles.fulfilled, (state, action) => {
+            state.isSearchLoading = false;
+            state.search = action.payload;
+        });
+        builder.addCase(searchProfiles.rejected, (state, action) => {
+            state.isSearchLoading = false;
             state.msg = action.payload;
         });
     }

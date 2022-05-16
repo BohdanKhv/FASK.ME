@@ -39,8 +39,8 @@ const followToggleProfile = async (id, token) => {
 
 
 // get many profiles
-const getProfiles = async (uId) => {
-    const res = await axios.get(`${API_URL}getMany?uId=${uId}`);
+const getProfiles = async (q) => {
+    const res = await axios.get(`${API_URL}getMany?${q}`);
 
     return res.data;
 }

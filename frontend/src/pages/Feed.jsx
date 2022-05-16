@@ -33,14 +33,17 @@ const Feed = () => {
     ];
 
     useEffect(() => {
+        let promise = null;
+
         if(!location) {
-            dispatch(getFollowersQuestions())
+            promise = dispatch(getFollowersQuestions());
         } else if(location === 'sent') {
-            dispatch(getSentQuestions())
+            promise = dispatch(getSentQuestions());
         }
 
         return () => {
-            dispatch(reset())
+            promise && promise.abort();
+            dispatch(reset());
         }
     }, [location])
 

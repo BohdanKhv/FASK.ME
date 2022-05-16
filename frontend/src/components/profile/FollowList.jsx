@@ -14,14 +14,14 @@ const Following = ({label}) => {
     const loadMore = () => {
         if(label === 'Following') {
             if(offset < profile.following.length) {
-                const data = `${profile.following.slice(offset, offset + 10).map(item => item).join(',')}`;
+                const data = `uId=${profile.following.slice(offset, offset + 10).map(item => item).join(',')}`;
                 dispatch(getProfiles(data)).then(() => {
                     setOffset(offset + 10);
                 });
             }
         } else if (label === 'Followers') {
             if(offset < profile.followers.length) {
-                const data = `${profile.followers.slice(offset, offset + 10).map(item => item).join(',')}`;
+                const data = `uId=${profile.followers.slice(offset, offset + 10).map(item => item).join(',')}`;
                 dispatch(getProfiles(data)).then(() => {
                     setOffset(offset + 10);
                 });

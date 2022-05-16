@@ -117,15 +117,24 @@ const followToggleProfile = async (req, res) => {
 
 
 // @desc   Get many profiles
-// @route  POST /api/profiles/showMany?uId=uId
+// @route  POST /api/profiles/showMany?uId=uId&username=username
 // @access Private
 const getProfiles = async (req, res) => {
     try {
-        const { uId } = req.query;
+        const { uId, username } = req.query;
 
         const profiles = await Profile.find({
-            user: { $in: uId.split(',') }
-        }).select('-followers -following -cover -createAt -updatedAt -links');
+            $or: [
+                {
+                    user: { $in: uId?.split(',') }
+                },
+                {
+                    'username': {'$regex': `^${username}`, '$options': 'i'}
+                }
+            ]
+        })
+        .select('-followers -following -cover -createAt -updatedAt -links')
+        .limit(10);
 
         if (!profiles) {
             return res.status(404).json({

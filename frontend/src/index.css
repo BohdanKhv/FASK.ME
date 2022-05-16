@@ -532,7 +532,7 @@ svg {
   justify-content: center;
   align-items: center;
   line-height: 0rem;
-  background-color: var(--color-info);
+  background-color: var(--color-secondary);
   border: 2px solid var(--color-main);
   color: var(--text-dark);
   box-shadow: var(--box-shadow);

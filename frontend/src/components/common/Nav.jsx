@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { burgerIcon, doorClosedIcon, homeIcon, searchIcon, sentIcon, userIcon } from '../../constance/icons';
-import { logout } from '../../features/auth/authSlice';
+import { burgerIcon, homeIcon, userIcon } from '../../constance/icons';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
-import { Input, Sidenav, Slime } from '../';
+import { Sidenav, Slime, SearchField } from '../';
 import './styles/Nav.css';
 
 
@@ -25,18 +24,7 @@ const Nav = () => {
                         {logoNameSvg}
                     </div>
                 </div>
-                <Input
-                    type="text"
-                    name="search"
-                    placeholder="Search"
-                    label="Search"
-                    // value={''}
-                    icon={searchIcon}
-                    bodyStyle={{
-                        width: '600px',
-                        margin: '0 1.5rem',
-                    }}
-                />
+                <SearchField/>
                 <div className="nav-right">
                     <ul className="nav-links">
                         <li>
@@ -59,18 +47,7 @@ const Nav = () => {
                             {logoSvg}
                         </div>
                     </div>
-                    <Input
-                        type="text"
-                        name="search"
-                        placeholder="Search"
-                        label="Search"
-                        // value={''}
-                        icon={searchIcon}
-                        bodyStyle={{
-                            width: '600px',
-                            margin: '0 1.5rem',
-                        }}
-                    />
+                    <SearchField/>
                     <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>
                         {burgerIcon}
                     </div>
