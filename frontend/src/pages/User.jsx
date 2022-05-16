@@ -9,9 +9,13 @@ const User = () => {
     const dispatch = useDispatch();
     const username = useParams().username;
     const { profile } = useSelector((state) => state.profile);
+    const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        dispatch(getProfile(username));
+        dispatch(getProfile({
+            username: username,
+            uId: user ? user._id : null,
+        }));
 
         return () => {
             dispatch(reset());

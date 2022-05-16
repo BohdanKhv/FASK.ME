@@ -19,7 +19,7 @@ const FollowToggle = () => {
         <AuthGate>
             {user && (
                 <div 
-                    className="btn btn-sm btn-primary spinner"
+                    className="btn btn-xs btn-primary spinner"
                     onClick={!isFollowLoading ? handleFollow : null}
                 >
                     {isFollowLoading ? (

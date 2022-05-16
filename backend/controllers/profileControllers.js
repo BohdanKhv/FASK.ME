@@ -3,7 +3,7 @@ const Question = require('../models/questionModel');
 
 
 // @desc   Get profile
-// @route  GET /api/profiles/:username
+// @route  GET /api/profiles/:username?uId=uId
 // @access Public
 const getProfile = async (req, res) => {
     try {
@@ -18,10 +18,26 @@ const getProfile = async (req, res) => {
             });
         }
 
-        res.status(200).json(profile);
+        const data = {
+            ...profile._doc,
+            canAsk: false
+        }
+
+        if(req.query.uId) {
+            const question = await Question.findOne({
+                sender: req.query.uId,
+                receiver: profile.user,
+                type: 'ask',
+                isAnswered: false,
+            });
+
+            data.canAsk = !question;
+        }
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 

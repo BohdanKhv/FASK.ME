@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuestion } from '../../features/question/questionSlice';
 import { Textarea, Switch, AuthGate, Modal, Tooltip } from '../';
-import { anonymousIcon, questionIcon } from '../../constance/icons';
+import { anonymousIcon, infoIcon, questionIcon } from '../../constance/icons';
 
 
 const Ask = () => {
@@ -105,6 +105,16 @@ const Ask = () => {
                             />
                         </div>
                     </Modal>
+                    {!profile.canAsk && (
+                        <Tooltip
+                            classList={'mr-1'}
+                            content={`You've already sent a question. You have to wait until ${profile.username} responds, or delete an existing question.`}
+                        >
+                            <div className="btn-icon">
+                                {infoIcon}
+                            </div>
+                        </Tooltip>
+                    )}
                     <Tooltip
                         content={`You can ask a question only once, until ${profile.username} answers it.`}
                     >

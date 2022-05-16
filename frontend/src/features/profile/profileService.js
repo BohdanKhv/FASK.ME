@@ -5,8 +5,8 @@ const API_URL = '/api/profiles/';
 
 
 // Get profile
-const getProfile = async (username) => {
-    const res = await axios.get(API_URL + username);
+const getProfile = async (data, token) => {
+    const res = await axios.get(`${API_URL}${data.username}${data.uId ? '?uId='+data.uId: ''}`);
 
     return res.data;
 }
