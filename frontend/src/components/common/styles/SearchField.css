@@ -19,3 +19,27 @@
     height: 330px;
     overflow-y: scroll;
 }
+
+
+.search-list-arrow {
+    width: 50px;
+    height: 15px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+}
+
+.search-list-arrow::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: var(--color-secondary);
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    border-bottom-right-radius: 3px;
+    top: 0;
+    left: 50%;
+    box-shadow: var(--box-shadow);
+}

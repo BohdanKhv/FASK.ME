@@ -42,7 +42,6 @@
     top: 0;
     left: 50%;
     box-shadow: var(--box-shadow);
-
 }
 
 .tooltip:hover .tooltip-text {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchProfiles } from '../../features/profile/profileSlice';
@@ -8,9 +8,25 @@ import './styles/SearchField.css';
 
 
 const SearchField = () => {
-    const dispatch = useDispatch();
+    const [isOpen, setIsOpen] = useState(false);
     const { search, isSearchLoading } = useSelector(state => state.profile);
     const [searchQuery, setSearchQuery] = useState('');
+    const searchListRef = useRef(null);
+    const dispatch = useDispatch();
+
+    const handleClickOutside = (event) => {
+        if (searchListRef.current && !searchListRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mouseup', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mouseup', handleClickOutside);
+        };
+    }, [searchListRef]);
 
     useEffect(() => {
         let promise = null;
@@ -37,8 +53,9 @@ const SearchField = () => {
                 bodyStyle={{
                     margin: '0 1.5rem',
                 }}
+                onClick={() => {setIsOpen(true)}}
             />
-            <div className={`search-results${searchQuery ? '' : ' d-none'}`}>
+            <div className={`search-results${searchQuery && isOpen ? '' : ' d-none'}`}>
                 <div className="flex align-between border-bottom p-1">
                     <h3 className="title-3">Search Results</h3>
                     <div 
@@ -48,7 +65,10 @@ const SearchField = () => {
                         Clear
                     </div>
                 </div>
-                <div className="search-list">
+                <div 
+                    className="search-list"
+                    ref={searchListRef}
+                >
                     {!isSearchLoading ? (
                         search.map((profile) => (
                         <div className="flex align-between align-center flex-align-center mx-2 mt-1" key={profile._id}>

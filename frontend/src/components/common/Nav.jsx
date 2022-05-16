@@ -23,6 +23,9 @@ const Nav = () => {
                     <div className="logo">
                         {logoNameSvg}
                     </div>
+                    <div className="logo-sm">
+                        {logoSvg}
+                    </div>
                 </div>
                 <SearchField/>
                 <div className="nav-right">
@@ -38,51 +41,43 @@ const Nav = () => {
                             </NavLink>
                         </li>
                     </ul>
-                </div>
-            </div>
-            <div className="nav-burger h-100">
-                <div className="flex align-between h-100 px-1">
-                    <div className="h-100 flex align-center">
-                        <div className="logo">
-                            {logoSvg}
+                    <div className="nav-burger">
+                        <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>
+                            {burgerIcon}
                         </div>
                     </div>
-                    <SearchField/>
-                    <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>
-                        {burgerIcon}
-                    </div>
                 </div>
-                <Sidenav
-                    isSidenavOpen={sidenav}
-                    setIsSidenavOpen={setSidenav}
-                    logo={logoNameSvg}
-                >
-                <ul className="nav-burger-links">
-                        <li>
-                            <NavLink 
-                                to={`/`}
-                                onClick={() => {setSidenav(false)}}
-                                className={`${inbox?.length > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
-                                    {homeIcon}
-                                <span className="ml-1">
-                                    Home
-                                </span>
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink 
-                                to={`/${user.username}`}
-                                onClick={() => {setSidenav(false)}}
-                            >
-                                {userIcon}
-                                <span className="ml-1">
-                                    {user.username}
-                                </span>
-                            </NavLink>
-                        </li>
-                    </ul>
-                </Sidenav>
             </div>
+            <Sidenav
+                isSidenavOpen={sidenav}
+                setIsSidenavOpen={setSidenav}
+                logo={logoNameSvg}
+            >
+            <ul className="nav-burger-links">
+                    <li>
+                        <NavLink 
+                            to={`/`}
+                            onClick={() => {setSidenav(false)}}
+                            className={`${inbox?.length > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
+                                {homeIcon}
+                            <span className="ml-1">
+                                Home
+                            </span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to={`/${user.username}`}
+                            onClick={() => {setSidenav(false)}}
+                        >
+                            {userIcon}
+                            <span className="ml-1">
+                                {user.username}
+                            </span>
+                        </NavLink>
+                    </li>
+                </ul>
+            </Sidenav>
         </nav>
         ) : 
         location === 'login' || 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './styles/Input.css';
 
-const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, inputStyle, labelStyle, minLength, maxLength, isDisabled}) => {
+const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, inputStyle, labelStyle, minLength, maxLength, isDisabled, onClick}) => {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef(null);
 
@@ -25,6 +25,7 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
             onClick={() => {
                 setIsFocused(true);
                 inputRef.current.focus();
+                onClick && onClick();
             }}
             style={bodyStyle}
         >

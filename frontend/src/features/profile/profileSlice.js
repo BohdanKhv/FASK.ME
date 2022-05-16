@@ -20,7 +20,6 @@ const initialState = {
 export const getProfile = createAsyncThunk(
     'profile/getProfile',
     async (data, thunkAPI) => {
-        console.log(data)
         try {
             return await profileService.getProfile(data);
         } catch (error) {

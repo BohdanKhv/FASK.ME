@@ -17,6 +17,7 @@
     z-index: 10;
 }
 
+.main-nav .logo-sm svg,
 .main-nav .logo svg {
     height: 50px;
     width: auto;
@@ -120,16 +121,19 @@ nav li a:active {
     min-width: 160px;
 }
 
-.nav-burger {
+.logo-sm,
+.nav-wrapper .nav-burger {
     display: none;
 }
 
 @media (max-width: 768px) {
-    nav .nav-wrapper {
+    .logo,
+    .nav-wrapper .nav-links {
         display: none;
     }
 
-    nav .nav-burger {
+    .logo-sm,
+    .nav-wrapper .nav-burger {
         display: block;
     }
 
