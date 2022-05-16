@@ -53,7 +53,7 @@ const Following = ({label}) => {
                     {follows.map((follow) => (
                         <div className="flex align-between align-center mb-1 flex-align-center" key={follow._id}>
                             <div className="flex flex-align-center">
-                                <div>
+                                <Link to={`/${follow.username}`}>
                                     {follow.avatar ? (
                                         <Image
                                             image={follow.avatar}
@@ -61,20 +61,20 @@ const Following = ({label}) => {
                                             classList="profile-image-md"
                                         /> 
                                     ) : (
-                                        <div className="profile-image-placeholde">
+                                        <div className="profile-image-placeholder profile-image-placeholder-md">
                                             {follow.username[0].toUpperCase()}
                                         </div>
                                     )}
-                                </div>
+                                </Link>
                                 <div>
                                     <Link 
                                         to={`/${follow.username}`}
-                                        className="title-4 text-hover p-0 px-1"
+                                        className="title-4 text-hover"
                                     >
-                                        {follow.username}
+                                        @{follow.username}
                                     </Link>
                                     {follow.fullName && (
-                                        <p className="text-secondary">
+                                        <p className="text-secondary mx-3">
                                             {follow.fullName}
                                         </p>
                                     )}

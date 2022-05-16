@@ -108,7 +108,7 @@ const Register = () => {
                             >
                                 Sign up
                             </button>
-                            {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
+                            {isError && <div className="text-danger mt-1 bg-err">{msg}</div>}
                         </form>
                         <p className="mt-1 text-end">
                             Already have an account? <NavLink className="text-hover" to="/login">Log in</NavLink>

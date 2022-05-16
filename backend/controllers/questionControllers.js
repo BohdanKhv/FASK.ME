@@ -3,6 +3,24 @@ const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 
 
+const filterAnonymouslyAskedQuestions = async (questions) => {
+    const data = []
+
+    questions.map(q => {
+        if(q.isAnonymous) {
+            data.push({
+                ...q._doc,
+                sender: "Anonymous",
+            })
+        } else {
+            data.push(q._doc);
+        }
+    });
+
+    return data;
+}
+
+
 // @desc   Get received questions
 // @route  GET /api/questions/received
 // @access Private
@@ -28,10 +46,12 @@ const getReceivedQuestions = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-        res.status(200).json(questions);
+        const data = await filterAnonymouslyAskedQuestions(questions);
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -61,10 +81,12 @@ const getSentQuestions = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-        res.status(200).json(questions);
+        const data = await filterAnonymouslyAskedQuestions(questions);
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -191,10 +213,12 @@ const getProfileAnsweredQuestions = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-        res.status(200).json(questions);
+        const data = await filterAnonymouslyAskedQuestions(questions);
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -234,10 +258,12 @@ const getProfileAskedQuestions = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-        res.status(200).json(questions);
+        const data = await filterAnonymouslyAskedQuestions(questions);
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -266,10 +292,12 @@ const getUserPrivateQuestions = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-        res.status(200).json(questions);
+        const data = await filterAnonymouslyAskedQuestions(questions);
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -318,10 +346,12 @@ const getFollowersQuestions = async (req, res) => {
         })
         .sort({ createdAt: -1 });
 
-        res.status(200).json(questions);
+        const data = await filterAnonymouslyAskedQuestions(questions);
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 
@@ -356,6 +386,7 @@ const createQuestion = async (req, res) => {
                 receiver: receiver,
                 type: 'ask',
                 question: req.body.question,
+                isAnonymous: req.body.isAnonymous,
                 isAnswered: false,
             });
 
@@ -448,10 +479,12 @@ const updateQuestion = async (req, res) => {
             }
         });
 
-        res.status(200).json(updatedQuestion);
+        const data = await filterAnonymouslyAskedQuestions([updatedQuestion]);
+
+        return res.status(200).json(data[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 }
 

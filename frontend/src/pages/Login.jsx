@@ -90,7 +90,7 @@ const Login = () => {
                             >
                                 Log in
                             </button>
-                            {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
+                            {isError && <div className="text-danger mt-1 bg-err">{msg}</div>}
                         </form>
                         <p className="mt-1 text-end">
                             Don't have an account? <NavLink className="text-hover" to="/register">Create One</NavLink>

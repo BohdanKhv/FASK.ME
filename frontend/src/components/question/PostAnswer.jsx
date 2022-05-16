@@ -12,7 +12,7 @@ const PostAnswer = ({question}) => {
 
     const onSubmit = () => {
         dispatch(updateQuestion({
-            ...question,
+            _id: question._id,
             answer,
             isAnswered: true,
         }));
@@ -25,7 +25,7 @@ const PostAnswer = ({question}) => {
                 name="answer"
                 value={answer}
                 bodyStyle={{
-                    borderColor: "var(--color-secondary)",
+                    backgroundColor: "var(--color-main)",
                 }}
                 onChange={(e) => setAnswer(e.target.value)}
                 rows={4}
@@ -38,7 +38,7 @@ const PostAnswer = ({question}) => {
             />
             <div className="flex flex-end">
             <div
-                className="btn btn-primary spinner btn-sm"
+                className="btn btn-primary spinner btn-sm mt-3"
                 onClick={isCreateLoading ? null : onSubmit}
             >
                 {isCreateLoading ? arrowRepeatIcon: "Answer"}

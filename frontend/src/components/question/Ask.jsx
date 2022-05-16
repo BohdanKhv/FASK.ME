@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuestion } from '../../features/question/questionSlice';
 import { Textarea, Switch, AuthGate, Modal, Tooltip } from '../';
-import { anonymousIcon, infoIcon, questionIcon } from '../../constance/icons';
+import { infoIcon, questionIcon } from '../../constance/icons';
 
 
 const Ask = () => {
@@ -12,7 +12,7 @@ const Ask = () => {
     const dispatch = useDispatch();
     const [question, setQuestion] = useState({
         question: '',
-        anonymous: false,
+        isAnonymous: false,
     });
     const [err, setErr] = useState(false);
 
@@ -22,14 +22,14 @@ const Ask = () => {
             const data = {
                 question: question.question,
                 receiver: profile.user._id,
-                isAnonymous: question.anonymous,
+                isAnonymous: question.isAnonymous,
                 type: 'ask',
             }
 
             dispatch(createQuestion(data));
             setQuestion({
                 question: '',
-                anonymous: false,
+                isAnonymous: false,
             });
         } else {
             setErr(true);
@@ -38,10 +38,10 @@ const Ask = () => {
 
 
     useEffect(() => {
-        if(question.question.length > 0 || question.anonymous) {
+        if(question.question.length > 0 || question.isAnonymous) {
             setQuestion({
                 question: '',
-                anonymous: false,
+                isAnonymous: false,
             });
         }
     }, [isOpen])
@@ -95,11 +95,10 @@ const Ask = () => {
                         <div className="flex align-between mx-1 border-top pt-1">
                             <p className="title-4">Ask anonymously</p>
                             <Switch
-                                value={true}
                                 onChange={() => {
                                     setQuestion({
                                         ...question,
-                                        anonymous: !question.anonymous,
+                                        isAnonymous: !question.isAnonymous,
                                     });
                                 }}
                             />

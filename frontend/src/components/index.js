@@ -35,6 +35,7 @@ import PostAnswer from "./question/PostAnswer";
 import TakePrivate from "./question/TakePrivate";
 import DeleteQuestion from "./question/DeleteQuestion";
 import ClickCount from "./question/ClickCount";
+import UserInfo from "./question/UserInfo";
 
 
 export {
@@ -74,5 +75,6 @@ export {
     PostAnswer,
     TakePrivate,
     DeleteQuestion,
-    ClickCount
+    ClickCount,
+    UserInfo,
 }

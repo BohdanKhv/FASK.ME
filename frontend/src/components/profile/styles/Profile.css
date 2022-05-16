@@ -5,7 +5,7 @@
 .profile-cover {
     position: relative;
     height: 275px;
-    background-color: var(--color-tertiary);
+    background-color: var(--color-info);
 }
 
 .profile-cover .profile-cover-image {
@@ -32,26 +32,15 @@
     border-radius: 50%;
 }
 
-.profile-image .profile-avatar,
-.profile-image-placeholder {
+.profile-image .profile-avatar {
     border: 2px solid var(--color-main);
     height: 130px;
     width: 130px;
     border-radius: 50%;
     background-color: var(--color-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     color: var(--text-dark);
-    box-shadow: var(--box-shadow);
-    text-shadow: 1px 1px 2px var(--text-dark);
     object-fit: cover;
     object-position: center;
-}
-
-.profile-image-placeholder {
-    font-size: 80px;
 }
 
 .profile-actions {

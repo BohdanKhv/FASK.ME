@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 
-const Image = ({ image, alt, classList }) => {
+const Image = ({ image, alt, classList, onClick }) => {
     const [isImageLoaded, setIsImageLoaded] = useState(false)
     const imageRef = useRef(null)
 
@@ -21,13 +21,16 @@ const Image = ({ image, alt, classList }) => {
     }, [])
 
     return (
+        <>
         <img
             className={`${classList}${isImageLoaded ? '' : ' opacity-0'}`}
             src={image}
             alt={alt}
             ref={imageRef}
+            onClick={onClick}
             decoding="async"
         />
+        </>
     )
 }
 

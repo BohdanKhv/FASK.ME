@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { downArrow, answareIcon, questionIcon } from '../../constance/icons';
-import { TakePrivate, DeleteQuestion, ClickCount } from '../';
+import { TakePrivate, DeleteQuestion, ClickCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, Image } from '../';
 
@@ -17,37 +17,20 @@ const QuestionCard = ({question, isOpen}) => {
             <div 
                 className="question-card-header"
             >
-                {question.sender.profile && (
-                    <div className="sender flex space-between">
-                        <div className="user-info-sender flex flex-align-center">
-                            <Image
-                                image={question.sender.profile.avatar}
-                                alt="Avatar"
-                                classList="profile-image-sm"
-                            />
-                            <div>
-                                <Link to={`/${question.sender.profile.username}`} className="user-info-name text-hover">
-                                    {question.sender.profile.username}
-                                </Link>
-                                <div className="status text-xs text-secondary">
-                                    { question.type === 'faq' ? (
-                                        'FAQ'
-                                    ) : (
-                                        'Asked'
-                                    )}
-                                </div>
-                            </div>
+                <div className="sender flex space-between">
+                    <UserInfo 
+                        profile={question.isAnonymous ? 'Anonymous' : question.sender.profile}
+                        secondary={question.type === 'faq' ? 'FAQ' : 'Asked' }
+                    />
+                    <div className="created-at">
+                        <div className="date">
+                            {new Date(question.createdAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </div>
-                        <div className="created-at">
-                            <div className="date">
-                                {new Date(question.createdAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                            </div>
-                            <div className="time">
-                                {new Date(question.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' })}
-                            </div>
+                        <div className="time">
+                            {new Date(question.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' })}
                         </div>
                     </div>
-                )}
+                </div>
                 <div
                     className="flex space-between open-question content"
                     onClick={() => setShowAnswer(!showAnswer)}
@@ -98,31 +81,10 @@ const QuestionCard = ({question, isOpen}) => {
                 <div className="receiver flex space-between">
                     <div className="user-info flex flex-align-center">
                         {question.type !== 'faq' && question.receiver ? (
-                        <>
-                            { question.receiver.profile.avatar ? (
-                                <Image
-                                    image={ question.receiver.profile.avatar }
-                                    alt="Avatar"
-                                    classList="profile-image-sm"
-                                />
-                            ) : (
-                                <div className="profile-image-placeholder">
-                                    {question.receiver.profile.username[0].toUpperCase()}
-                                </div>
-                            ) }
-                            <div>
-                                <Link to={`/${question.receiver.profile.username}`} className="user-info-name text-hover">
-                                    {question.receiver.profile.username}
-                                </Link>
-                                <div className="status text-xs text-secondary">
-                                    {!question.isAnswered ? (
-                                        'Pending'
-                                    ) : (
-                                        'Answered'
-                                    )}
-                                </div>
-                            </div>
-                        </>
+                            <UserInfo 
+                                profile={question.receiver.profile}
+                                secondary={!question.isAnswered ? 'Pending' : 'Answered'}
+                            />
                         ) : question.type === 'faq' && (
                             <ClickCount
                                 question={question}

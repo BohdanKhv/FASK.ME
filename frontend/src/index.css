@@ -415,6 +415,19 @@ input:active label {
   transition: var(--transition-duration);
 }
 
+.bg-err {
+  color: var(--color-danger);
+  background: var(--color-secondary);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--color-danger);
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.bg-info {
+  background: var(--color-info);
+}
+
 .text-hover.text-hover-main {
   background-color: var(--color-main);
   border-radius: 0.5rem;
@@ -483,15 +496,6 @@ svg {
   height: 100%;
 }
 
-.profile-image-sm {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 0.25rem;
-  object-fit: cover;
-  object-position: center;
-}
-
 .profile-image-md {
   width: 45px;
   height: 45px;
@@ -499,6 +503,61 @@ svg {
   margin-right: 0.5rem;
   object-fit: cover;
   object-position: center;
+  border: 2px solid var(--color-main);
+  box-shadow: var(--box-shadow);
+  border: none;
+  box-shadow: none;
+}
+
+.profile-image-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0.25rem;
+  object-fit: cover;
+  object-position: center;
+  border: 2px solid var(--color-main);
+  box-shadow: var(--box-shadow);
+  border: none;
+  box-shadow: none;
+}
+
+.profile-image-placeholder {
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+  font-size: 7rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0rem;
+  background-color: var(--color-info);
+  border: 2px solid var(--color-main);
+  color: var(--text-dark);
+  box-shadow: var(--box-shadow);
+  text-shadow: 7px 4px 0px #13141570;
+  text-transform: uppercase;
+}
+
+.profile-image-placeholder.profile-image-placeholder-md {
+  width: 45px;
+  height: 45px;
+  font-size: 2.25rem;
+  margin-right: 0.5rem;
+  border: none;
+  box-shadow: none;
+  text-shadow: 2px 2px 0px #13141570;
+}
+
+.profile-image-placeholder.profile-image-placeholder-sm {
+  width: 30px;
+  height: 30px;
+  font-size: 1.35rem;
+  margin-right: 0.25rem;
+  border: none;
+  box-shadow: none;
+  text-shadow: 1.5px 1.5px 0px #13141570
 }
 
 @keyframes spin {

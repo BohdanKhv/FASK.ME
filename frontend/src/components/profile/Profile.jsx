@@ -27,17 +27,17 @@ const Profile = () => {
                 {profile && (
                     <div className="profile-info">
                         <div className="profile-image flex align-center">
-                            { profile.avatar ? (
-                                <DisplayImage
-                                    image={ profile.avatar }
-                                    alt="Avatar"
-                                    classList="profile-avatar"
-                                />
-                            ) : (
-                                <div className="profile-image-placeholder">
-                                    {profile.username[0].toUpperCase()}
-                                </div>
-                            ) }
+                            <div className="profile-image-placeholder">
+                                { profile.avatar ? (
+                                    <DisplayImage
+                                        image={ profile.avatar }
+                                        alt="Avatar"
+                                        classList="profile-avatar"
+                                    />
+                                ) : (
+                                    profile.username[0].toUpperCase()
+                                ) }
+                            </div>
                             <div className="action-left">
                             </div>
                             <div className="action-right">
