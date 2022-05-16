@@ -4,13 +4,12 @@ import Sidenav from "./common/Sidenav";
 import SearchField from "./common/SearchField";
 import Input from "./common/Input";
 import Textarea from "./common/Textarea";
-import Checkmark from "./common/Checkmark";
+import Switch from "./common/Switch";
 import DisplayImage from "./common/DisplayImage";
 import Image from "./common/Image";
 import UploadImage from "./common/UploadImage";
 import Navbar from "./common/Navbar";
 import Tooltip from "./common/Tooltip";
-import Alert from "./common/Alert";
 import NotFound from "./common/NotFound";
 import Slime from "./common/Slime";
 
@@ -45,13 +44,12 @@ export {
     SearchField,
     Input,
     Textarea,
-    Checkmark,
+    Switch,
     DisplayImage,
     Image,
     UploadImage,
     Navbar,
     Tooltip,
-    Alert,
     NotFound,
     Slime,
 

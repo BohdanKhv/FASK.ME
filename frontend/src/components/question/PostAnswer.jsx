@@ -14,10 +14,7 @@ const PostAnswer = ({question}) => {
         dispatch(updateQuestion({
             ...question,
             answer,
-            metaData: {
-                ...question.metaData,
-                isAnswered: true,
-            }
+            isAnswered: true,
         }));
     }
     // well fuck you then
@@ -41,7 +38,7 @@ const PostAnswer = ({question}) => {
             />
             <div className="flex flex-end">
             <div
-                className="btn btn-primary spinner"
+                className="btn btn-primary spinner btn-sm"
                 onClick={isCreateLoading ? null : onSubmit}
             >
                 {isCreateLoading ? arrowRepeatIcon: "Answer"}

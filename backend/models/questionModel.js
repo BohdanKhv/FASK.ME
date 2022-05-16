@@ -24,26 +24,24 @@ const questionModelSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    metaData: {
-        isAnswered: {
-            type: Boolean,
-            default: false,
-            required: false
-        },
-        isArchived: {
-            type: Boolean,
-            default: false,
-            required: false
-        },
-        isPrivate: {
-            type: Boolean,
-            default: false,
-        },
-        isAnonymous: {
-            type: Boolean,
-            default: false,
-            required: false
-        },
+    isAnswered: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    isArchived: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    isPrivate: {
+        type: Boolean,
+        default: false,
+    },
+    isAnonymous: {
+        type: Boolean,
+        default: false,
+        required: false
     },
     readBy: [{
         user: {

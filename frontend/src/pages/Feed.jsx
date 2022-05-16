@@ -77,7 +77,7 @@ const Feed = () => {
                 ) : (
                     !isLoading && inbox.length === 0 ? (
                         <p className="title-3 text-center">
-                            You have no questions in your inbox.
+                            Your inbox is empty.
                         </p>
                     ) : (
                         inbox.map((question) => (

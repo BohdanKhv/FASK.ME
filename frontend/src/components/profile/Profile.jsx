@@ -76,13 +76,13 @@ const Profile = () => {
                                     {profile.bio}
                                 </div>
                             )}
-                            <IsUserGate>
-                                <div className="profile-actions flex align-center">
+                            <div className="profile-actions flex align-center">
+                                <IsUserGate>
                                     <EditProfile/>
                                     <CreateFAQ/>
-                                </div>
-                            </IsUserGate>
-                            <Ask/>
+                                </IsUserGate>
+                                <Ask/>
+                            </div>
                         </div>
                     </div>
                 )}

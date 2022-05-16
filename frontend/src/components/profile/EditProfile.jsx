@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal, Input, Textarea, UploadImage, Alert } from '../';
+import { Modal, Input, Textarea, UploadImage } from '../';
 import { storage } from '../../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile, updateProfileImage, updateProfileImageFinished } from '../../features/profile/profileSlice';
@@ -8,7 +8,6 @@ import './styles/EditProfile.css';
 
 const EditProfile = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [err, setErr] = useState(null);
     const dispatch = useDispatch();
     const { profile, isUpdating, isError, msg } = useSelector((state) => state.profile);
 
@@ -101,7 +100,6 @@ const EditProfile = () => {
             setCoverProfile('');
             setAvatar(null);
             setCover(null);
-            setErr(null);
             setAvatarProgress(0);
             setCoverProgress(0);
         }
@@ -119,14 +117,8 @@ const EditProfile = () => {
                 isLoading={isUpdating || avatarProgress > 0 || coverProgress > 0}
                 onSubmitDanger={() => { setIsOpen(false) }}
                 isError={isError}
+                errMsg={msg}
             >
-                <Alert
-                    status={'danger'}
-                    message={err}
-                    bodyStyle={{
-                        maxHeight: '20px',
-                    }}
-                />
                 <div className="flex align-between">
                     <div>
                         <div className="edit-avatar">
@@ -201,12 +193,10 @@ const EditProfile = () => {
                         />
                     </div>
                 </div>
-                {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
             </Modal>
             <div 
                 className="btn btn-sm"
                 onClick={() => {
-                    setErr(null);
                     setIsOpen(true);
                 }}
             >

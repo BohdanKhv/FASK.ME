@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { lockIcon, arrowRepeatIcon } from '../../constance/icons';
+import { lockIcon, arrowRepeatIcon, unlockIcon } from '../../constance/icons';
 import { ReceiverGate, Tooltip } from '../';
 import { updateQuestion } from '../../features/question/questionSlice';
 
@@ -8,12 +8,12 @@ const TakePrivate = ({question}) => {
     const { isCreateLoading } = useSelector((state) => state.question);
 
     return (
-        question.metaData.isAnswered && (
+        question.isAnswered && (
             <ReceiverGate
                 receiver={question.receiver ? question.receiver : null}
             >
                 <Tooltip
-                    content="Mark as Private"
+                    content={question.isPrivate ? 'Unlock' : 'Lock'}
                     classList="ml-1"
                 >
                     {isCreateLoading ? (
@@ -29,14 +29,11 @@ const TakePrivate = ({question}) => {
                                 dispatch(
                                     updateQuestion({
                                     _id: question._id,
-                                    metaData: {
-                                        ...question.metaData,
-                                        isPrivate: true
-                                    }
+                                    isPrivate: !question.isPrivate,
                                 }))
                             }
                         >
-                            {lockIcon}
+                            {question.isPrivate ? unlockIcon : lockIcon}
                         </div>
                     )}
                 </Tooltip>

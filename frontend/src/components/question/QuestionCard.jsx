@@ -115,7 +115,7 @@ const QuestionCard = ({question, isOpen}) => {
                                     {question.receiver.profile.username}
                                 </Link>
                                 <div className="status text-xs text-secondary">
-                                    {!question.metaData.isAnswered ? (
+                                    {!question.isAnswered ? (
                                         'Pending'
                                     ) : (
                                         'Answered'

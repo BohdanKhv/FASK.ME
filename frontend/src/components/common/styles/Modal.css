@@ -78,6 +78,18 @@
     margin: 0;
 }
 
+.modal-error {
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+    margin: 1rem 1rem 0 1rem;
+    animation-duration: var(--transition-duration);
+    animation-name: opacity;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .modal-overlay .modal-wrapper .modal-body {
         text-align: initial;

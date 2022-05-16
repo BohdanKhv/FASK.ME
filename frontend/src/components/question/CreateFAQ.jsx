@@ -74,6 +74,7 @@ const CreateFAQ = () => {
                 }}
                 isLoading={isCreateLoading}
                 isError={isError}
+                errMsg={msg}
             >
                 <div className="edit-profile-form">
                     <div className="form-group">
@@ -133,7 +134,6 @@ const CreateFAQ = () => {
                         />
                     </div>
                 </div>
-                {isError && <div className="text-danger px-1 pt-1">{msg}</div>}
             </Modal>
             <div 
                 className="btn btn-primary ml-1 btn-sm"

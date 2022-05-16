@@ -11,8 +11,8 @@ const getReceivedQuestions = async (req, res) => {
         const questions = await Question
         .find({
             receiver: req.user._id,
-            'metaData.isArchived': false,
-            'metaData.isAnswered': false,
+            isArchived: false,
+            isAnswered: false,
         })
         .populate({
             path: 'sender',
@@ -45,7 +45,7 @@ const getSentQuestions = async (req, res) => {
         .find({
             sender: req.user._id,
             type: 'ask',
-            'metaData.isArchived': false
+            isArchived: false
         })
         .populate({
             path: 'sender',
@@ -88,24 +88,24 @@ const getProfileQuestionCount = async (req, res) => {
         const faq = await Question.countDocuments({
             sender: user._id,
             type: 'faq',
-            'metaData.isArchived': false,
+            isArchived: false,
         });
         
         const answered = await Question.countDocuments({
             receiver: user._id,
             type: 'ask',
-            'metaData.isAnswered': true,
-            'metaData.isArchived': false,
-            'metaData.isPrivate': false,
+            isAnswered: true,
+            isArchived: false,
+            isPrivate: false,
         });
 
         const asked = await Question.countDocuments({
             sender: user._id,
             type: 'ask',
-            'metaData.isArchived': false,
-            'metaData.isAnswered': true,
-            'metaData.isPrivate': false,
-            'metaData.isAnonymous': false,
+            isArchived: false,
+            isAnswered: true,
+            isPrivate: false,
+            isAnonymous: false,
         });
 
         const count = {
@@ -173,9 +173,9 @@ const getProfileAnsweredQuestions = async (req, res) => {
         .find({
             receiver: user._id,
             type: 'ask',
-            'metaData.isAnswered': true,
-            'metaData.isArchived': false,
-            'metaData.isPrivate': false
+            isAnswered: true,
+            isArchived: false,
+            isPrivate: false
         })
         .populate({
             path: 'sender',
@@ -216,9 +216,9 @@ const getProfileAskedQuestions = async (req, res) => {
         .find({
             sender: user._id,
             type: 'ask',
-            'metaData.isArchived': false,
-            'metaData.isAnswered': true,
-            'metaData.isAnonymous': false
+            isArchived: false,
+            isAnswered: true,
+            isAnonymous: false
         })
         .populate({
             path: 'sender',
@@ -249,8 +249,8 @@ const getUserPrivateQuestions = async (req, res) => {
     try {
         const questions = await Question.find({
             receiver: req.user._id,
-            'metaData.isPrivate': true,
-            'metaData.isArchived': false
+            isPrivate: true,
+            isArchived: false
         })
         .populate({
             path: 'sender',
@@ -300,9 +300,9 @@ const getFollowersQuestions = async (req, res) => {
                     }
                 }
             ],
-            'metaData.isArchived': false,
-            'metaData.isAnswered': true,
-            'metaData.isPrivate': false
+            isArchived: false,
+            isAnswered: true,
+            isPrivate: false
         })
         .populate({
             path: 'sender',
@@ -343,11 +343,11 @@ const createQuestion = async (req, res) => {
                 sender: req.user._id,
                 receiver: receiver._id,
                 type: 'ask',
-                'metaData.isAnswered': false,
+                isAnswered: false,
             });
 
             if (question) {
-                return res.status(400).json({ msg: `You've already asked this user. You have to wait until ${receiver.username} responds.` });
+                return res.status(400).json({ msg: `You've already sent a question. You have to wait until ${receiver.username} responds, or delete an existing question.` });
             }
 
             const newQuestion = await Question
@@ -356,7 +356,7 @@ const createQuestion = async (req, res) => {
                 receiver: receiver,
                 type: 'ask',
                 question: req.body.question,
-                'metaData.isAnswered': false,
+                isAnswered: false,
             });
 
             return res.status(201).json(newQuestion);
@@ -374,7 +374,7 @@ const createQuestion = async (req, res) => {
                 type: 'faq',
                 question: req.body.question,
                 answer: req.body.answer,
-                'metaData.isAnswered': true,
+                isAnswered: true,
             });
     
             return res.status(201).json(newQuestion);

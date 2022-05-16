@@ -42,4 +42,6 @@
     max-width: 100%;
     width: fit-content;
     transition: var(--transition-duration);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }

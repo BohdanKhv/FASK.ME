@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuestion } from '../../features/question/questionSlice';
-import { Input, AuthGate, Checkmark, Tooltip } from '../';
-import { arrowRepeatIcon, anonymousIcon } from '../../constance/icons';
-import { Alert } from '../';
+import { Textarea, Switch, AuthGate, Modal, Tooltip } from '../';
+import { anonymousIcon, questionIcon } from '../../constance/icons';
 
 
 const Ask = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const { profile } = useSelector(state => state.profile);
-    const { isSuccess, isCreateLoading, msg } = useSelector(state => state.question);
+    const { isSuccess, isCreateLoading, msg, isError } = useSelector(state => state.question);
     const dispatch = useDispatch();
     const [question, setQuestion] = useState({
         question: '',
@@ -16,20 +16,13 @@ const Ask = () => {
     });
     const [err, setErr] = useState(false);
 
-    const onChangeCheckmark = (value) => {
-        setQuestion({
-            ...question,
-            anonymous: value,
-        });
-    }
-
     const onSubmit = () => {
         if (question.question.length > 1) {
             setErr(false);
             const data = {
                 question: question.question,
                 receiver: profile.user._id,
-                anonymous: question.anonymous,
+                isAnonymous: question.anonymous,
                 type: 'ask',
             }
 
@@ -43,6 +36,16 @@ const Ask = () => {
         }
     }
 
+
+    useEffect(() => {
+        if(question.question.length > 0 || question.anonymous) {
+            setQuestion({
+                question: '',
+                anonymous: false,
+            });
+        }
+    }, [isOpen])
+
     return (
         <AuthGate>
             <div className="profile-settings flex align-center">
@@ -50,58 +53,66 @@ const Ask = () => {
                     <div className="success-msg">Your question has been sent</div>
                 ) : (
                 <>
-                    <Tooltip
-                        content="Ask a question anonymously"
+                    <Modal
+                        modalIsOpen={isOpen}
+                        setModalIsOpen={setIsOpen}
+                        contentLabel={`Ask ${profile.username}`}
+                        isLoading={isCreateLoading}
+                        onSubmit={onSubmit}
+                        isError={isError}
+                        errMsg={msg}
+                        actionBtnText="Ask"
+                        actionDangerBtnText="Cancel"
+                        onSubmitDanger={() => setIsOpen(false)}
                     >
-                        <Checkmark
-                            value={question.anonymous}
-                            icon={anonymousIcon}
-                            onChange={onChangeCheckmark}
-                        />
-                    </Tooltip>
-                    <div className="input-alert">
-                        <Alert
-                            status="danger"
-                            message={msg}
-                        />
-                        <Input 
-                            type="text"
+                        <div className="form-group">
+                        <Textarea
+                            label="Enter your question"
                             name="question"
-                            placeholder="Your question"
-                            label="Your question"
+                            icon={questionIcon}
+                            value={question.question}
                             bodyStyle={{
                                 borderColor: err ? 'var(--color-danger)' : '',
-                                margin: '0 1rem'
                             }}
                             inputStyle={{
-                                height: '33px',
-                                opacity: '1',
-                                padding: '0.5rem 0',
+                                maxHeight: '20vh',
                             }}
-                            labelStyle={{
-                                display: 'none',
-                            }}
-                            value={question.question}
                             onChange={(e) => {
                                 if(err) {
-                                    setErr(false);
+                                    setErr(true);
                                 }
                                 setQuestion({
                                     ...question,
                                     question: e.target.value,
                                 });
                             }}
+                            rows={3}
+                            cols={5}
+                            maxLength={500}
                             isDisabled={isCreateLoading}
                         />
-                    </div>
+                        </div>
+                        <div className="flex align-between mx-1 border-top pt-1">
+                            <p className="title-4">Ask anonymously</p>
+                            <Switch
+                                value={true}
+                                onChange={() => {
+                                    setQuestion({
+                                        ...question,
+                                        anonymous: !question.anonymous,
+                                    });
+                                }}
+                            />
+                        </div>
+                    </Modal>
                     <Tooltip
                         content={`You can ask a question only once, until ${profile.username} answers it.`}
                     >
                         <div 
-                            className="btn btn-primary"
-                            onClick={isCreateLoading ? null : onSubmit}
+                            className="btn btn-primary btn-sm"
+                            onClick={() => setIsOpen(true)}
                         >
-                            {isCreateLoading ? <div className="spinner">{arrowRepeatIcon}</div> : 'Ask'}
+                            Ask {profile.username}
                         </div>
                     </Tooltip>
                 </>

@@ -443,6 +443,10 @@ input:active label {
   border-bottom: 2px solid var(--color-secondary);
 }
 
+.border-top {
+  border-top: 2px solid var(--color-secondary);
+}
+
 a {
   text-decoration: none;
   color: var(--text-dark);
