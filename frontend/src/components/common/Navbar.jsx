@@ -8,19 +8,21 @@ const Navbar = ({ links }) => {
 
     return (
         <div className="navbar">
-            {links.map((link, index) => (
-                <Link
-                    key={`navbar-${link.name+index}`}
-                    to={`${link.path}`} 
-                    className={`navbar-item${location === link.path ? ' active' : ''}${link.notify ? ' notify' : ''}`}
-                >
-                    { link.icon }
-                    { link.name }
-                    { link.count !== null ? (
-                        <p className="text-secondary">{link.count}</p>
-                    ) : null}
-                </Link>
-            ))}
+            <div className="navbar-wrapper">
+                {links.map((link, index) => (
+                    <Link
+                        key={`navbar-${link.name+index}`}
+                        to={`${link.path}`} 
+                        className={`navbar-item${location === link.path ? ' active' : ''}${link.notify ? ' notify' : ''}`}
+                    >
+                        { link.icon }
+                        { link.name }
+                        { link.count !== null ? (
+                            <p className="text-secondary">{link.count}</p>
+                        ) : null}
+                    </Link>
+                ))}
+            </div>
         </div>
     )
 }

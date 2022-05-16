@@ -12,7 +12,7 @@ const ClickCount = ({question}) => {
                     <Tooltip
                         content={`Clicks`}
                     >
-                        <div className="text-hover text-hover-light">
+                        <div className="text-hover text-hover-main">
                             {question.readBy ? question.readBy.length : 0}
                         </div>
                         

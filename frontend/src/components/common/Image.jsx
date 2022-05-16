@@ -26,6 +26,7 @@ const Image = ({ image, alt, classList }) => {
             src={image}
             alt={alt}
             ref={imageRef}
+            decoding="async"
         />
     )
 }

@@ -60,19 +60,19 @@ const Profile = () => {
                             <div className="profile-username flex align-center text-center">
                                 @{profile.username}
                             </div>
-                            <div className="profile-fullname flex align-center text-center mt-3">
+                            <div className="profile-fullname flex align-center text-center mt-3 text-secondary">
                                 {profile.fullName}
                             </div>
                             <div className="flex align-center mt-3">
                                 <Following/>
                             </div>
                             {profile.bio && (
-                                <div className="profile-bio flex align-center text-center mt-3">
+                                <div className="profile-bio flex align-center text-center mt-1 text-secondary">
                                     {profile.bio}
                                 </div>
                             )}
                             <IsUserGate>
-                                <div className="profile-settings flex align-center">
+                                <div className="profile-actions flex align-center">
                                     <EditProfile/>
                                     <CreateFAQ/>
                                 </div>

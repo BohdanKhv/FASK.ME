@@ -52,12 +52,12 @@ const QuestionCard = ({question, isOpen}) => {
                         <div className="flex">
                             <div className="flex-grow">
                                 <p>
-                                    {question?.question}
+                                    Q | {question?.question}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div className="toggle-icon flex align-center">
+                    <div className="toggle-icon flex align-center ml-1">
                         {downArrow}
                     </div>
                 </div>
@@ -68,7 +68,7 @@ const QuestionCard = ({question, isOpen}) => {
                 <div className="flex content">
                     {question.answer ? (
                         <p>
-                            {question.answer}
+                            A | {question.answer}
                         </p>
                     ) : (
                         <>

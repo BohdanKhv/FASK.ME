@@ -285,6 +285,16 @@ input:active label {
   margin-right: 1rem;
 }
 
+.mx-2 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.mx-3 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .my-1 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -399,7 +409,8 @@ input:active label {
   border-radius: 0.5rem;
 }
 
-.text-hover-main:hover {
+.text-hover.text-hover-main:hover {
+  background-color: var(--color-main);
   box-shadow: var(--box-shadow);
 }
 

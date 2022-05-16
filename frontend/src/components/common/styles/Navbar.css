@@ -1,13 +1,19 @@
 .navbar {
+    border-top: 2px solid var(--color-secondary);
+}
+
+.navbar-wrapper {
     display: flex;
     justify-content: center;
-    border-top: 2px solid var(--color-secondary);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .navbar-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-grow: 1;
     cursor: pointer;
     padding: 0.5rem 1.25rem;
     font-weight: 500;

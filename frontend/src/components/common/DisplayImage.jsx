@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { closeIcon } from '../../constance/icons';
+import { arrowRepeatIcon, closeIcon } from '../../constance/icons';
 import { Image } from '../';
 import './styles/DisplayImage.css';
 
@@ -47,11 +47,17 @@ const DisplayImage = ({image, alt, classList}) => {
                     </div>
                 </div>
                 <div className="image-wrapper container">
+                    {isImageLoaded ? (
                     <Image
                         classList={`image-content`}
                         image={image}
                         alt={alt}
                     />
+                    ) : (
+                    <div className="flex align-center mb-1">
+                        <div className="btn-icon spinner">{arrowRepeatIcon}</div>
+                    </div>
+                    )}
                 </div>
             </div>
         )}
@@ -61,6 +67,7 @@ const DisplayImage = ({image, alt, classList}) => {
             className={`image-btn ${classList}${isImageLoaded ? '' : ' d-none'}`}
             onClick={() => setShowImage(true)}
             ref={imageRef}
+            decoding="async"
         />
         </>
     )

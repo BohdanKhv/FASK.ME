@@ -86,6 +86,12 @@ const profileSlice = createSlice({
             state.isUpdating = false;
             state.isFollowLoading = false;
             state.msg = '';
+        },
+        updateProfileImage: (state) => {
+            state.isUpdating = true;
+        },
+        updateProfileImageFinished: (state) => {
+            state.isUpdating = false;
         }
     },
     extraReducers: (builder) => {
@@ -139,5 +145,5 @@ const profileSlice = createSlice({
 
 
 // Export reducer
-export const { reset } = profileSlice.actions;
+export const { reset, updateProfileImage, updateProfileImageFinished } = profileSlice.actions;
 export default profileSlice.reducer;

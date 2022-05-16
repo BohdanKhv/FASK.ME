@@ -1,6 +1,6 @@
 .question-card {
     background-color: var(--color-secondary);
-    padding: 0 1rem;
+    padding: 0 0.75rem;
     border-radius: var(--border-radius);
     transition: var(--transition-duration);
     margin-bottom: 1rem;
@@ -18,10 +18,9 @@
     cursor: pointer;
 }
 
-.question-card-header p {
-    font-size: 1rem;
+.question-card .content {
+    font-size: 0.9rem;
     font-weight: 500;
-    margin-right: 0.5rem;
 }
 
 .question-card-header .toggle-icon svg {
@@ -92,7 +91,7 @@
 }
 
 .question-card .user-info-name {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 500;
     padding: 0 0.25rem;
 }

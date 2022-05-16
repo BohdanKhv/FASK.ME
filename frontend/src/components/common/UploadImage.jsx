@@ -1,48 +1,14 @@
 import { useState, useRef } from 'react';
-import { storage } from '../../firebase';
 import { Image } from '../';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import './styles/UploadImage.css';
 
-const UploadImage = ({ image, label, folder, fileName, containerClass, updateData, imageClass, maxFileSize, setErr }) => {
-    const [progress, setProgress] = useState(0);
+const UploadImage = ({ image, containerClass, imageClass, setState, state, progress }) => {
     const inputRef = useRef(null);
-
-    const uploadImageToFirebase = (e) => {
-        const file = e.target.files[0];
-        if(file.size > 	maxFileSize) {
-            e.target.value = '';
-            return setErr('File size is too big. Max size is 3MB');
-        } else {
-            const storageRef = ref(storage, `${folder}/${fileName}`);
-            const metadata = {
-                contentType: 'image/jpeg',
-            };
-
-            const uploadTask  = uploadBytesResumable(storageRef, file, metadata);
-
-            uploadTask.on('state_changed', 
-                (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setProgress(progress);
-                }, 
-                (error) => {
-                    console.log(error);
-                }, 
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        updateData(label, downloadURL);
-                    });
-                }
-            );
-        }
-    }
 
     return (
         <div
             className={`upload-image-container ${containerClass}`}
             onClick={() => {
-                setErr('');
                 inputRef.current.click();
             }}
         >
@@ -52,11 +18,10 @@ const UploadImage = ({ image, label, folder, fileName, containerClass, updateDat
                     height: progress + '%'
                 }}
             />
-            {image && (
+            {(image || state) && (
                 <Image
-                    image={image} 
-                    alt={label}
                     classList={`upload-image ${imageClass}`}
+                    image={state ? URL.createObjectURL(state) : image}
                 />
             )}
             <input
@@ -65,7 +30,12 @@ const UploadImage = ({ image, label, folder, fileName, containerClass, updateDat
                 className="upload-image-input"
                 ref={inputRef}
                 onChange={(e) => {
-                    uploadImageToFirebase(e);
+                    if ((e.target.files[0] && e.target.files[0].type === 'image/png') || (e.target.files[0] && e.target.files[0].type === 'image/jpeg')) {
+                        // console.log(e.target.files[0]);
+                        setState(
+                            e.target.files[0]
+                        )
+                    }
                 }}
             />
         </div>
