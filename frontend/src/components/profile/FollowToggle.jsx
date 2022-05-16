@@ -11,7 +11,7 @@ const FollowToggle = () => {
 
 
     const handleFollow = () => {
-        // dispatch(followToggleProfile(profile._id));
+        dispatch(followToggleProfile(profile._id));
     }
 
     return (

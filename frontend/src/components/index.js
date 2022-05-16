@@ -26,7 +26,7 @@ import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
 import ProfileNotFound from "./profile/ProfileNotFound";
 import FollowToggle from "./profile/FollowToggle";
-import Following from "./profile/Following";
+import FollowList from "./profile/FollowList";
 
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
@@ -67,7 +67,7 @@ export {
     EditProfile,
     ProfileNotFound,
     FollowToggle,
-    Following,
+    FollowList,
 
     Questions,
     QuestionCard,

@@ -5,10 +5,12 @@ const {
     getProfile, 
     updateProfile,
     followToggleProfile,
+    getProfiles,
 } = require('../controllers/profileControllers');
 
 
 router
+    .get('/getMany', getProfiles)
     .get('/:id/followToggle', protect, followToggleProfile)
     .get('/:username', getProfile);
 

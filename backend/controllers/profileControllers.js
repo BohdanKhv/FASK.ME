@@ -100,8 +100,34 @@ const followToggleProfile = async (req, res) => {
 }
 
 
+// @desc   Get many profiles
+// @route  POST /api/profiles/showMany?uId=uId
+// @access Private
+const getProfiles = async (req, res) => {
+    try {
+        const { uId } = req.query;
+
+        const profiles = await Profile.find({
+            user: { $in: uId.split(',') }
+        }).select('-followers -following -cover -createAt -updatedAt -links');
+
+        if (!profiles) {
+            return res.status(404).json({
+                msg: 'Profiles not found',
+            });
+        }
+
+        return res.status(200).json(profiles);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+}
+
+
 module.exports = {
     getProfile,
     updateProfile,
     followToggleProfile,
+    getProfiles,
 }

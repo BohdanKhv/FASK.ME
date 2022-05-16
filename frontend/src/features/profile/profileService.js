@@ -38,10 +38,19 @@ const followToggleProfile = async (id, token) => {
 }
 
 
+// get many profiles
+const getProfiles = async (uId) => {
+    const res = await axios.get(`${API_URL}getMany?uId=${uId}`);
+
+    return res.data;
+}
+
+
 const profileService = {
     getProfile,
     updateProfile,
     followToggleProfile,
+    getProfiles,
 }
 
 export default profileService;

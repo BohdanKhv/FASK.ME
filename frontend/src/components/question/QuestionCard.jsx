@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { downArrow, answareIcon, questionIcon } from '../../constance/icons';
 import { TakePrivate, DeleteQuestion, ClickCount } from '../';
 import './styles/QuestionCard.css';
-import { PostAnswer, ReceiverGate, SenderGate } from '../';
+import { PostAnswer, ReceiverGate, SenderGate, Image } from '../';
 
 
 const QuestionCard = ({question, isOpen}) => {
@@ -19,8 +19,12 @@ const QuestionCard = ({question, isOpen}) => {
             >
                 {question.sender.profile && (
                     <div className="sender flex space-between">
-                        <div className="user-info-sender flex">
-                            <img className="user-info-avatar" src={question.sender.profile.avatar} alt="avatar" />
+                        <div className="user-info-sender flex flex-align-center">
+                            <Image
+                                image={question.sender.profile.avatar}
+                                alt="Avatar"
+                                classList="profile-image-sm"
+                            />
                             <div>
                                 <Link to={`/${question.sender.profile.username}`} className="user-info-name text-hover">
                                     {question.sender.profile.username}
@@ -92,14 +96,14 @@ const QuestionCard = ({question, isOpen}) => {
             </div>
             <div className="question-card-footer">
                 <div className="receiver flex space-between">
-                    <div className="user-info flex">
+                    <div className="user-info flex flex-align-center">
                         {question.type !== 'faq' && question.receiver ? (
                         <>
                             { question.receiver.profile.avatar ? (
-                                <img
-                                    src={ question.receiver.profile.avatar }
+                                <Image
+                                    image={ question.receiver.profile.avatar }
                                     alt="Avatar"
-                                    className="user-info-avatar"
+                                    classList="profile-image-sm"
                                 />
                             ) : (
                                 <div className="profile-image-placeholder">

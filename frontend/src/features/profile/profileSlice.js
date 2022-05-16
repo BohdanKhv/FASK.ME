@@ -4,6 +4,7 @@ import profileService from './profileService';
 
 const initialState = {
     profile: null,
+    follows: [],
     isFollowLoading: false,
     isLoading: false,
     isUpdating: false,
@@ -72,6 +73,25 @@ export const followToggleProfile = createAsyncThunk(
 );
 
 
+// Get many profiles
+export const getProfiles = createAsyncThunk(
+    'profile/getProfiles',
+    async (uId, thunkAPI) => {
+        try {
+            return await profileService.getProfiles(uId);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create slice
 const profileSlice = createSlice({
     name: 'profile',
@@ -92,6 +112,9 @@ const profileSlice = createSlice({
         },
         updateProfileImageFinished: (state) => {
             state.isUpdating = false;
+        },
+        resetFollows: (state) => {
+            state.follows = [];
         }
     },
     extraReducers: (builder) => {
@@ -140,10 +163,23 @@ const profileSlice = createSlice({
             state.isFollowLoading = false;
             state.msg = action.payload;
         });
+
+        // get profiles
+        builder.addCase(getProfiles.pending, (state, action) => {
+            state.isFollowLoading = true;
+        });
+        builder.addCase(getProfiles.fulfilled, (state, action) => {
+            state.isFollowLoading = false;
+            state.follows = [...state.follows, ...action.payload];
+        });
+        builder.addCase(getProfiles.rejected, (state, action) => {
+            state.isFollowLoading = false;
+            state.msg = action.payload;
+        });
     }
 });
 
 
 // Export reducer
-export const { reset, updateProfileImage, updateProfileImageFinished } = profileSlice.actions;
+export const { reset, updateProfileImage, updateProfileImageFinished, resetFollows } = profileSlice.actions;
 export default profileSlice.reducer;

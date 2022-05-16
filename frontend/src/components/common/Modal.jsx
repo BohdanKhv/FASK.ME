@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { arrowRepeatIcon, closeIcon } from '../../constance/icons';
 import './styles/Modal.css';
 
-const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading, notCloseOnUpdate, isError}) => {
+const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading, notCloseOnUpdate, isError, isScroll}) => {
 
     const onClickOutside = (e) => {
         if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-wrapper')) {
@@ -36,23 +36,30 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                             </div>
                         )}
                     </div>
-                    <div className="modal-content" style={bodyStyles}>
+                    <div className={`modal-content${isScroll ? ' modal-scroll' : ''}`} style={bodyStyles}>
                         <div className="h-100">
                             {children}
+                            {isScroll && isLoading && (
+                                <div className="flex align-center mb-1">
+                                    <div className="btn-icon modal-spinner">{arrowRepeatIcon}</div>
+                                </div>
+                            )}
                         </div>
                     </div>
-                    <div className="modal-footer">
-                        {actionDangerBtnText && !isLoading && (
-                            <div className="btn btn-outline-danger" onClick={onSubmitDanger}>
-                                {actionDangerBtnText}
-                            </div>
-                        )}
-                        {actionBtnText && (
-                            <div className="btn btn-primary" onClick={!isLoading ? onSubmit : null}>
-                                {isLoading ? <div className="modal-spinner">{arrowRepeatIcon}</div> : actionBtnText}
-                            </div>
-                        )}
-                    </div>
+                    {!isScroll && (
+                        <div className="modal-footer">
+                            {actionDangerBtnText && !isLoading && (
+                                <div className="btn btn-outline-danger" onClick={onSubmitDanger}>
+                                    {actionDangerBtnText}
+                                </div>
+                            )}
+                            {actionBtnText && (
+                                <div className="btn btn-primary" onClick={!isLoading ? onSubmit : null}>
+                                    {isLoading ? <div className="modal-spinner">{arrowRepeatIcon}</div> : actionBtnText}
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

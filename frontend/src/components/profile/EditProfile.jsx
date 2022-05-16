@@ -84,7 +84,6 @@ const EditProfile = () => {
                 avatar: avatarProfile ? avatarProfile : profile.avatar,
                 cover: coverProfile ? coverProfile : profile.cover,
             }
-            console.log(data)
             dispatch(updateProfile(data)).then(() => {
                 setIsOpen(false);
             });

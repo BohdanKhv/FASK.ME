@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, FollowToggle, Following, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
+import { IsUserGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
@@ -64,7 +64,12 @@ const Profile = () => {
                                 {profile.fullName}
                             </div>
                             <div className="flex align-center mt-3">
-                                <Following/>
+                                <FollowList
+                                    label="Followers"
+                                />
+                                <FollowList
+                                    label="Following"
+                                />
                             </div>
                             {profile.bio && (
                                 <div className="profile-bio flex align-center text-center mt-1 text-secondary">

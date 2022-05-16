@@ -63,7 +63,7 @@ const UploadImage = ({ image, containerClass, imageClass, setState, state, progr
                 className="upload-image-input"
                 ref={inputRef}
                 onChange={(e) => {
-                    if ((e.target.files[0] && e.target.files[0].type === 'image/png') || (e.target.files[0] && e.target.files[0].type === 'image/jpeg')) {
+                    if ((e.target.files[0] && e.target.files[0].type === 'image/png') || (e.target.files[0] && e.target.files[0].type === 'image/jpeg') || (e.target.files[0] && e.target.files[0].type === 'image/webp')) {
                         setImgCompressor(e.target.files[0]);
                     }
                 }}

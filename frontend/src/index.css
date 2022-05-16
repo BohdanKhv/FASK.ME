@@ -130,6 +130,12 @@ body {
   padding: 0.5rem 0.75rem;
 }
 
+.btn.btn-xs {
+  letter-spacing: normal;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+}
+
 .btn {
   padding: 0.75rem 1rem;
   border-radius: var(--border-radius);
@@ -295,6 +301,11 @@ input:active label {
   margin-right: 0.5rem;
 }
 
+.mx-4 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
 .my-1 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -397,7 +408,7 @@ input:active label {
 
 .text-hover {
   cursor: pointer;
-  padding: 0.25rem 0.5rem;
+  padding: 0 0.5rem;
   font-weight: 500;
   text-decoration: none;
   color: var(--text-dark);
@@ -466,6 +477,24 @@ svg {
   border-radius: var(--border-radius);
   margin: 0 16px;
   height: 100%;
+}
+
+.profile-image-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 0.25rem;
+  object-fit: cover;
+  object-position: center;
+}
+
+.profile-image-md {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  object-fit: cover;
+  object-position: center;
 }
 
 @keyframes spin {

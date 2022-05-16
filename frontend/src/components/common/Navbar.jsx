@@ -16,10 +16,14 @@ const Navbar = ({ links }) => {
                         className={`navbar-item${location === link.path ? ' active' : ''}${link.notify ? ' notify' : ''}`}
                     >
                         { link.icon }
-                        { link.name }
-                        { link.count !== null ? (
-                            <p className="text-secondary">{link.count}</p>
-                        ) : null}
+                            <div className="flex flex-column align-center">
+                            <p className="navbar-name">
+                                { link.name }
+                            </p>
+                            { link.count !== null ? (
+                                <p className="text-secondary">{link.count}</p>
+                            ) : null}
+                        </div>
                     </Link>
                 ))}
             </div>
