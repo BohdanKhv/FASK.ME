@@ -20,6 +20,17 @@
     overflow-y: scroll;
 }
 
+.search-list::-webkit-scrollbar {
+    width: 8px;
+}
+.search-list::-webkit-scrollbar-track {
+    background: var(--color-main);
+}
+.search-list::-webkit-scrollbar-thumb {
+    background-color: var(--color-tertiary);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-tertiary);
+}
 
 .search-list-arrow {
     width: 50px;

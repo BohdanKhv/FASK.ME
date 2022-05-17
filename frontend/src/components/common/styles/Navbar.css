@@ -19,7 +19,7 @@
     padding: 0.5rem 1.25rem;
     font-weight: 500;
     margin-top: -2px;
-    border-top: 2px solid var(--color-tertiary);
+    border-top: 2px solid var(--text-dark);
     color: var(--text-dark);
     text-decoration: none;
     font-size: 0.75rem;
@@ -46,7 +46,7 @@
 
 .navbar-item.active {
     opacity: 1;
-    border-color: var(--color-tertiary);
+    border-color: var(--text-dark);
 }
 
 .navbar .notify {
