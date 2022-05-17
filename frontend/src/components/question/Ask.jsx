@@ -69,7 +69,7 @@ const Ask = () => {
                         <Textarea
                             label="Enter your question"
                             name="question"
-                            icon={questionIcon}
+                            // icon={questionIcon}
                             value={question.question}
                             bodyStyle={{
                                 borderColor: err ? 'var(--color-danger)' : '',

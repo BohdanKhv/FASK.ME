@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { burgerIcon, homeIcon, userIcon } from '../../constance/icons';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
-import { Sidenav, Slime, SearchField } from '../';
+import { Sidenav, Slime, SearchField, ThemeToggle } from '../';
 import './styles/Nav.css';
 
 
@@ -14,6 +14,7 @@ const Nav = () => {
     const user = useSelector((state) => state.auth.user);
     const { msg } = useSelector((state) => state.profile);
     const inbox = useSelector((state) => state.question.inbox);
+
 
     return (
         user ? (
@@ -53,7 +54,7 @@ const Nav = () => {
                 setIsSidenavOpen={setSidenav}
                 logo={logoNameSvg}
             >
-            <ul className="nav-burger-links">
+                <ul className="nav-burger-links">
                     <li>
                         <NavLink 
                             to={`/`}
@@ -77,6 +78,7 @@ const Nav = () => {
                         </NavLink>
                     </li>
                 </ul>
+                <ThemeToggle />
             </Sidenav>
         </nav>
         ) : 

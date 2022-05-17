@@ -4,7 +4,6 @@
   --color-warning: #FFE08E;
   --color-info: #91c4d4;
 
-  /* !Light */
   --color-main: #fdfdfd;
   --color-secondary: #eeeeee;
   --color-tertiary: #9ea5a7;
@@ -14,18 +13,19 @@
   --text-dark: #131415;
   --box-shadow: 1px 2px 4px 0 #0710138c;
 
-  /* !Dark */
-  /* --color-main: #000;
+  --border-radius: 0.25rem;
+  --transition-duration: .3s;
+}
+
+[data-theme='dark'] {
+  --color-main: #000;
   --color-secondary: rgb(51, 51, 51);
   --color-tertiary: rgb(105, 105, 105);
   --color-primary: #0ed3ff;
   
   --text-light: #000;
   --text-dark: #fff;
-  --box-shadow: 1px 2px 4px 0 #6e6e6e8c; */
-
-  --border-radius: 0.25rem;
-  --transition-duration: .3s;
+  --box-shadow: 1px 2px 4px 0 #6e6e6e8c;
 }
 
 * {
@@ -166,8 +166,8 @@ body::-webkit-scrollbar-thumb {
   border-radius: var(--border-radius);
   font-size: 1.15rem;
   text-align: center;
-  border: none;
   background-color: var(--color-secondary);
+  border: 1px solid var(--color-tertiary);
   color: var(--text-dark);
   cursor: pointer;
   user-select: none;
@@ -193,7 +193,6 @@ body::-webkit-scrollbar-thumb {
 
 .btn.btn-outline {
   background-color: transparent;
-  border: 2px solid var(--color-main);
 }
 
 .btn.btn-light {

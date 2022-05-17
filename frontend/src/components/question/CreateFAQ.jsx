@@ -81,7 +81,7 @@ const CreateFAQ = () => {
                         <Textarea
                             label="Enter your question"
                             name="question"
-                            icon={questionIcon}
+                            // icon={questionIcon}
                             value={faq.question}
                             bodyStyle={{
                                 borderColor: inputErr.question ? 'var(--color-danger)' : '',
@@ -110,7 +110,7 @@ const CreateFAQ = () => {
                         <Textarea
                             label="Enter your answer"
                             name="answer"
-                            icon={answareIcon}
+                            // icon={answareIcon}
                             value={faq.answer}
                             bodyStyle={{
                                 borderColor: inputErr.answer ? 'var(--color-danger)' : '',

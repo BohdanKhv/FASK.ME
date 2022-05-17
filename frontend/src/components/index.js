@@ -12,6 +12,7 @@ import Navbar from "./common/Navbar";
 import Tooltip from "./common/Tooltip";
 import NotFound from "./common/NotFound";
 import Slime from "./common/Slime";
+import ThemeToggle from "./common/ThemeToggle";
 
 import RequireAuth from "./gate/RequireAuth";
 import AuthGate from "./gate/AuthGate";
@@ -53,6 +54,7 @@ export {
     Tooltip,
     NotFound,
     Slime,
+    ThemeToggle,
 
     RequireAuth,
     AuthGate,
