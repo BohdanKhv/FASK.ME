@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { faqIcon, inboxIcon, sentIcon, arrowRepeatIcon } from "../constance/icons";
 import { getFollowersQuestions, getSentQuestions, reset } from '../features/question/questionSlice';
-import { CreateFAQ, Navbar, QuestionCard, Tooltip } from "../components";
+import { CreateFAQ, Navbar, QuestionCard, Tooltip, Image } from "../components";
 
 
 const Feed = () => {
@@ -50,8 +50,32 @@ const Feed = () => {
     return (
         <section className="feed-page container">
             <div className="flex align-between my-1 py-1">
-                <div className="title-1">
-                    @{user.username}
+                <div className="flex min-width-0">
+                    <div>
+                        {user.profile.avatar ? (
+                            <Image
+                                image={user.profile.avatar}
+                                alt="Avatar"
+                                classList="profile-image-md"
+                            /> 
+                        ) : (
+                            <div className="profile-image-placeholder profile-image-placeholder-md">
+                                {user.username[0].toUpperCase()}
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex-grow overflow-hidden">
+                        <div 
+                            className="title-4 mx-3 text-nowrap"
+                        >
+                            {user.username}
+                        </div>
+                        {user.profile.fullName && (
+                            <p className="text-secondary mx-3 text-nowrap">
+                                {user.profile.fullName}
+                            </p>
+                        )}
+                    </div>
                 </div>
                 <div>
                     <Tooltip

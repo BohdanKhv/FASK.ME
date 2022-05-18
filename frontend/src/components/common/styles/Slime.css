@@ -17,7 +17,7 @@
     box-shadow: var(--box-shadow);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 735px) {
     .slime {
         transform: translateY(50%);
         height: 70vh;

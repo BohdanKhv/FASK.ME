@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
+import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
@@ -7,98 +8,179 @@ import './styles/Profile.css';
 
 const Profile = () => {
     const dispatch = useDispatch();
+    const [isOpen, setIsOpen] = useState(false);
+    const [isDesktop, setDesktop] = useState(window.innerWidth > 735);
     const { profile, isLoading, isFollowLoading } = useSelector(state => state.profile);
+
+    const updateMedia = () => {
+        setDesktop(window.innerWidth > 735);
+    };
+
+    useEffect(() => {
+        window.addEventListener("resize", updateMedia);
+        return () => window.removeEventListener("resize", updateMedia);
+    });
 
     return (
         <section className="profile">
             <ProfileNotFound />
-            {!isLoading && profile && (
-            <>
-            <div className="profile-cover">
-                {profile.cover && (
-                    <DisplayImage
-                        image={ profile.cover }
-                        alt="Cover"
-                        classList="profile-cover-image"
-                    />
-                )}
-            </div>
             <div className="container">
-                {profile && (
+                {!isLoading && profile && (
+                    <>
                     <div className="profile-info">
-                        <div className="profile-image flex align-center">
-                            <div className="profile-image-placeholder">
+                        <div className={`profile-info-container flex${isDesktop ? ' mb-xl' : ' mb-1'}`}>
+                            <div className="profile-image-placeholder mx-auto">
                                 { profile.avatar ? (
                                     <DisplayImage
                                         image={ profile.avatar }
                                         alt="Avatar"
-                                        classList="profile-avatar"
+                                        classList="profile-image"
                                     />
                                 ) : (
                                     profile.username[0].toUpperCase()
                                 ) }
                             </div>
-                            <div className="action-left">
-                            </div>
-                            <div className="action-right">
-                                <IsUserGate>
-                                    <Tooltip
-                                        content="Log out"
-                                    >
-                                        <div 
-                                            className="btn-icon"
-                                            onClick={() => dispatch(logout())}
-                                        >
-                                            {doorClosedIcon}
+                            <div className="flex-grow-2 flex-shrink-1 flex-basis-0">
+                                <div className="profile-header flex flex-align-center mb-1">
+                                    <h2 className="title-1 flex-grow text-nowrap">
+                                        {profile.username}
+                                    </h2>
+                                    <div className="flex flex-align-center">
+                                        {isDesktop && (
+                                            <>
+                                            <FollowToggle
+                                                profile={profile}
+                                            />
+                                            <IsUserGate>
+                                                <div 
+                                                    className="btn btn-outline text-nowrap btn-sm"
+                                                    onClick={() => setIsOpen(true)}
+                                                >
+                                                    Edit Profile
+                                                </div>
+                                            </IsUserGate>
+                                            <div className="ml-1">
+                                                <IsUserGate>
+                                                    <Tooltip
+                                                        content="Log out"
+                                                    >
+                                                        <div 
+                                                            className="btn-icon"
+                                                            onClick={() => dispatch(logout())}
+                                                        >
+                                                            {doorClosedIcon}
+                                                        </div>
+                                                    </Tooltip>
+                                                </IsUserGate>
+                                            </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                                    {!isDesktop && (
+                                        <>
+                                        <FollowToggle
+                                            profile={profile}
+                                        />
+                                        <div className="flex align-center mb-3">
+                                            <div className="mr-1">
+                                                <IsUserGate>
+                                                    <Tooltip
+                                                        content="Log out"
+                                                    >
+                                                        <div 
+                                                            className="btn-icon btn-icon-sm btn-icon-outline"
+                                                            onClick={() => dispatch(logout())}
+                                                        >
+                                                            {doorClosedIcon}
+                                                        </div>
+                                                    </Tooltip>
+                                                </IsUserGate>
+                                            </div>
+                                            <IsUserGate>
+                                                <div 
+                                                    className="btn btn-outline text-nowrap btn-xs flex-grow"
+                                                    onClick={() => setIsOpen(true)}
+                                                >
+                                                    Edit Profile
+                                                </div>
+                                            </IsUserGate>
                                         </div>
-                                    </Tooltip>
-                                </IsUserGate>
-                                <FollowToggle/>
-                            </div>
-                        </div>
-                        <div className="profile-info-content container">
-                            <div className="profile-username flex align-center text-center">
-                                @{profile.username}
-                            </div>
-                            <div className="profile-fullname flex align-center text-center mt-3 text-secondary">
-                                {profile.fullName}
-                            </div>
-                            <div className="flex align-center mt-3">
-                                <FollowList
-                                    label="Followers"
-                                />
-                                <FollowList
-                                    label="Following"
-                                />
-                            </div>
-                            {profile.bio && (
-                                <div className="profile-bio flex align-center text-center mt-1 text-secondary">
+                                        </>
+                                    )}
+                                <div className={`flex${isDesktop ? ' mb-1' : ''}`}>
+                                    <FollowList
+                                        label="Followers"
+                                        classList={`mr-1 ${!isDesktop ? 'flex-grow' : ''}`}
+                                    />
+                                    <FollowList
+                                        label="Following"
+                                        classList={`${!isDesktop ? 'flex-grow' : ''}`}
+                                    />
+                                </div>
+                                {isDesktop && (
+                                <>
+                                <h5 className="title-4">
+                                    {profile.fullName}
+                                </h5>
+                                <div className="text-secondary">
                                     {profile.bio}
                                 </div>
-                            )}
-                            <div className="profile-actions flex align-center">
-                                <IsUserGate>
-                                    <EditProfile/>
-                                    <CreateFAQ/>
-                                </IsUserGate>
+                                </>
+                                )}
+                            </div>
+                        </div>
+                        {!isDesktop && (
+                        <div className="mb-1">
+                            <h5 className="title-4">
+                                {profile.fullName}
+                            </h5>
+                            <div className="text-secondary">
+                                {profile.bio}
+                            </div>
+                        </div>
+                        )}
+                        <IsUserGate>
+                            <div className="flex align-center mb-1 border-top pt-1">
+                                <CreateFAQ/>
+                            </div>
+                        </IsUserGate>
+                        <AuthGate>
+                            <div className="flex align-center mb-1 border-top pt-1">
                                 <Ask/>
+                            </div>
+                        </AuthGate>
+                    </div>
+                    <IsUserGate>
+                        <EditProfile
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                        />
+                    </IsUserGate>
+                    </>
+                )}
+                {isLoading && (
+                    <>
+                    <div className="profile-info blink border-bottom">
+                        <div className="flex mb-xl">
+                            <div className="flex-grow">
+                                <div className="profile-image flex align-center mx-auto">
+                                    <div className="profile-image-placeholder"/>
+                                </div>
+                            </div>
+                            <div className="flex-grow-2">
+                                <div className="username blink mb-1"/>
+                                <div className="username blink w-25 mb-1"/>
+                                <div className="username blink w-50 mb-1"/>
+                                <div className="username blink w-75 mb-1"/>
                             </div>
                         </div>
                     </div>
+                    <div className="username blink mb-1 my-1"/>
+                    <div className="username blink mb-1 my-1"/>
+                    </>
                 )}
             </div>
-            </>
-            )}
-            {isLoading && (
-                <>
-                <div className="profile-cover blink"/>
-                <div className="profile-info blink">
-                    <div className="profile-image flex align-center">
-                        <div className="profile-image-placeholder"/>
-                    </div>
-                </div>
-                </>
-            )}
         </section>
     )
 }

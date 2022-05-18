@@ -43,7 +43,7 @@ const Nav = () => {
                         </li>
                     </ul>
                     <div className="nav-burger">
-                        <div className="btn btn-outline" onClick={() => {setSidenav(true)}}>
+                        <div className="btn-icon" onClick={() => {setSidenav(true)}}>
                             {burgerIcon}
                         </div>
                     </div>
@@ -54,31 +54,33 @@ const Nav = () => {
                 setIsSidenavOpen={setSidenav}
                 logo={logoNameSvg}
             >
-                <ul className="nav-burger-links">
-                    <li>
-                        <NavLink 
-                            to={`/`}
-                            onClick={() => {setSidenav(false)}}
-                            className={`${inbox?.length > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
-                                {homeIcon}
-                            <span className="ml-1">
-                                Home
-                            </span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink 
-                            to={`/${user.username}`}
-                            onClick={() => {setSidenav(false)}}
-                        >
-                            {userIcon}
-                            <span className="ml-1">
-                                {user.username}
-                            </span>
-                        </NavLink>
-                    </li>
-                </ul>
-                <ThemeToggle />
+                <div className="flex flex-column h-100 space-between">
+                    <ul className="nav-burger-links">
+                        <li>
+                            <NavLink 
+                                to={`/`}
+                                onClick={() => {setSidenav(false)}}
+                                className={`${inbox?.length > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
+                                    {homeIcon}
+                                <span className="ml-1">
+                                    Home
+                                </span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink 
+                                to={`/${user.username}`}
+                                onClick={() => {setSidenav(false)}}
+                            >
+                                {userIcon}
+                                <span className="ml-1">
+                                    {user.username}
+                                </span>
+                            </NavLink>
+                        </li>
+                    </ul>
+                    <ThemeToggle />
+                </div>
             </Sidenav>
         </nav>
         ) : 

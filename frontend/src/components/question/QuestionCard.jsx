@@ -22,12 +22,12 @@ const QuestionCard = ({question, isOpen}) => {
                         profile={question.isAnonymous ? 'Anonymous' : question.sender.profile}
                         secondary={question.type === 'faq' ? 'FAQ' : 'Asked' }
                     />
-                    <div className="created-at">
-                        <div className="date">
-                            {new Date(question.createdAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                        </div>
+                    <div className="created-at min-width-fit-content">
                         <div className="time">
                             {new Date(question.createdAt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' })}
+                        </div>
+                        <div className="date">
+                            {new Date(question.createdAt).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ const QuestionCard = ({question, isOpen}) => {
             </div>
             <div className="question-card-footer">
                 <div className="receiver flex space-between">
-                    <div className="user-info flex flex-align-center">
+                    <div className="user-info flex flex-align-center min-width-0">
                         {question.type !== 'faq' && question.receiver ? (
                             <UserInfo 
                                 profile={question.receiver.profile}

@@ -8,11 +8,15 @@ const ThemeToggle = () => {
     const theme = useSelector((state) => state.local.theme);
 
     return (
-        <div className="mt-1 pt-1 flex flex-end">
+        <div className="p-1 flex align-between">
+            <div className="title-2">
+                Theme
+            </div>
             <Switch
                 onChange={() => {
                     dispatch(setTheme(theme === 'light' ? 'dark' : 'light'));
                 }}
+                value={theme === 'dark'}
             >
                 mode
             </Switch>

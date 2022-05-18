@@ -8,13 +8,14 @@ const jwt = require('jsonwebtoken');
 // @access  Private
 const getUser = async (req, res) => {
     try {
-        const user = await User.findOne({ _id: req.user._id });
+        const user = await User.findOne({ _id: req.user._id }).populate('profile');
 
         if (user) {
             return res.status(200).json({
                 _id: user._id,
                 email: user.email,
                 username: user.username,
+                profile: user.profile,
                 token: req.headers.authorization.split(' ')[1]
             });
         } else {
@@ -70,6 +71,7 @@ const registerUser = async (req, res) => {
                 _id: newUser.id,
                 email: newUser.email,
                 username: newUser.username,
+                profile: newUser.profile,
                 token: generateToken(newUser._id)
             });
         } else {
@@ -100,7 +102,7 @@ const loginUser = async (req, res) => {
         //         { username }
         //     ]
         // });
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username }).populate('profile');
 
         if (!user) {
             return res.status(400).json({
@@ -121,6 +123,7 @@ const loginUser = async (req, res) => {
             _id: user._id,
             email: user.email,
             username: user.username,
+            profile: user.profile,
             token: generateToken(user._id)
         });
     } catch (err) {

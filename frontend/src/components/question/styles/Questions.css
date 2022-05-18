@@ -1,13 +1,10 @@
 .questions {
-    padding-top: 2rem;
-    max-width: 600px;
-    margin: 0 auto;
+    margin: 1rem auto;
     min-height: 70vh;
-    margin-bottom: 100px;
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 735px) {
     .questions p.title-3 {
         text-align: center;
     }

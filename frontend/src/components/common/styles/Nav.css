@@ -1,10 +1,9 @@
 .main-nav {
-    height: 70px;
-    box-shadow: var(--box-shadow);
+    height: 60px;
     position: relative;
     z-index: 2;
-    /* margin-bottom: 40px; */
     background: var(--color-main);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .auth-nav {
@@ -79,14 +78,12 @@ nav ul a {
     align-items: center;
     font-size: 1rem;
     padding: 0 25px;
-    height: 70px;
+    height: 60px;
     color: var(--text-dark);
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--color-main);
-    border-bottom: 3px solid var(--color-main);
-    margin-bottom: 3px;
 }
 
 .nav-burger-links a {
@@ -94,18 +91,27 @@ nav ul a {
     align-items: center;
     font-size: 1rem;
     padding: 0 25px;
-    height: 70px;
+    height: 60px;
     color: var(--text-dark);
     font-weight: 500;
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--color-main);
-    border-left: 3px solid var(--color-main);
+}
+
+.nav-links a:hover, 
+.nav-burger-links a:hover{
+    opacity: 0.8;
+}
+
+.nav-links a, 
+.nav-burger-links a{
+    opacity: 0.25;
 }
 
 .nav-links a.active, 
-.nav-burger-links a.active {
-    border-color: var(--color-primary);
+.nav-burger-links a.active{
+    opacity: 1;
 }
 
 nav li svg {
@@ -141,7 +147,7 @@ nav li svg {
     display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 735px) {
     .logo,
     .nav-wrapper .nav-links {
         display: none;

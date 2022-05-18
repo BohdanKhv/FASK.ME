@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProfiles, resetFollows } from '../../features/profile/profileSlice';
-import { Modal, Image } from '../';
+import { Modal, Image, FollowToggle } from '../';
 
-const Following = ({label}) => {
+const Following = ({label, classList}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [offset, setOffset] = useState(0);
     const { profile, follows, isFollowLoading } = useSelector((state) => state.profile);
@@ -71,7 +71,7 @@ const Following = ({label}) => {
                                         to={`/${follow.username}`}
                                         className="title-4 text-hover"
                                     >
-                                        @{follow.username}
+                                        {follow.username}
                                     </Link>
                                     {follow.fullName && (
                                         <p className="text-secondary mx-3">
@@ -80,6 +80,10 @@ const Following = ({label}) => {
                                     )}
                                 </div>
                             </div>
+                            <FollowToggle
+                                profile={follow}
+                                isList={true}
+                            />
                         </div>
                     ))}
                     {!isFollowLoading && (
@@ -94,7 +98,7 @@ const Following = ({label}) => {
                 </div>
             </Modal>
             <div 
-                className="btn btn-xs mx-4"
+                className={`btn btn-xs${classList ? ' ' + classList : ''}`}
                 onClick={() => setIsOpen(true)}
             >
             {label === 'Following' ? (

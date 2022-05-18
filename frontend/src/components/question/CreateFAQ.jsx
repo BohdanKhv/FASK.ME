@@ -136,7 +136,7 @@ const CreateFAQ = () => {
                 </div>
             </Modal>
             <div 
-                className="btn btn-primary ml-1 btn-sm"
+                className="btn btn-primary btn-sm text-nowrap"
                 onClick={() => { setIsOpen(true) }}
             >
                 Create FAQ

@@ -5,11 +5,11 @@
     transition: var(--transition-duration);
     padding-left: 12px;
     display: flex;
-    border: 2px solid var(--color-secondary);
+    border: 1px solid var(--color-border);
 }
 
 .input.focused {
-    border-color: var(--color-tertiary);
+    border-color: var(--color-primary);
 }
 
 .input input {
@@ -33,6 +33,10 @@
 
 .input input.focused {
     opacity: 1;
+}
+
+.input-label.focused.label-focus-none {
+    opacity: 0;
 }
 
 .input-label {

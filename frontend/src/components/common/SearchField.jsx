@@ -53,6 +53,14 @@ const SearchField = () => {
                 bodyStyle={{
                     margin: '0 1.5rem',
                 }}
+                inputStyle={{
+                    height: '45px',
+                    padding: '0px 8px 0px 0px',
+                }}
+                labelStyle={{
+                    top: '10px',
+                }}
+                labelFocusNone={true}
                 onClick={() => {setIsOpen(true)}}
             />
             <div className={`search-results${searchQuery && isOpen ? '' : ' d-none'}`}>

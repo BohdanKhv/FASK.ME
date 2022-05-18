@@ -5,11 +5,11 @@
     transition: var(--transition-duration);
     padding-left: 12px;
     display: flex;
-    border: 1px solid var(--color-secondary);
+    border: 1px solid var(--color-border);
 }
 
 .textarea.focused {
-    border-color: var(--color-tertiary);
+    border-color: var(--color-primary);
 }
 
 .textarea textarea {

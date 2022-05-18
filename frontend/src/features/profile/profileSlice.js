@@ -7,8 +7,8 @@ const initialState = {
     follows: [],
     search: [],
     isSearchLoading: false,
-    isFollowLoading: false,
     isLoading: false,
+    isFollowLoading: false,
     isUpdating: false,
     isError: false,
     isSuccess: false,
@@ -42,26 +42,6 @@ export const updateProfile = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token;
             return await profileService.updateProfile(profileData, token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-// Follow profile
-export const followToggleProfile = createAsyncThunk(
-    'profile/followToggleProfile',
-    async (username, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await profileService.followToggleProfile(username, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -124,8 +104,8 @@ const profileSlice = createSlice({
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
-            state.isUpdating = false;
             state.isFollowLoading = false;
+            state.isUpdating = false;
             state.msg = '';
         },
         updateProfileImage: (state) => {
@@ -169,19 +149,6 @@ const profileSlice = createSlice({
         builder.addCase(updateProfile.rejected, (state, action) => {
             state.isUpdating = false;
             state.isError = true;
-            state.msg = action.payload;
-        });
-
-        // Follow profile
-        builder.addCase(followToggleProfile.pending, (state, action) => {
-            state.isFollowLoading = true;
-        });
-        builder.addCase(followToggleProfile.fulfilled, (state, action) => {
-            state.isFollowLoading = false;
-            state.profile = action.payload;
-        });
-        builder.addCase(followToggleProfile.rejected, (state, action) => {
-            state.isFollowLoading = false;
             state.msg = action.payload;
         });
 

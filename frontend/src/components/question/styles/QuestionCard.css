@@ -1,18 +1,13 @@
 .question-card {
-    background-color: var(--color-secondary);
-    padding: 0 0.75rem;
+    background-color: var(--color-main);
     border-radius: var(--border-radius);
     transition: var(--transition-duration);
     margin-bottom: 1rem;
-    border: 1px solid var(--color-tertiary);
-}
-
-.question-card:hover {
-    box-shadow: var(--box-shadow);
+    border: 1px solid var(--color-border);
 }
 
 .question-card .content {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0.75rem 0.75rem 0.75rem;
 }
 
 .open-question {
@@ -38,7 +33,7 @@
     opacity: 0;
     overflow: hidden;
     transition: var(--transition-duration);
-    border-top: 2px solid var(--color-main);
+    border-top: 1px solid var(--color-border);
 }
 
 .question-card.show-answer .question-card-header .toggle-icon svg {
@@ -56,9 +51,10 @@
 .question,
 .answer {
     font-size: 1.5rem;
-    padding-right: 0.25rem;
+    /* padding-right: 0.25rem; */
     margin-right: 0.75rem;
-    border-right: 1px solid var(--color-tertiary);
+    border-right: 1px solid var(--color-border);
+    padding: 0 0.75rem;
 }
 
 .question svg,
@@ -68,17 +64,21 @@
 }
 
 .sender {
-    border-bottom: 2px solid var(--color-main);
-    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
     align-items: center;
-    padding-top: 0.5rem;
+    padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+    background-color: var(--color-secondary);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
 }
 
 .receiver {
-    border-top: 2px solid var(--color-main);
-    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
     align-items: center;
-    padding-bottom: 0.5rem;
+    padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+    background-color: var(--color-secondary);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
 .user-info-avatar {

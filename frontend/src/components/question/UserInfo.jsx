@@ -5,7 +5,7 @@ import { anonymousIcon } from '../../constance/icons';
 const UserInfo = ({ profile, secondary }) => {
     return (
         <>
-            <div className="user-info-sender flex flex-align-center">
+            <div className="flex flex-align-center min-width-0">
                 {profile && profile !== 'Anonymous' ? (
                 <>
                     { profile.avatar ? (
@@ -19,8 +19,8 @@ const UserInfo = ({ profile, secondary }) => {
                             {profile.username[0].toUpperCase()}
                         </div>
                     ) }
-                    <div>
-                        <Link to={`/${profile.username}`} className="user-info-name text-hover">
+                    <div className="overflow-hidden">
+                        <Link to={`/${profile.username}`} className="user-info-name text-hover text-nowrap">
                             {profile.username}
                         </Link>
                         <div className="status text-xs text-secondary">

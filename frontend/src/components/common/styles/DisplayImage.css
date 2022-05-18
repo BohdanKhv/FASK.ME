@@ -31,11 +31,6 @@
     transition: var(--transition-duration);
 }
 
-.image-btn:hover {
-    -webkit-filter: brightness(90%);
-    filter: brightness(90%);
-}
-
 .image-content {
     position: relative;
     z-index: 99999;

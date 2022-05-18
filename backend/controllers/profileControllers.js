@@ -84,30 +84,20 @@ const followToggleProfile = async (req, res) => {
             });
         }
 
-        const userProfile = await Profile.findOne({
-            user: req.user._id,
-        });
-
-        if (!userProfile) {
-            return res.status(404).json({
-                msg: 'Profile not found',
-            });
-        }
-
-        if (userProfile.following.includes(profile.user)) {
-            profile.followers.pull(userProfile.user);
-            userProfile.following.pull(profile.user);
+        if (req.user.profile.following.includes(profile.user)) {
+            profile.followers.pull(req.user.profile.user);
+            req.user.profile.following.pull(profile.user);
             await profile.save();
-            await userProfile.save();
+            await req.user.profile.save();
 
-            return res.status(200).json(profile);
+            return res.status(200).json(req.user.profile);
         } else {
-            profile.followers.push(userProfile.user);
-            userProfile.following.push(profile.user);
+            profile.followers.push(req.user.profile.user);
+            req.user.profile.following.push(profile.user);
             await profile.save();
-            await userProfile.save();
+            await req.user.profile.save();
 
-            return res.status(200).json(profile);
+            return res.status(200).json(req.user.profile);
         }
     } catch (err) {
         console.error(err.message);
@@ -133,7 +123,7 @@ const getProfiles = async (req, res) => {
                 }
             ]
         })
-        .select('-followers -following -cover -createAt -updatedAt -links')
+        .select('-followers -following -createAt -updatedAt -links')
         .limit(10);
 
         if (!profiles) {

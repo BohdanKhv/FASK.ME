@@ -1,10 +1,15 @@
 import './styles/Switch.css';
 
-const Switch = ({onChange, isDisabled}) => {
+const Switch = ({value, onChange, isDisabled}) => {
     return (
         <div className="switch">
             <label>
-                <input type="checkbox" onChange={onChange} isdisabled={isDisabled}/>
+                <input
+                    type="checkbox"
+                    checked={value}
+                    onChange={onChange}
+                    isdisabled={isDisabled}
+                />
                 <span className="slider round"></span>
             </label>
         </div>

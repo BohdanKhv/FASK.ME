@@ -52,11 +52,32 @@ export const updateUser = async (userData, token) => {
 }
 
 
+// Follow profile
+const followToggleProfile = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const res = await axios.get('/api/profiles/' + id + '/followToggle', config);
+
+    if (res.data) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        user.profile = res.data;
+
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    return res.data;
+}
+
+
 const authService = {
     register,
     logout,
     login,
-    updateUser
+    updateUser,
+    followToggleProfile,
 };
 
 export default authService;

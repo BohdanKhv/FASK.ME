@@ -90,7 +90,7 @@
     text-align: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 735px) {
     .modal-overlay .modal-wrapper .modal-body {
         text-align: initial;
         min-width: 90vw;

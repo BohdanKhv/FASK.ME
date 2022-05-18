@@ -24,10 +24,6 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    cover: {
-        type: String,
-        required: false
-    },
     bio: {
         type: String,
         required: false,

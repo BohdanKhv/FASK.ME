@@ -25,19 +25,6 @@ const updateProfile = async (profileData, token) => {
 }
 
 
-// Follow profile
-const followToggleProfile = async (id, token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-    const res = await axios.get(API_URL + id + '/followToggle', config);
-
-    return res.data;
-}
-
-
 // get many profiles
 const getProfiles = async (q) => {
     const res = await axios.get(`${API_URL}getMany?${q}`);
@@ -49,7 +36,6 @@ const getProfiles = async (q) => {
 const profileService = {
     getProfile,
     updateProfile,
-    followToggleProfile,
     getProfiles,
 }
 
