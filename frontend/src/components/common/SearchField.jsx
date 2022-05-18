@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { searchProfiles } from '../../features/profile/profileSlice';
 import { arrowRepeatIcon, searchIcon } from '../../constance/icons';
@@ -12,6 +12,7 @@ const SearchField = () => {
     const { search, isSearchLoading } = useSelector(state => state.profile);
     const [searchQuery, setSearchQuery] = useState('');
     const searchListRef = useRef(null);
+    const { pathname } = useLocation();
     const dispatch = useDispatch();
 
     const handleClickOutside = (event) => {
@@ -39,6 +40,12 @@ const SearchField = () => {
             promise && promise.abort();
         }
     }, [searchQuery]);
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsOpen(false);
+        }
+    }, [pathname]);
 
     return (
         <div className="search">

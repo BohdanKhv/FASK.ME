@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const Page = require('./pageModel');
 
 
 const profileSchema = new mongoose.Schema({
@@ -12,9 +11,6 @@ const profileSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
-        minlength: 3,
-        maxlength: 20
     },
     fullName: {
         type: String,
@@ -58,13 +54,6 @@ const profileSchema = new mongoose.Schema({
         ref: 'User'
     }],
 }, { timestamps: true });
-
-
-// profileSchema.post('save', async function () {
-//     await Page.create({
-//         user: this.user,
-//     });
-// })
 
 
 module.exports = mongoose.model('Profile', profileSchema);

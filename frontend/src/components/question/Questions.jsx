@@ -100,7 +100,9 @@ const Questions = () => {
 
     useEffect(() => {
         dispatch(getProfileQuestionCount(profile.username));
+    }, [questions]);
 
+    useEffect(() => {
         return () => {
             dispatch(reset());
         }

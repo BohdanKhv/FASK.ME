@@ -21,6 +21,13 @@ const updateProfile = async (profileData, token) => {
     };
     const res = await axios.put(API_URL, profileData, config);
 
+    if (res.data) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        user.profile = res.data;
+
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
     return res.data;
 }
 

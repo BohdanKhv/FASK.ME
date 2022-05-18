@@ -23,6 +23,11 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/profiles', require('./routes/profileRoutes'));
 app.use('/api/questions', require('./routes/questionRoutes'));
 
+// development only
+if (process.env.NODE_ENV === 'development') {
+    app.use('/api/generate', require('./generate'));
+}
+
 
 // server connection
 app.listen(port, () => {

@@ -46,10 +46,11 @@ const registerUser = async (req, res) => {
 
         // Check if user exists
         const user = await User.findOne({
-            "username_lower": username.toLowerCase()
+            'username': {'$regex': `^${username}$`, '$options': 'i'}
         });
 
         if (user) {
+            console.log(user)
             return res.status(400).json({
                 msg: 'Username already exists'
             });

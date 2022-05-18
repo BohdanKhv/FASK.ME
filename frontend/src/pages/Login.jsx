@@ -72,6 +72,7 @@ const Login = () => {
                                     label="Username"
                                     value={username}
                                     onChange={onChange}
+                                    autoCompleteOn={true}
                                 >
                                     fask.me/
                                 </Input>

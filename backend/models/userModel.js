@@ -16,8 +16,8 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Username must be less than 15 characters');
             }
 
-            if(/[^a-zA-Z0-9]/.test(value)) {
-                throw new Error('Username must only contain letters and numbers');
+            if(/\s/.test(value)) {
+                throw new Error('Username must not contain any spaces');
             }
         },
     },
@@ -38,19 +38,24 @@ const userSchema = new mongoose.Schema({
     profile: {
         type: mongoose.Schema.ObjectId,
         ref: 'Profile',
-        required: true
     }
 }, { timestamps: true });
 
 
-userSchema.post('save', async function () {
-    const profile = await Profile.create({
-        user: this._id,
-        username: this.username,
-    });
+// userSchema.pre('save', async function (next) {
+//     try {
+//     const profile = await Profile.create({
+//         user: this._id,
+//         username: this.username,
+//     });
 
-    this.profile = profile._id;
-})
+//     this.profile = profile._id;
+//     next();
+//     } catch (err) {
+//         console.log(err);
+//         next(err);
+//     }
+// })
 
 
 module.exports = mongoose.model('User', userSchema);

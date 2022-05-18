@@ -54,12 +54,14 @@ const EditProfile = ({isOpen, setIsOpen}) => {
     }
 
     const saveProfile = () => {
-        dispatch(updateProfileImage());
         if (avatar) {
+            dispatch(updateProfileImage());
             uploadImageToFirebase(avatar, 'avatar', 'avatars', profile.username+'_avatar');
         }
-        if (!avatar) {
+        if (!avatar && editProfile.fullName !== profile.fullName && editProfile.bio !== profile.bio) {
             dispatch(updateProfile(editProfile));
+        } else {
+            setIsOpen(false);
         }
     }
 

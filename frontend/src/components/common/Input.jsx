@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './styles/Input.css';
 
-const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, inputStyle, labelStyle, minLength, maxLength, isDisabled, onClick, labelFocusNone}) => {
+const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, inputStyle, labelStyle, minLength, maxLength, isDisabled, onClick, labelFocusNone, autoCompleteOn}) => {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef(null);
 
@@ -48,7 +48,7 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
                 minLength={minLength}
                 maxLength={maxLength}
                 disabled={isDisabled}
-                autoComplete="off"
+                autoComplete={autoCompleteOn ? 'on' : 'off'}
             />
             <div
                 style={labelStyle}
