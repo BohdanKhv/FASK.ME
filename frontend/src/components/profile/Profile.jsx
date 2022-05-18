@@ -52,15 +52,7 @@ const Profile = () => {
                                                 profile={profile}
                                             />
                                             <IsUserGate>
-                                                <div 
-                                                    className="btn btn-outline text-nowrap btn-sm"
-                                                    onClick={() => setIsOpen(true)}
-                                                >
-                                                    Edit Profile
-                                                </div>
-                                            </IsUserGate>
-                                            <div className="ml-1">
-                                                <IsUserGate>
+                                                <div className="mr-1">
                                                     <Tooltip
                                                         content="Log out"
                                                     >
@@ -71,8 +63,16 @@ const Profile = () => {
                                                             {doorClosedIcon}
                                                         </div>
                                                     </Tooltip>
-                                                </IsUserGate>
-                                            </div>
+                                                </div>
+                                            </IsUserGate>
+                                            <IsUserGate>
+                                                <div 
+                                                    className="btn btn-outline text-nowrap btn-sm"
+                                                    onClick={() => setIsOpen(true)}
+                                                >
+                                                    Edit Profile
+                                                </div>
+                                            </IsUserGate>
                                             </>
                                         )}
                                     </div>
@@ -89,7 +89,7 @@ const Profile = () => {
                                                         content="Log out"
                                                     >
                                                         <div 
-                                                            className="btn-icon btn-icon-sm btn-icon-outline"
+                                                            className="btn-icon btn-icon-outline"
                                                             onClick={() => dispatch(logout())}
                                                         >
                                                             {doorClosedIcon}
@@ -99,7 +99,7 @@ const Profile = () => {
                                             </div>
                                             <IsUserGate>
                                                 <div 
-                                                    className="btn btn-outline text-nowrap btn-xs flex-grow"
+                                                    className="btn btn-outline text-nowrap btn-sm flex-grow"
                                                     onClick={() => setIsOpen(true)}
                                                 >
                                                     Edit Profile
@@ -141,13 +141,17 @@ const Profile = () => {
                         </div>
                         )}
                         <IsUserGate>
-                            <div className="flex align-center mb-1 border-top pt-1">
-                                <CreateFAQ/>
+                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ''}`}>
+                                <CreateFAQ
+                                    classList={`${!isDesktop ? 'flex-grow' : ''}`}
+                                />
                             </div>
                         </IsUserGate>
                         <AuthGate>
-                            <div className="flex align-center mb-1 border-top pt-1">
-                                <Ask/>
+                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ''}`}>
+                                <Ask
+                                    classList={`${!isDesktop ? 'flex-grow' : ''}`}
+                                />
                             </div>
                         </AuthGate>
                     </div>

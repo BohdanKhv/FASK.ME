@@ -177,9 +177,14 @@ body::-webkit-scrollbar-thumb {
   border: 1px solid var(--color-border);
 }
 
-.btn-icon.btn-icon-sm {
-  width: 14px;
-  height: 14px;
+.btn-icon.btn-icon-lg svg {
+  width: 41px;
+  height: 41px;
+}
+
+.btn-icon.btn-icon-sm svg {
+  width: 16px;
+  height: 16px;
 }
 
 .btn-icon:hover {

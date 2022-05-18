@@ -4,7 +4,7 @@ import { answareIcon, questionIcon } from '../../constance/icons';
 import { Modal, Textarea } from '../';
 import { createQuestion } from '../../features/question/questionSlice';
 
-const CreateFAQ = () => {
+const CreateFAQ = ({classList}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [inputErr, setInputErr] = useState({
         question: false,
@@ -61,7 +61,7 @@ const CreateFAQ = () => {
 
 
     return (
-        <div className="edit-profile">
+        <>
             <Modal
                 modalIsOpen={isOpen}
                 setModalIsOpen={setIsOpen}
@@ -136,12 +136,12 @@ const CreateFAQ = () => {
                 </div>
             </Modal>
             <div 
-                className="btn btn-primary btn-sm text-nowrap"
+                className={`btn btn-primary text-nowrap${classList ? ` ${classList}` : ''}`}
                 onClick={() => { setIsOpen(true) }}
             >
                 Create FAQ
             </div>
-        </div>
+        </>
     )
 }
 

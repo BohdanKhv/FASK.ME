@@ -5,7 +5,7 @@ import { Textarea, Switch, Modal, Tooltip } from '../';
 import { infoIcon, questionIcon } from '../../constance/icons';
 
 
-const Ask = () => {
+const Ask = ({classList}) => {
     const [isOpen, setIsOpen] = useState(false);
     const { profile } = useSelector(state => state.profile);
     const { isSuccess, isCreateLoading, msg, isError } = useSelector(state => state.question);
@@ -47,8 +47,7 @@ const Ask = () => {
     }, [isOpen])
 
     return (
-        <div className="profile-settings flex align-center">
-            {isSuccess ? (
+            isSuccess ? (
                 <div className="success-msg">Your question has been sent</div>
             ) : (
             <>
@@ -109,24 +108,24 @@ const Ask = () => {
                         classList={'mr-1'}
                         content={`You've already sent a question. You have to wait until ${profile.username} responds, or delete an existing question.`}
                     >
-                        <div className="btn-icon">
+                        <div className="btn-icon btn-icon-lg">
                             {infoIcon}
                         </div>
                     </Tooltip>
                 )}
                 <Tooltip
                     content={`You can ask a question only once, until ${profile.username} answers it.`}
+                    classList={classList}
                 >
                     <div 
-                        className="btn btn-primary btn-sm"
+                        className={`btn btn-primary`}
                         onClick={() => setIsOpen(true)}
                     >
                         Ask {profile.username}
                     </div>
                 </Tooltip>
             </>
-            )}
-        </div>
+            )
     )
 }
 

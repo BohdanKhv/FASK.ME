@@ -49,7 +49,7 @@ nav .notify::after {
     background-color: var(--color-danger);
     border-radius: 50%;
     position: absolute;
-    bottom: 15px;
+    bottom: 6px;
 }
 
 .notify-burger::after {
