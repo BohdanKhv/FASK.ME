@@ -6,7 +6,6 @@ import {
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
     getUserPrivateQuestions,
-    getProfileQuestionCount,
     reset 
 } from '../../features/question/questionSlice';
 import { QuestionCard, Navbar } from '../';
@@ -21,7 +20,7 @@ const Questions = () => {
     const { username } = useParams();
     const user = useSelector((state) => state.auth.user);
     const { profile } = useSelector((state) => state.profile);
-    const { questions, count, isLoading } = useSelector(state => state.question);
+    const { questions, isLoading } = useSelector(state => state.question);
     const [profileNavLinks, setProfileNavLinks] = useState([])
 
 
@@ -54,19 +53,16 @@ const Questions = () => {
                     name: 'FAQ',
                     icon: faqIcon,
                     path: `/${profile.username}`,
-                    count: count ? count.faq : 0,
                 },
                 {
                     name: 'Answered',
                     icon: answeredIcon,
                     path: `/${profile.username}/answered`,
-                    count: count ? count.answered : 0,
                 },
                 {
                     name: 'Asked',
                     icon: askedIcon,
                     path: `/${profile.username}/asked`,
-                    count: count ? count.asked : 0,
                 },
                 {
                     name: 'Private',
@@ -80,34 +76,20 @@ const Questions = () => {
                     name: 'FAQ',
                     icon: faqIcon,
                     path: `/${profile.username}`,
-                    count: count ? count.faq : 0,
                 },
                 {
                     name: 'Answered',
                     icon: answeredIcon,
                     path: `/${profile.username}/answered`,
-                    count: count ? count.answered : 0,
                 },
                 {
                     name: 'Asked',
                     icon: askedIcon,
                     path: `/${profile.username}/asked`,
-                    count: count ? count.asked : 0,
                 },
             ]);
         }
-    }, [count]);
-
-    useEffect(() => {
-        let promise = null; 
-        if(!isLoading && questions) {
-            promise = dispatch(getProfileQuestionCount(profile.username));
-        }
-
-        return () => {
-            promise && promise.abort();
-        }
-    }, [questions]);
+    }, [profile]);
 
     useEffect(() => {
         return () => {

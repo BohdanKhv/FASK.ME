@@ -91,59 +91,6 @@ const getSentQuestions = async (req, res) => {
 }
 
 
-// @desc   Get count of questions
-// @route  GET /api/questions/user/:username/count
-// @access Public
-const getProfileQuestionCount = async (req, res) => {
-    try {
-        const user = await User.findOne({
-            'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
-        }).select('_id');
-
-        if (!user) {
-            return res.status(404).json({
-                msg: 'User not found',
-            });
-        }
-
-        // Get questions count
-        const faq = await Question.countDocuments({
-            sender: user._id,
-            type: 'faq',
-            isArchived: false,
-        });
-        
-        const answered = await Question.countDocuments({
-            receiver: user._id,
-            type: 'ask',
-            isAnswered: true,
-            isArchived: false,
-            isPrivate: false,
-        });
-
-        const asked = await Question.countDocuments({
-            sender: user._id,
-            type: 'ask',
-            isArchived: false,
-            isAnswered: true,
-            isPrivate: false,
-            isAnonymous: false,
-        });
-
-        const count = {
-            faq: faq,
-            answered,
-            asked,
-        }
-
-        res.status(200).json(count);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-}
-
-
 // @desc   Get profile faq
 // @route  GET /api/questions/user/:username/faq
 // @access public
@@ -498,7 +445,6 @@ module.exports = {
     getProfileAskedQuestions,
     getUserPrivateQuestions,
     getFollowersQuestions,
-    getProfileQuestionCount,
     createQuestion,
     updateQuestion,
     deleteQuestion

@@ -67,14 +67,6 @@ const getUserPrivateQuestions = async (token) => {
 }
 
 
-// get profile question count
-const getProfileQuestionCount = async (username) => {
-    const res = await axios.get(`${API_URL}/user/${username}/count`);
-
-    return res.data;
-}
-
-
 // get followers questions
 const getFollowersQuestions = async (token) => {
     const config = {
@@ -135,7 +127,6 @@ const questionService = {
     getProfileAnsweredQuestions,
     getProfileAskedQuestions,
     getUserPrivateQuestions,
-    getProfileQuestionCount,
     getFollowersQuestions,
     createQuestion,
     updateQuestion,

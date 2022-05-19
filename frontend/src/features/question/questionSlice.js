@@ -5,7 +5,6 @@ import questionService from "./questionService";
 const initialState = {
     inbox: [],
     questions: [],
-    count: null,
     isLoading: false,
     isCreateLoading: false,
     isError: false,
@@ -118,25 +117,6 @@ export const getUserPrivateQuestions = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token;
             return await questionService.getUserPrivateQuestions(token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
-// Get count of questions
-export const getProfileQuestionCount = createAsyncThunk(
-    "question/getProfileQuestionCount",
-    async (username, thunkAPI) => {
-        try {
-            return await questionService.getProfileQuestionCount(username);
         } catch (error) {
             const message =
                 (error.response &&
@@ -351,11 +331,6 @@ const questionSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
-        });
-
-        // Get profile question count
-        builder.addCase(getProfileQuestionCount.fulfilled, (state, action) => {
-            state.count = action.payload;
         });
 
         // Get followers questions
