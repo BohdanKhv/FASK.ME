@@ -17,29 +17,27 @@ const getFollowers = async (req, res) => {
         });
 
         const data = []
+        let userIsFollowingArr;
 
-        await Promise.all(followers.map(async (follower) => {
-            let canFollow = true;
-            if(req.user) {
-                const follow = await Follow.findOne({
-                    follower: req.user._id,
-                    following: follower.follower._id
-                });
+        if(req.user) {
+            userIsFollowingArr = await Follow.find({
+                follower: req.user._id,
+                following: { $in: followers.map(follower => follower.follower) }
+            }).select('following')
+            userIsFollowingArr = userIsFollowingArr.map(follow => follow.following).join(',');
+        }
 
-                if(follow) {
-                    canFollow = false;
-                }
-            }
-
+        for(const follower of followers) {
+            console.log(follower)
             data.push({
                 _id: follower.follower._id,
                 username: follower.follower.username,
                 profile: follower.follower.profile,
-                canFollow: canFollow
-            });
-        }));
+                canFollow: userIsFollowingArr.includes(follower.follower._id.toString()) ? false : true
+            })
+        }
 
-        res.status(200).json(data);
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -62,27 +60,24 @@ const getFollowing = async (req, res) => {
         });
 
         const data = []
+        let userIsFollowingArr;
 
-        await Promise.all(followings.map(async (following) => {
-            let canFollow = true;
-            if(req.user) {
-                const follow = await Follow.findOne({
-                    follower: req.user._id,
-                    following: following.following._id
-                });
+        if(req.user) {
+            userIsFollowingArr = await Follow.find({
+                follower: req.user._id,
+                following: { $in: followings.map(following => following.following) }
+            }).select('following')
+            userIsFollowingArr = userIsFollowingArr.map(follow => follow.following).join(',');
+        }
 
-                if(follow) {
-                    canFollow = false;
-                }
-            }
-
+        for(const following of followings) {
             data.push({
                 _id: following.following._id,
                 username: following.following.username,
                 profile: following.following.profile,
-                canFollow: canFollow
-            });
-        }));
+                canFollow: userIsFollowingArr.includes(following.following._id.toString()) ? false : true
+            })
+        }
 
         return res.status(200).json(data);
     } catch (err) {
