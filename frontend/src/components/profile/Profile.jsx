@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
-import { addToFollowList } from '../../features/follow/followSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
@@ -16,15 +15,6 @@ const Profile = () => {
     const updateMedia = () => {
         setDesktop(window.innerWidth > 735);
     };
-
-    useEffect(() => {
-        if(profile) {
-            dispatch(addToFollowList({
-                _id: profile.user._id,
-                canFollow: profile.canFollow,
-            }));
-        }
-    }, [profile])
 
     useEffect(() => {
         window.addEventListener("resize", updateMedia);

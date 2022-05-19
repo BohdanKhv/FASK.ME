@@ -49,6 +49,8 @@ const Input = ({children, icon, type, name, label, value, onChange, bodyStyle, i
                 maxLength={maxLength}
                 disabled={isDisabled}
                 autoComplete={autoCompleteOn ? 'on' : 'off'}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
             />
             <div
                 style={labelStyle}

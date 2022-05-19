@@ -80,12 +80,14 @@ const followSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.profile = null;
             state.followList = [];
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
+        },
+        resetProfile: (state) => {
+            state.profile = null;
         },
         addToFollowList: (state, action) => {
             state.profile = action.payload;
@@ -140,5 +142,5 @@ const followSlice = createSlice({
 
 
 // Export reducer
-export const { reset, addToFollowList } = followSlice.actions;
+export const { reset, addToFollowList, resetProfile } = followSlice.actions;
 export default followSlice.reducer;

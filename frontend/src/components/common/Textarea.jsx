@@ -55,6 +55,8 @@ const Textarea = ({children, icon, type, name, label, value, onChange, bodyStyle
                 cols={cols}
                 rows={rows}
                 disabled={isDisabled}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
             />
             <div
                 style={labelStyle}

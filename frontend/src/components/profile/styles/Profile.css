@@ -4,6 +4,7 @@
 
 .profile-info {
     position: relative;
+    min-height: 30vh;
 }
 
 .profile-info-content {
@@ -42,24 +43,28 @@
 .profile-image-placeholder {
     min-height: 150px;
     min-width: 150px;
+    height: 150px;
+    width: 150px;
     border-radius: 50%;
     font-size: 7rem;
     font-weight: 500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    line-height: 0rem;
+    line-height: 135px;
+    text-align: center;
     background-color: var(--color-border);
     color: var(--text-dark);
     text-shadow: 7px 4px 0px #13141570;
     text-transform: uppercase;
 }
 
+
 .profile-image-placeholder.profile-image-placeholder-md {
     min-width: 45px;
     min-height: 45px;
+    height: 45px;
+    width: 45px;
     font-size: 2.25rem;
     margin: 0;
+    line-height: 45px;
     margin-right: 0.5rem;
     text-shadow: 2px 2px 0px #13141570;
 }
@@ -67,6 +72,9 @@
 .profile-image-placeholder.profile-image-placeholder-sm {
     min-width: 30px;
     min-height: 30px;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
     font-size: 1.35rem;
     margin-right: 0.25rem;
     text-shadow: 1.5px 1.5px 0px #13141570
@@ -94,6 +102,9 @@
     .profile-image-placeholder {
         min-height: 100px;
         min-width: 100px;
+        height: 100px;
+        width: 100px;
+        line-height: 90px;
         font-size: 5rem;
         margin: 0 0 12px 0;
     }
@@ -102,12 +113,10 @@
     }
     .profile-info-container {
         flex-direction: column;
+        align-items: center;
     }
     .profile-image {
         height: 100px;
         width: 100px;
-    }
-    .profile-info-container {
-        align-items: center;
     }
 }

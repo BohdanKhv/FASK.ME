@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
+import { getFollowers, getFollowing, reset, addToFollowList, resetProfile } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
 
 const Following = ({label, classList}) => {
@@ -9,7 +9,23 @@ const Following = ({label, classList}) => {
     const [offset, setOffset] = useState(0);
     const { profile } = useSelector((state) => state.profile);
     const { followList, isLoading } = useSelector((state) => state.follow);
+    const follow = useSelector((state) => state.follow);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if(profile) {
+            dispatch(addToFollowList({
+                _id: profile.user._id,
+                canFollow: profile.canFollow,
+                followers: profile.followers,
+                following: profile.following,
+            }));
+        }
+
+        return () => {
+            dispatch(resetProfile());
+        };
+    }, [])
 
 
     useEffect(() => {
@@ -85,10 +101,10 @@ const Following = ({label, classList}) => {
                     ))}
                     {!isLoading && (
                         <div className="text-center mb-1">
-                            {label === 'Following' && profile.following === 0 ? (
+                            {label === 'Following' && follow.profile && follow.profile.following === 0 ? (
                                 `${profile.username} is not following anyone`
-                            ) : label === 'Followers' && profile.followers === 0 && (
-                                `${profile.username} is not being followed`
+                            ) : label === 'Followers' && follow.profile && follow.profile.followers === 0 && (
+                                `${profile.username} has no followers`
                             )}
                         </div>
                     )}
@@ -99,9 +115,9 @@ const Following = ({label, classList}) => {
                 onClick={() => setIsOpen(true)}
             >
             {label === 'Following' ? (
-                `Following - ${profile.following}`
+                `Following - ${follow.profile && follow.profile.following || 0}`
             ) : label === 'Followers' && (
-                `Followers - ${profile.followers}`
+                `Followers - ${follow.profile && follow.profile.followers || 0}`
             )}
             </div>
         </>
