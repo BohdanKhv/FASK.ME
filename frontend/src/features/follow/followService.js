@@ -5,16 +5,16 @@ const API_URL = '/api/follow/';
 
 
 // get followers
-const getFollowers = async (username) => {
-    const res = await axios.get(`${API_URL}followers/${username}`);
+const getFollowers = async (id) => {
+    const res = await axios.get(`${API_URL}followers/${id}`);
 
     return res.data;
 }
 
 
 // get following
-const getFollowing = async (username) => {
-    const res = await axios.get(`${API_URL}following/${username}`);
+const getFollowing = async (id) => {
+    const res = await axios.get(`${API_URL}following/${id}`);
 
     return res.data;
 }

@@ -15,13 +15,13 @@ const Following = ({label, classList}) => {
     const loadMore = () => {
         if(label === 'Following') {
             if(offset < profile?.following) {
-                dispatch(getFollowing(profile.username)).then(() => {
+                dispatch(getFollowing(profile.user._id)).then(() => {
                     setOffset(offset + 10);
                 });
             }
         } else if (label === 'Followers') {
             if(offset < profile?.followers) {
-                dispatch(getFollowers(profile.username)).then(() => {
+                dispatch(getFollowers(profile.user._id)).then(() => {
                     setOffset(offset + 10);
                 });
             }
@@ -36,6 +36,7 @@ const Following = ({label, classList}) => {
             setOffset(0);
             dispatch(reset());
         }
+
     }, [isOpen]);
 
     return (
@@ -80,8 +81,7 @@ const Following = ({label, classList}) => {
                                 </div>
                             </div>
                             <FollowToggle
-                                profile={follow}
-                                isList={true}
+                                follow={follow}
                             />
                         </div>
                     ))}

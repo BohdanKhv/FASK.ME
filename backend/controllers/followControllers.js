@@ -7,7 +7,8 @@ const User = require('../models/userModel');
 // @access  Private
 const getFollowers = async (req, res) => {
     try {
-        const followers = await Follow.find({ following: req.user._id })
+        const followers = await Follow.find({ following: req.params.username })
+        .select('follower')
         .populate({
             path: 'follower',
             populate: {
@@ -15,15 +16,31 @@ const getFollowers = async (req, res) => {
             }
         });
 
-        if (followers) {
-            return res.status(200).json({
-                followers: followers
+        const data = []
+
+        followers.forEach(async follower => {
+            let canFollow = true;
+            if(req.user) {
+                const follow = await Follow.findOne({
+                    follower: req.user._id,
+                    following: follower.follower._id
+                });
+
+                if(follow) {
+                    canFollow = false;
+                }
+            }
+
+            follower.follower.canFollow = canFollow ? true : false;
+            data.push({
+                _id: follower.follower._id,
+                username: follower.follower.username,
+                profile: follower.follower.profile,
+                canFollow: canFollow
             });
-        } else {
-            return res.status(400).json({
-                msg: 'Not authorized'
-            });
-        }
+        });
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -36,7 +53,7 @@ const getFollowers = async (req, res) => {
 // @access  Private
 const getFollowing = async (req, res) => {
     try {
-        const following = await Follow.find({ follower: req.user._id })
+        const following = await Follow.find({ follower: req.params.username })
         .populate({
             path: 'following',
             populate: {

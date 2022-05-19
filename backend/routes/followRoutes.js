@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
+const { protect, isAuth } = require('../middleware/authMiddleware');
 const {
     getFollowers,
     getFollowing,
@@ -10,8 +10,8 @@ const {
 
 
 router
-    .get('/followers/:username', getFollowers)
-    .get('/following/:username', getFollowing)
+    .get('/followers/:username', isAuth, getFollowers)
+    .get('/following/:username', isAuth, getFollowing)
     .delete('/:id', protect, unfollowUser)
     .post('/:id', protect, followUser);
 

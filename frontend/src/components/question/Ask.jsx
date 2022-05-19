@@ -113,17 +113,12 @@ const Ask = ({classList}) => {
                         </div>
                     </Tooltip>
                 )}
-                <Tooltip
-                    content={`You can ask a question only once, until ${profile.username} answers it.`}
-                    classList={classList}
+                <div 
+                    className={`btn btn-primary${classList ? ` ${classList}` : ''}`}
+                    onClick={() => setIsOpen(true)}
                 >
-                    <div 
-                        className={`btn btn-primary`}
-                        onClick={() => setIsOpen(true)}
-                    >
-                        Ask {profile.username}
-                    </div>
-                </Tooltip>
+                    Ask {profile.username}
+                </div>
             </>
             )
     )

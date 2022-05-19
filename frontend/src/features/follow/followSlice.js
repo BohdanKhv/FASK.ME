@@ -116,7 +116,7 @@ const followSlice = createSlice({
         });
         builder.addCase(getFollowers.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.followList.push(action.payload);
+            state.followList = [...state.followList, ...action.payload];
         });
         builder.addCase(getFollowers.rejected, (state, action) => {
             state.isLoading = false;
@@ -130,7 +130,7 @@ const followSlice = createSlice({
         });
         builder.addCase(getFollowing.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.followList.push(action.payload);
+            state.followList = [...state.followList, ...action.payload];
         });
         builder.addCase(getFollowing.rejected, (state, action) => {
             state.isLoading = false;

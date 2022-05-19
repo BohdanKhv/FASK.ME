@@ -17,16 +17,16 @@ const FollowToggle = ({follow}) => {
     }
 
     return (
-        user && (
-                follow ||
-                (profile && (user._id !== profile._id))
-            ) && (
+        user && 
+        ((follow && follow._id !== user._id) ||
+        (!follow && profile && (user._id !== profile._id))) && (
             <>
             {(follow && follow.canFollow) || (profile.canFollow) ? (
                 <div 
                     className={`btn btn-sm spinner btn-primary`}
                     onClick={!isLoading ? handleFollow : null}
                 >
+                {console.log(follow)}
                     Follow
                 </div>
             ) : (
