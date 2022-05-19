@@ -5,8 +5,13 @@ const API_URL = '/api/profiles/';
 
 
 // Get profile
-const getProfile = async (data, token) => {
-    const res = await axios.get(`${API_URL}${data.username}${data.uId ? '?uId='+data.uId: ''}`);
+const getProfile = async (username, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const res = await axios.get(`${API_URL}${username}`, config);
 
     return res.data;
 }
@@ -32,18 +37,10 @@ const updateProfile = async (profileData, token) => {
 }
 
 
-// get many profiles
-const getProfiles = async (q) => {
-    const res = await axios.get(`${API_URL}getMany?${q}`);
-
-    return res.data;
-}
-
 
 const profileService = {
     getProfile,
     updateProfile,
-    getProfiles,
 }
 
 export default profileService;

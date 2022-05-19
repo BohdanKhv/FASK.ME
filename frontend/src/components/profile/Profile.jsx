@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
 import { logout } from '../../features/auth/authSlice';
+import { addToFollowList } from '../../features/follow/followSlice';
 import { doorClosedIcon } from '../../constance/icons';
 import './styles/Profile.css';
 
@@ -10,16 +11,28 @@ const Profile = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const [isDesktop, setDesktop] = useState(window.innerWidth > 735);
-    const { profile, isLoading, isFollowLoading } = useSelector(state => state.profile);
+    const { profile, isLoading } = useSelector(state => state.profile);
 
     const updateMedia = () => {
         setDesktop(window.innerWidth > 735);
     };
 
     useEffect(() => {
+        if(profile) {
+            dispatch(addToFollowList({
+                _id: profile.user._id,
+                canFollow: profile.canFollow,
+            }));
+        }
+    }, [profile])
+
+    useEffect(() => {
         window.addEventListener("resize", updateMedia);
-        return () => window.removeEventListener("resize", updateMedia);
-    });
+
+        return () => {
+            window.removeEventListener("resize", updateMedia);
+        };
+    }, []);
 
     return (
         <section className="profile">
@@ -48,9 +61,7 @@ const Profile = () => {
                                     <div className="flex flex-align-center">
                                         {isDesktop && (
                                             <>
-                                            <FollowToggle
-                                                profile={profile}
-                                            />
+                                            <FollowToggle />
                                             <IsUserGate>
                                                 <div className="mr-1">
                                                     <Tooltip
@@ -79,9 +90,7 @@ const Profile = () => {
                                 </div>
                                     {!isDesktop && (
                                         <>
-                                        <FollowToggle
-                                            profile={profile}
-                                        />
+                                        <FollowToggle/>
                                         <div className="flex align-center mb-3">
                                             <div className="mr-1">
                                                 <IsUserGate>
@@ -141,14 +150,14 @@ const Profile = () => {
                         </div>
                         )}
                         <IsUserGate>
-                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ''}`}>
+                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ' border-top'}`}>
                                 <CreateFAQ
                                     classList={`${!isDesktop ? 'flex-grow' : ''}`}
                                 />
                             </div>
                         </IsUserGate>
                         <AuthGate>
-                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ''}`}>
+                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ' border-top'}`}>
                                 <Ask
                                     classList={`${!isDesktop ? 'flex-grow' : ''}`}
                                 />

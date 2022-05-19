@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { searchProfiles } from '../../features/profile/profileSlice';
+import { searchUsers } from '../../features/search/searchSlice';
 import { arrowRepeatIcon, searchIcon } from '../../constance/icons';
 import { Input, Image } from '../';
 import './styles/SearchField.css';
@@ -9,7 +9,7 @@ import './styles/SearchField.css';
 
 const SearchField = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { search, isSearchLoading } = useSelector(state => state.profile);
+    const { search, isLoading } = useSelector(state => state.search);
     const [searchQuery, setSearchQuery] = useState('');
     const searchListRef = useRef(null);
     const { pathname } = useLocation();
@@ -33,7 +33,7 @@ const SearchField = () => {
         let promise = null;
         if (searchQuery.length > 0) {
             const q = `username=${searchQuery}`;
-            promise = dispatch(searchProfiles(q));
+            promise = dispatch(searchUsers(q));
         }
 
         return () => {
@@ -84,7 +84,7 @@ const SearchField = () => {
                     className="search-list"
                     ref={searchListRef}
                 >
-                    {!isSearchLoading ? (
+                    {!isLoading ? (
                         search.map((profile) => (
                         <div className="flex align-between align-center flex-align-center mx-2 mt-1" key={profile._id}>
                             <div className="flex flex-align-center">
@@ -124,7 +124,7 @@ const SearchField = () => {
                         </div>
                     </div>
                 )}
-                {!isSearchLoading && search.length === 0 && (
+                {!isLoading && search.length === 0 && (
                     <div className="flex align-center h-100">
                         <p>
                             No results found

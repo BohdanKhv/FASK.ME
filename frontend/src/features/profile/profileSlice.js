@@ -4,11 +4,7 @@ import profileService from './profileService';
 
 const initialState = {
     profile: null,
-    follows: [],
-    search: [],
-    isSearchLoading: false,
     isLoading: false,
-    isFollowLoading: false,
     isUpdating: false,
     isError: false,
     isSuccess: false,
@@ -19,9 +15,10 @@ const initialState = {
 // Get profile
 export const getProfile = createAsyncThunk(
     'profile/getProfile',
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
-            return await profileService.getProfile(data);
+            const token = thunkAPI.getState().auth.user.token;
+            return await profileService.getProfile(username, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -104,19 +101,12 @@ const profileSlice = createSlice({
             state.isError = false;
             state.isSuccess = false;
             state.isLoading = false;
-            state.isFollowLoading = false;
             state.isUpdating = false;
             state.msg = '';
         },
         updateProfileImage: (state) => {
             state.isUpdating = true;
         },
-        updateProfileImageFinished: (state) => {
-            state.isUpdating = false;
-        },
-        resetFollows: (state) => {
-            state.follows = [];
-        }
     },
     extraReducers: (builder) => {
         // Get profile
@@ -164,23 +154,11 @@ const profileSlice = createSlice({
             state.isFollowLoading = false;
             state.msg = action.payload;
         });
-
-        // Search
-        builder.addCase(searchProfiles.pending, (state, action) => {
-            state.isSearchLoading = true;
-        });
-        builder.addCase(searchProfiles.fulfilled, (state, action) => {
-            state.isSearchLoading = false;
-            state.search = action.payload;
-        });
-        builder.addCase(searchProfiles.rejected, (state, action) => {
-            state.isSearchLoading = false;
-            state.msg = action.payload;
-        });
     }
 });
 
 
+
 // Export reducer
-export const { reset, updateProfileImage, updateProfileImageFinished, resetFollows } = profileSlice.actions;
+export const { reset, updateProfileImage } = profileSlice.actions;
 export default profileSlice.reducer;

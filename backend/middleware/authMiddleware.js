@@ -20,7 +20,7 @@ const protect = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         // Set user to req.user
-        req.user = await User.findById(decoded.id).select('-password').populate('profile');
+        req.user = await User.findById(decoded.id).select('-password');
 
         next();
     } catch (error) {
@@ -30,7 +30,31 @@ const protect = async (req, res, next) => {
     }
 };
 
+const isAuth = async (req, res, next) => {
+    let token;
+
+    // Check if authorization header is set
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1];
+
+        try {
+            // Verify token
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            // Set user to req.user
+            req.user = await User.findById(decoded.id).select('-password');
+
+            next();
+        } catch (error) {
+            next();
+        }
+    } else {
+        next();
+    }
+};
+
 
 module.exports = {
-    protect
+    protect,
+    isAuth
 };

@@ -22,6 +22,7 @@ app.use(express.urlencoded({ limit: '2mb', extended: false }));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/profiles', require('./routes/profileRoutes'));
 app.use('/api/questions', require('./routes/questionRoutes'));
+app.use('/api/follow', require('./routes/followRoutes'));
 
 // development only
 if (process.env.NODE_ENV === 'development') {

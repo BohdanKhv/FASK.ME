@@ -1,9 +1,10 @@
 const Profile = require('../models/profileModel');
 const Question = require('../models/questionModel');
+const Follow = require('../models/followModel');
 
 
 // @desc   Get profile
-// @route  GET /api/profiles/:username?uId=uId
+// @route  GET /api/profiles/:username
 // @access Public
 const getProfile = async (req, res) => {
     try {
@@ -18,20 +19,41 @@ const getProfile = async (req, res) => {
             });
         }
 
+        // Get followers and following count
+        const followers = await Follow.countDocuments({
+            'following': profile.user._id,
+            active: true
+        });
+        
+        const following = await Follow.countDocuments({
+            'follower': profile.user._id,
+            active: true
+        });
+
         const data = {
             ...profile._doc,
+            followers,
+            following,
+            canFollow: false,
             canAsk: false
         }
 
-        if(req.query.uId) {
+        if(req.user) {
+            const isFollowing = await Follow.findOne({
+                follower: req.user._id,
+                followee: profile.user._id,
+                active: true
+            });
+
             const question = await Question.findOne({
-                sender: req.query.uId,
+                sender: req.user._id,
                 receiver: profile.user,
                 type: 'ask',
                 isAnswered: false,
             });
 
             data.canAsk = !question;
+            data.canFollow = isFollowing ? false : true;
         }
 
         return res.status(200).json(data);
@@ -64,41 +86,6 @@ const updateProfile = async (req, res) => {
         ).populate('user', ['email']);
 
         return res.status(200).json(updatedProfile);
-    } catch (err) {
-        console.error(err.message);
-        return res.status(500).send('Server Error');
-    }
-}
-
-
-// @desc   Follow profile
-// @route  PUT /api/profiles/follow
-// @access Private
-const followToggleProfile = async (req, res) => {
-    try {
-        const profile = await Profile.findById(req.params.id);
-
-        if (!profile) {
-            return res.status(404).json({
-                msg: 'Profile not found',
-            });
-        }
-
-        if (req.user.profile.following.includes(profile.user)) {
-            profile.followers.pull(req.user.profile.user);
-            req.user.profile.following.pull(profile.user);
-            await profile.save();
-            await req.user.profile.save();
-
-            return res.status(200).json(req.user.profile);
-        } else {
-            profile.followers.push(req.user.profile.user);
-            req.user.profile.following.push(profile.user);
-            await profile.save();
-            await req.user.profile.save();
-
-            return res.status(200).json(req.user.profile);
-        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -143,6 +130,5 @@ const getProfiles = async (req, res) => {
 module.exports = {
     getProfile,
     updateProfile,
-    followToggleProfile,
     getProfiles,
 }

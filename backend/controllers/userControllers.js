@@ -96,13 +96,6 @@ const loginUser = async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        // Check if user exists
-        // const user = await User.findOne({ 
-        //     $or: [
-        //         { email },
-        //         { username }
-        //     ]
-        // });
         const user = await User.findOne({ username }).populate('profile');
 
         if (!user) {

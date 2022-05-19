@@ -99,7 +99,14 @@ const Questions = () => {
     }, [count]);
 
     useEffect(() => {
-        dispatch(getProfileQuestionCount(profile.username));
+        let promise = null; 
+        if(!isLoading && questions) {
+            promise = dispatch(getProfileQuestionCount(profile.username));
+        }
+
+        return () => {
+            promise && promise.abort();
+        }
     }, [questions]);
 
     useEffect(() => {

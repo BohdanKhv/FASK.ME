@@ -1,28 +1,27 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProfiles, resetFollows } from '../../features/profile/profileSlice';
+import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
 
 const Following = ({label, classList}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [offset, setOffset] = useState(0);
-    const { profile, follows, isFollowLoading } = useSelector((state) => state.profile);
+    const { profile } = useSelector((state) => state.profile);
+    const { followList, isLoading } = useSelector((state) => state.follow);
     const dispatch = useDispatch();
 
 
     const loadMore = () => {
         if(label === 'Following') {
-            if(offset < profile.following.length) {
-                const data = `uId=${profile.following.slice(offset, offset + 10).map(item => item).join(',')}`;
-                dispatch(getProfiles(data)).then(() => {
+            if(offset < profile?.following) {
+                dispatch(getFollowing(profile.username)).then(() => {
                     setOffset(offset + 10);
                 });
             }
         } else if (label === 'Followers') {
-            if(offset < profile.followers.length) {
-                const data = `uId=${profile.followers.slice(offset, offset + 10).map(item => item).join(',')}`;
-                dispatch(getProfiles(data)).then(() => {
+            if(offset < profile?.followers) {
+                dispatch(getFollowers(profile.username)).then(() => {
                     setOffset(offset + 10);
                 });
             }
@@ -33,9 +32,9 @@ const Following = ({label, classList}) => {
     useEffect(() => {
         if(isOpen) {
             loadMore();
-        } else if ( !isOpen && follows.length > 0 ) {
+        } else if ( !isOpen && followList.length > 0 ) {
             setOffset(0);
-            dispatch(resetFollows());
+            dispatch(reset());
         }
     }, [isOpen]);
 
@@ -45,12 +44,12 @@ const Following = ({label, classList}) => {
                 modalIsOpen={isOpen}
                 setModalIsOpen={setIsOpen}
                 contentLabel={label}
-                isLoading={isFollowLoading}
+                isLoading={isLoading}
                 notCloseOnUpdate={true}
                 isScroll={true}
             >
                 <div className="follows-list">
-                    {follows.map((follow) => (
+                    {followList.map((follow) => (
                         <div className="flex align-between align-center mb-1 flex-align-center" key={follow._id}>
                             <div className="flex flex-align-center">
                                 <Link to={`/${follow.username}`}>
@@ -86,11 +85,11 @@ const Following = ({label, classList}) => {
                             />
                         </div>
                     ))}
-                    {!isFollowLoading && (
+                    {!isLoading && (
                         <div className="text-center mb-1">
-                            {label === 'Following' && profile.following.length === 0 ? (
+                            {label === 'Following' && profile.following === 0 ? (
                                 `${profile.username} is not following anyone`
-                            ) : label === 'Followers' && profile.followers.length === 0 && (
+                            ) : label === 'Followers' && profile.followers === 0 && (
                                 `${profile.username} is not being followed`
                             )}
                         </div>
@@ -102,9 +101,9 @@ const Following = ({label, classList}) => {
                 onClick={() => setIsOpen(true)}
             >
             {label === 'Following' ? (
-                `Following - ${profile.following.length}`
+                `Following - ${profile.following}`
             ) : label === 'Followers' && (
-                `Followers - ${profile.followers.length}`
+                `Followers - ${profile.followers}`
             )}
             </div>
         </>

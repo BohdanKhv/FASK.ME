@@ -43,17 +43,18 @@ const questionModelSchema = new mongoose.Schema({
         default: false,
         required: false
     },
-    readBy: [{
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        readAt: {
-            type: Date,
-            default: Date.now,
-            required: false
-        }
-    }],
+    // !TODO: add this to separate model
+    // readBy: [{
+    //     user: {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: 'User',
+    //     },
+    //     readAt: {
+    //         type: Date,
+    //         default: Date.now,
+    //         required: false
+    //     }
+    // }],
 }, { timestamps: true });
 
 

@@ -12,13 +12,14 @@ const User = () => {
     const { user } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        const promise = dispatch(getProfile({
-            username: username,
-            uId: user ? user._id : null,
-        }));
+        let promise = null;
+
+        if(username) {
+            promise = dispatch(getProfile(username));
+        }
 
         return () => {
-            promise.abort();
+            promise && promise.abort();
             dispatch(reset());
         }
     }, [dispatch, username]);
