@@ -12,29 +12,27 @@ const Following = ({label, classList}) => {
     const dispatch = useDispatch();
 
 
-    const loadMore = () => {
-        if(label === 'Following') {
-            if(offset < profile?.following) {
-                dispatch(getFollowing(profile.user._id)).then(() => {
-                    setOffset(offset + 10);
-                });
-            }
-        } else if (label === 'Followers') {
-            if(offset < profile?.followers) {
-                dispatch(getFollowers(profile.user._id)).then(() => {
-                    setOffset(offset + 10);
-                });
-            }
-        }
-    }
-
-
     useEffect(() => {
+        let promise = null;
         if(isOpen) {
-            loadMore();
-        } else if ( !isOpen && followList.length > 0 ) {
+            if(label === 'Following') {
+                if(offset < profile?.following) {
+                    promise = dispatch(getFollowing(profile.user._id));
+                    setOffset(offset + 10);
+                }
+            } else if (label === 'Followers') {
+                if(offset < profile?.followers) {
+                    promise = dispatch(getFollowers(profile.user._id));
+                    setOffset(offset + 10);
+                }
+            }
+        } else if ( !isOpen ) {
             setOffset(0);
             dispatch(reset());
+        }
+
+        return () => {
+            promise && promise.abort();
         }
 
     }, [isOpen]);

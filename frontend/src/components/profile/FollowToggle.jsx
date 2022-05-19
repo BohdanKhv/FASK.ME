@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { followUser, unfollowUser } from '../../features/follow/followSlice';
+import { followUser } from '../../features/follow/followSlice';
 
 
 const FollowToggle = ({follow}) => {
@@ -12,27 +12,22 @@ const FollowToggle = ({follow}) => {
         dispatch(followUser(follow ? follow._id : profile._id));
     }
 
-    const handleUnFollow = () => {
-        dispatch(unfollowUser(follow ? follow._id : profile._id));
-    }
-
     return (
         user && 
         ((follow && follow._id !== user._id) ||
         (!follow && profile && (user._id !== profile._id))) && (
             <>
-            {(follow && follow.canFollow) || (profile.canFollow) ? (
+            {(follow && follow.canFollow) || (!follow && profile.canFollow) ? (
                 <div 
                     className={`btn btn-sm spinner btn-primary`}
                     onClick={!isLoading ? handleFollow : null}
                 >
-                {console.log(follow)}
                     Follow
                 </div>
             ) : (
                 <div 
                     className={`btn btn-sm spinner`}
-                    onClick={!isLoading ? handleUnFollow : null}
+                    onClick={!isLoading ? handleFollow : null}
                 >
                     Unfollow
                 </div>

@@ -18,7 +18,7 @@ const getFollowers = async (req, res) => {
 
         const data = []
 
-        followers.forEach(async follower => {
+        await Promise.all(followers.map(async (follower) => {
             let canFollow = true;
             if(req.user) {
                 const follow = await Follow.findOne({
@@ -31,16 +31,15 @@ const getFollowers = async (req, res) => {
                 }
             }
 
-            follower.follower.canFollow = canFollow ? true : false;
             data.push({
                 _id: follower.follower._id,
                 username: follower.follower.username,
                 profile: follower.follower.profile,
                 canFollow: canFollow
             });
-        });
+        }));
 
-        return res.status(200).json(data);
+        res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -53,7 +52,8 @@ const getFollowers = async (req, res) => {
 // @access  Private
 const getFollowing = async (req, res) => {
     try {
-        const following = await Follow.find({ follower: req.params.username })
+        const followings = await Follow.find({ follower: req.params.username })
+        .select('follower')
         .populate({
             path: 'following',
             populate: {
@@ -61,15 +61,30 @@ const getFollowing = async (req, res) => {
             }
         });
 
-        if (following) {
-            return res.status(200).json({
-                following: following
+        const data = []
+
+        await Promise.all(followings.map(async (following) => {
+            let canFollow = true;
+            if(req.user) {
+                const follow = await Follow.findOne({
+                    follower: req.user._id,
+                    following: following.following._id
+                });
+
+                if(follow) {
+                    canFollow = false;
+                }
+            }
+
+            data.push({
+                _id: following.following._id,
+                username: following.following.username,
+                profile: following.following.profile,
+                canFollow: canFollow
             });
-        } else {
-            return res.status(400).json({
-                msg: 'Not authorized'
-            });
-        }
+        }));
+
+        return res.status(200).json(data);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -85,41 +100,28 @@ const followUser = async (req, res) => {
         const user = await User.findOne({ _id: req.params.id });
 
         if (user) {
-            const follow = await Follow.create({
+            // Check if user is already following
+            const following = await Follow.findOne({
                 follower: req.user._id,
-                following: user._id
+                following: req.params.id
             });
 
-            return res.status(200).json(follow);
+            if (!following) {
+                const follow = await Follow.create({
+                    follower: req.user._id,
+                    following: user._id
+                });
+
+                return res.status(200).json({follow: follow, msg: 'Followed user'});
+            } else {
+                await following.remove();
+    
+                return res.status(200).json({follow: following, msg: 'Unfollowed user'});
+            }
+
         } else {
             return res.status(400).json({
                 msg: 'User not found'
-            });
-        }
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-}
-
-
-// @desc    Unfollow User
-// @route   DELETE /api/follow/:id
-// @access  Private
-const unfollowUser = async (req, res) => {
-    try {
-        const follow = await Follow.findOne({
-            follower: req.user._id,
-            following: req.params.id
-        });
-
-        if (follow) {
-            await follow.remove();
-
-            return res.status(200).json(follow);
-        } else {
-            return res.status(400).json({
-                msg: 'Not authorized'
             });
         }
     } catch (err) {
@@ -134,5 +136,4 @@ module.exports = {
     getFollowers,
     getFollowing,
     followUser,
-    unfollowUser
 }

@@ -5,14 +5,12 @@ const {
     getFollowers,
     getFollowing,
     followUser,
-    unfollowUser,
 } = require('../controllers/followControllers');
 
 
 router
     .get('/followers/:username', isAuth, getFollowers)
     .get('/following/:username', isAuth, getFollowing)
-    .delete('/:id', protect, unfollowUser)
     .post('/:id', protect, followUser);
 
 
