@@ -11,7 +11,7 @@
   --color-border: #cccccc;
 
   --text-light: #ffffff;
-  --text-dark: #131415;
+  --text-dark: #2E2E3B;
   --box-shadow: 1px 2px 4px 0 #0710138c;
 
   --border-radius: 0.25rem;
@@ -623,10 +623,6 @@ svg {
   border-radius: var(--border-radius);
   margin: 0 16px;
   height: 100%;
-}
-
-.logo-name-text {
-  fill: var(--text-dark);
 }
 
 @keyframes spin {
