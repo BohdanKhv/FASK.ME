@@ -20,7 +20,7 @@
 .main-nav .logo,
 .main-nav .logo-sm svg,
 .main-nav .logo svg {
-    height: 50px;
+    height: 40px;
     width: auto;
 }
 
@@ -101,6 +101,8 @@ nav ul a {
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--color-main);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .nav-links a:hover, 

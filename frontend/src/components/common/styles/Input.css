@@ -25,6 +25,7 @@
     opacity: 0;
     transition: var(--transition-duration);
     border-radius: var(--border-radius);
+    color: var(--text-dark);
 }
 
 .input input:-webkit-autofill {

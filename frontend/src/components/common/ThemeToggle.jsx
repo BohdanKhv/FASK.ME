@@ -8,7 +8,7 @@ const ThemeToggle = () => {
     const theme = useSelector((state) => state.local.theme);
 
     return (
-        <div className="p-1 flex align-between">
+        <div className="p-1 flex align-between border-top">
             <div className="title-2">
                 Theme
             </div>

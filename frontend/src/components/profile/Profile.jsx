@@ -45,78 +45,48 @@ const Profile = () => {
                             </div>
                             <div className="flex-grow-2 flex-shrink-1 flex-basis-0">
                                 <div className="profile-header flex flex-align-center mb-1">
-                                    <h2 className="title-1 flex-grow text-nowrap">
-                                        {profile.username}
-                                    </h2>
+                                    {isDesktop && (
+                                        <h2 className="title-1 flex-grow text-nowrap">
+                                            {profile.username}
+                                        </h2>
+                                    )}
                                     <div className="flex flex-align-center">
-                                        {isDesktop && (
-                                            <>
-                                            <FollowToggle />
-                                            <IsUserGate>
-                                                <div className="mr-1">
-                                                    <Tooltip
-                                                        content="Log out"
-                                                    >
-                                                        <div 
-                                                            className="btn-icon"
-                                                            onClick={() => dispatch(logout())}
-                                                        >
-                                                            {doorClosedIcon}
-                                                        </div>
-                                                    </Tooltip>
-                                                </div>
-                                            </IsUserGate>
-                                            <IsUserGate>
-                                                <div 
-                                                    className="btn btn-outline text-nowrap btn-sm"
-                                                    onClick={() => setIsOpen(true)}
+                                        <FollowToggle />
+                                        <IsUserGate>
+                                            <div className="mr-1">
+                                                <Tooltip
+                                                    content="Log out"
                                                 >
-                                                    Edit Profile
-                                                </div>
-                                            </IsUserGate>
-                                            </>
-                                        )}
+                                                    <div 
+                                                        className="btn-icon"
+                                                        onClick={() => dispatch(logout())}
+                                                    >
+                                                        {doorClosedIcon}
+                                                    </div>
+                                                </Tooltip>
+                                            </div>
+                                        </IsUserGate>
+                                        <IsUserGate>
+                                            <div 
+                                                className="btn btn-outline text-nowrap btn-sm"
+                                                onClick={() => setIsOpen(true)}
+                                            >
+                                                Edit Profile
+                                            </div>
+                                        </IsUserGate>
                                     </div>
                                 </div>
-                                    {!isDesktop && (
-                                        <>
-                                        <FollowToggle/>
-                                        <div className="flex align-center mb-3">
-                                            <div className="mr-1">
-                                                <IsUserGate>
-                                                    <Tooltip
-                                                        content="Log out"
-                                                    >
-                                                        <div 
-                                                            className="btn-icon btn-icon-outline"
-                                                            onClick={() => dispatch(logout())}
-                                                        >
-                                                            {doorClosedIcon}
-                                                        </div>
-                                                    </Tooltip>
-                                                </IsUserGate>
-                                            </div>
-                                            <IsUserGate>
-                                                <div 
-                                                    className="btn btn-outline text-nowrap btn-sm flex-grow"
-                                                    onClick={() => setIsOpen(true)}
-                                                >
-                                                    Edit Profile
-                                                </div>
-                                            </IsUserGate>
-                                        </div>
-                                        </>
-                                    )}
-                                <div className={`flex${isDesktop ? ' mb-1' : ''}`}>
-                                    <FollowList
-                                        label="Followers"
-                                        classList={`mr-1 ${!isDesktop ? 'flex-grow' : ''}`}
-                                    />
-                                    <FollowList
-                                        label="Following"
-                                        classList={`${!isDesktop ? 'flex-grow' : ''}`}
-                                    />
-                                </div>
+                                {isDesktop && (
+                                    <div className={`flex${isDesktop ? ' mb-1' : ''}`}>
+                                        <FollowList
+                                            label="Followers"
+                                            classList="mr-1"
+                                        />
+                                        <FollowList
+                                            label="Following"
+                                        />
+                                    </div>
+                                )}
                                 {isDesktop && (
                                 <>
                                 <h5 className="title-4">
@@ -131,13 +101,27 @@ const Profile = () => {
                         </div>
                         {!isDesktop && (
                         <div className="mb-1">
-                            <h5 className="title-4">
+                            <h2 className="title-1 flex-grow text-nowrap">
+                                {profile.username}
+                            </h2>
+                            <h5 className="title-4 text-secondary mb-1">
                                 {profile.fullName}
                             </h5>
                             <div className="text-secondary">
                                 {profile.bio}
                             </div>
                         </div>
+                        )}
+                        {!isDesktop && (
+                            <div className="flex mb-1">
+                                <FollowList
+                                    label="Followers"
+                                    classList="mr-1"
+                                />
+                                <FollowList
+                                    label="Following"
+                                />
+                            </div>
                         )}
                         <IsUserGate>
                             <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ' border-top'}`}>

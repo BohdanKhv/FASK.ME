@@ -27,6 +27,7 @@
     resize: vertical;
     overflow: hidden;
     line-height: 1.1rem;
+    color: var(--text-dark);
 }
 
 .textarea textarea:-webkit-autofill {
