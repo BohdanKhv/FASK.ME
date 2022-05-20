@@ -96,6 +96,9 @@ const getSentQuestions = async (req, res) => {
 // @access public
 const getProfileFaqQuestions = async (req, res) => {
     try {
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
         const user = await User.findOne({
             'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         });
@@ -104,20 +107,37 @@ const getProfileFaqQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        const questions = await Question
-        .find({
+        const numFound = await Question.countDocuments({
             sender: user._id,
             type: 'faq',
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
+        });
 
-        res.status(200).json(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question
+            .find({
+                sender: user._id,
+                type: 'faq',
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
+
+            return res.status(200).json({
+                questions,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                questions: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -130,6 +150,9 @@ const getProfileFaqQuestions = async (req, res) => {
 // @access public
 const getProfileAnsweredQuestions = async (req, res) => {
     try {
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
         const user = await User.findOne({
             'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         });
@@ -138,31 +161,52 @@ const getProfileAnsweredQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        const questions = await Question
-        .find({
+
+        const numFound = await Question.countDocuments({
             receiver: user._id,
             type: 'ask',
             isAnswered: true,
             isArchived: false,
             isPrivate: false
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
+        });
 
-        const data = await filterAnonymouslyAskedQuestions(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question
+            .find({
+                receiver: user._id,
+                type: 'ask',
+                isAnswered: true,
+                isArchived: false,
+                isPrivate: false
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .populate({
+                path: 'receiver',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
 
-        return res.status(200).json(data);
+            const data = await filterAnonymouslyAskedQuestions(questions);
+
+            return res.status(200).json({
+                questions: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                questions: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -175,6 +219,9 @@ const getProfileAnsweredQuestions = async (req, res) => {
 // @access Public
 const getProfileAskedQuestions = async (req, res) => {
     try {
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
         const user = await User.findOne({
             'username': {'$regex': `^${req.params.username}$`, '$options': 'i'}
         });
@@ -183,31 +230,52 @@ const getProfileAskedQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-        const questions = await Question
-        .find({
+
+        const numFound = await Question.countDocuments({
             sender: user._id,
             type: 'ask',
             isArchived: false,
             isAnswered: true,
             isAnonymous: false
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
+        });
 
-        const data = await filterAnonymouslyAskedQuestions(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question
+            .find({
+                sender: user._id,
+                type: 'ask',
+                isArchived: false,
+                isAnswered: true,
+                isAnonymous: false
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .populate({
+                path: 'receiver',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
 
-        return res.status(200).json(data);
+            const data = await filterAnonymouslyAskedQuestions(questions);
+
+            return res.status(200).json({
+                questions: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                questions: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');

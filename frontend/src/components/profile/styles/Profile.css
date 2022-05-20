@@ -76,7 +76,7 @@
     width: 30px;
     line-height: 30px;
     font-size: 1.35rem;
-    margin-right: 0.25rem;
+    margin: 0 0.25rem 0 0;
     text-shadow: 1.5px 1.5px 0px #13141570
 }
 

@@ -1,57 +1,37 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getFollowers, getFollowing, reset, addToFollowList, resetProfile } from '../../features/follow/followSlice';
+import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
 
 const Following = ({label, classList}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [offset, setOffset] = useState(0);
-    const { profile } = useSelector((state) => state.profile);
-    const { followList, isLoading } = useSelector((state) => state.follow);
+    const { profile, followList, isLoading } = useSelector((state) => state.follow);
     const follow = useSelector((state) => state.follow);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if(profile) {
-            dispatch(addToFollowList({
-                _id: profile.user._id,
-                canFollow: profile.canFollow,
-                followers: profile.followers,
-                following: profile.following,
-            }));
-        }
 
-        return () => {
-            dispatch(resetProfile());
-        };
-    }, [])
+    // useEffect(() => {
+    //     let promise = null;
+    //     if(isOpen) {
+    //         if(label === 'Following') {
+    //             if(offset < profile?.following) {
+    //                 promise = dispatch(getFollowing(profile.user._id));
+    //             }
+    //         } else if (label === 'Followers') {
+    //             if(offset < profile?.followers) {
+    //                 promise = dispatch(getFollowers(profile.user._id));
+    //             }
+    //         }
+    //     } else if ( !isOpen && followList.length > 0) {
+    //         dispatch(reset());
+    //     }
 
+    //     return () => {
+    //         promise && promise.abort();
+    //     }
 
-    useEffect(() => {
-        let promise = null;
-        if(isOpen) {
-            if(label === 'Following') {
-                if(offset < profile?.following) {
-                    promise = dispatch(getFollowing(profile.user._id));
-                    setOffset(offset + 10);
-                }
-            } else if (label === 'Followers') {
-                if(offset < profile?.followers) {
-                    promise = dispatch(getFollowers(profile.user._id));
-                    setOffset(offset + 10);
-                }
-            }
-        } else if ( !isOpen ) {
-            setOffset(0);
-            dispatch(reset());
-        }
-
-        return () => {
-            promise && promise.abort();
-        }
-
-    }, [isOpen]);
+    // }, [isOpen]);
 
     return (
         <>
@@ -115,9 +95,9 @@ const Following = ({label, classList}) => {
                 onClick={() => setIsOpen(true)}
             >
             {label === 'Following' ? (
-                `Following - ${follow.profile && follow.profile.following || 0}`
+                `${follow.profile && follow.profile.following || 0} Following`
             ) : label === 'Followers' && (
-                `Followers - ${follow.profile && follow.profile.followers || 0}`
+                `${follow.profile && follow.profile.followers || 0} Followers`
             )}
             </div>
         </>

@@ -124,14 +124,14 @@ const Profile = () => {
                             </div>
                         )}
                         <IsUserGate>
-                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ' border-top'}`}>
+                            <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
                                 <CreateFAQ
                                     classList={`${!isDesktop ? 'flex-grow' : ''}`}
                                 />
                             </div>
                         </IsUserGate>
                         <AuthGate>
-                            <div className={`flex mb-1 pt-1${isDesktop ? ' flex-end' : ' border-top'}`}>
+                            <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
                                 <Ask
                                     classList={`${!isDesktop ? 'flex-grow' : ''}`}
                                 />

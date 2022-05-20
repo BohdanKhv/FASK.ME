@@ -20,14 +20,18 @@ const Questions = () => {
     const { username } = useParams();
     const user = useSelector((state) => state.auth.user);
     const { profile } = useSelector((state) => state.profile);
-    const { questions, isLoading } = useSelector(state => state.question);
+    const { questions, skip, limit, isLoading } = useSelector(state => state.question);
     const [profileNavLinks, setProfileNavLinks] = useState([])
 
 
     useEffect(() => {
         let promise = null;
         if(!location) {
-            promise = dispatch(getProfileFaqQuestions(profile.username));
+            promise = dispatch(getProfileFaqQuestions({
+                username: profile.username,
+                skip,
+                limit
+            }));
         } else if (location === 'private') {
             if(user && (user.username === profile.username)) {
                 promise = dispatch(getUserPrivateQuestions());
@@ -35,9 +39,17 @@ const Questions = () => {
                 navigate(`/${profile.username}`);
             }
         } else if (location === 'answered') {
-            promise = dispatch(getProfileAnsweredQuestions(profile.username));
+            promise = dispatch(getProfileAnsweredQuestions({
+                username: profile.username,
+                skip,
+                limit
+            }));
         } else if (location === 'asked') {
-            promise = dispatch(getProfileAskedQuestions(profile.username));
+            promise = dispatch(getProfileAskedQuestions({
+                username: profile.username,
+                skip,
+                limit
+            }));
         }
 
         return () => {

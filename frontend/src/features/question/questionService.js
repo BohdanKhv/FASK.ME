@@ -31,24 +31,24 @@ const getSentQuestions = async (token) => {
 
 
 // get pinned questions
-const getProfileFaqQuestions = async (username) => {
-    const res = await axios.get(`${API_URL}/user/${username}/faq`);
+const getProfileFaqQuestions = async (data) => {
+    const res = await axios.get(`${API_URL}/user/${data.username}/faq?${data.limit}&${data.skip}`);
 
     return res.data;
 }
 
 
 // get answered questions
-const getProfileAnsweredQuestions = async (username) => {
-    const res = await axios.get(`${API_URL}/user/${username}/answered`);
+const getProfileAnsweredQuestions = async (data) => {
+    const res = await axios.get(`${API_URL}/user/${data.username}/answered?${data.limit}&${data.skip}`);
 
     return res.data;
 }
 
 
 // get profile asked questions
-const getProfileAskedQuestions = async (username) => {
-    const res = await axios.get(`${API_URL}/user/${username}/asked`);
+const getProfileAskedQuestions = async (data) => {
+    const res = await axios.get(`${API_URL}/user/${data.username}/asked?${data.limit}&${data.skip}`);
 
     return res.data;
 }

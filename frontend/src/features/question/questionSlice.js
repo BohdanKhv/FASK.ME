@@ -3,8 +3,11 @@ import questionService from "./questionService";
 
 
 const initialState = {
-    inbox: [],
+    // inbox: [],
     questions: [],
+    numFound: 0,
+    skip: 0,
+    limit: 10,
     isLoading: false,
     isCreateLoading: false,
     isError: false,
@@ -56,9 +59,9 @@ export const getSentQuestions = createAsyncThunk(
 // Get pinned questions
 export const getProfileFaqQuestions = createAsyncThunk(
     "question/getProfileFaqQuestions",
-    async (username, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
-            return await questionService.getProfileFaqQuestions(username);
+            return await questionService.getProfileFaqQuestions(data);
         } catch (error) {
             const message =
                 (error.response &&
@@ -75,9 +78,9 @@ export const getProfileFaqQuestions = createAsyncThunk(
 // Get answered questions
 export const getProfileAnsweredQuestions = createAsyncThunk(
     "question/getProfileAnsweredQuestions",
-    async (username, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
-            return await questionService.getProfileAnsweredQuestions(username);
+            return await questionService.getProfileAnsweredQuestions(data);
         } catch (error) {
             const message =
                 (error.response &&
@@ -94,9 +97,9 @@ export const getProfileAnsweredQuestions = createAsyncThunk(
 // Get Asked questions
 export const getProfileAskedQuestions = createAsyncThunk(
     "question/getProfileAskedQuestions",
-    async (username, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
-            return await questionService.getProfileAskedQuestions(username);
+            return await questionService.getProfileAskedQuestions(data);
         } catch (error) {
             const message =
                 (error.response &&
@@ -219,6 +222,11 @@ const questionSlice = createSlice({
         // Reset state
         reset: (state) => {
             state.questions = [];
+            state.numFound = 0;
+            state.skip = 0;
+            state.limit = 10;
+            state.isCreateLoading = false;
+            state.isLoading = false;
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
@@ -232,7 +240,7 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getReceivedQuestions.fulfilled, (state, action) => {
-            state.inbox = action.payload;
+            // state.inbox = action.payload;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -268,7 +276,9 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileFaqQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.questions = action.payload.questions;
+            state.numFound = action.payload.numFound;
+            state.skip = state.skip + state.limit;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -286,7 +296,9 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAnsweredQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.questions = action.payload.questions;
+            state.numFound = action.payload.numFound;
+            state.skip = state.skip + state.limit;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
@@ -304,7 +316,9 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.questions = action.payload.questions;
+            state.numFound = action.payload.numFound;
+            state.skip = state.skip + state.limit;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
