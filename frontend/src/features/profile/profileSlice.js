@@ -18,7 +18,7 @@ export const getProfile = createAsyncThunk(
     'profile/getProfile',
     async (username, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().auth.user.token;
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await profileService.getProfile(username, token);
         } catch (error) {
             const message =
@@ -135,7 +135,13 @@ const profileSlice = createSlice({
         builder.addCase(updateProfile.fulfilled, (state, action) => {
             state.isUpdating = false;
             state.isSuccess = true;
-            state.profile = action.payload;
+            state.profile = {
+                ...action.payload,
+                following: state.profile.following,
+                followers: state.profile.followers,
+                canFollow: state.profile.canFollow,
+                canAsk: state.profile.canAsk,
+            };
         });
         builder.addCase(updateProfile.rejected, (state, action) => {
             state.isUpdating = false;
