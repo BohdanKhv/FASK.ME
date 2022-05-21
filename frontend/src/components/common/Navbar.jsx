@@ -1,30 +1,47 @@
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { faqIcon, answeredIcon, askedIcon } from '../../constance/icons';
+import { useSelector } from 'react-redux';
+import { questionsNav, feedNav } from '../../constance/localData';
 import './styles/Navbar.css';
 
 
-const Navbar = ({ links }) => {
-    const location = useLocation().pathname;
+const Navbar = () => {
+    const location = useLocation().pathname.toLocaleLowerCase();
+    const { profile } = useSelector((state) => state.profile);
+    const { inbox } = useSelector((state) => state.inbox);
+    const { user } = useSelector((state) => state.auth);
+    const [links, setLinks] = useState([]);
+
+
+    useEffect(() => {
+        if(profile && location.includes(profile.username.toLocaleLowerCase())) {
+            setLinks(questionsNav(profile.username));
+        } else {
+            setLinks(feedNav);
+        }
+    }, [location])
 
     return (
         <div className="navbar">
             <div className="navbar-wrapper">
                 {links.map((link, index) => (
-                    <Link
-                        key={`navbar-${link.name+index}`}
-                        to={`${link.path}`} 
-                        className={`navbar-item${location === link.path ? ' active' : ''}${link.notify ? ' notify' : ''}`}
-                    >
-                        { link.icon }
-                            <div className="flex flex-column align-center">
-                            <p className="navbar-name">
-                                { link.name }
-                            </p>
-                            { link.count !== null ? (
-                                <p className="text-secondary">{link.count}</p>
-                            ) : null}
-                        </div>
-                    </Link>
+                    ( link.isPrivate && user && (user._id === profile.user._id) ||
+                    !link.isPrivate ) &&
+                        <Link
+                            key={`navbar-${link.name+index}`}
+                            to={`${link.path}`} 
+                            className={`navbar-item${location === link.path.toLocaleLowerCase() ? ' active' : ''}${link.notify && inbox.length > 0 ? ' notify' : ''}`}
+                        >
+                            { link.icon }
+                                <div className="flex flex-column align-center">
+                                <p className="navbar-name">
+                                    { link.name }
+                                </p>
+                                { link.count !== null ? (
+                                    <p className="text-secondary">{link.count}</p>
+                                ) : null}
+                            </div>
+                        </Link>
                 ))}
             </div>
         </div>

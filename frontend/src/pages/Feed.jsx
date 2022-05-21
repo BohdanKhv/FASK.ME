@@ -1,44 +1,59 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { faqIcon, inboxIcon, sentIcon, arrowRepeatIcon } from "../constance/icons";
+import { arrowRepeatIcon } from "../constance/icons";
 import { getFollowersQuestions, getSentQuestions, reset } from '../features/question/questionSlice';
-import { CreateFAQ, Navbar, QuestionCard, Tooltip, Image } from "../components";
+import { CreateFAQ, Navbar, QuestionCard, Tooltip, Image, Inbox } from "../components";
 
 
 const Feed = () => {
     const dispatch = useDispatch()
     const location = useLocation().pathname.split("/")[1]
     const { user } = useSelector((state) => state.auth);
-    const { inbox, questions, isLoading } = useSelector((state) => state.question);
+    const { questions, skip, limit, hasMore, isLoading } = useSelector(state => state.question);
 
-
-    const feedNavigation = [
-        {
-            name: 'Following',
-            icon: faqIcon,
-            path: '/',
-        },
-        {
-            name: 'Inbox',
-            icon: inboxIcon,
-            path: '/inbox',
-            notify: inbox.length > 0,
-        },
-        {
-            name: 'Sent',
-            icon: sentIcon,
-            path: '/sent',
-        },
-    ];
+    const observer = useRef();
+    const lastQuestionElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                let promise = null;
+        
+                if(!location) {
+                    promise = dispatch(getFollowersQuestions({
+                        skip,
+                        limit
+                    }));
+                } else if(location === 'sent') {
+                    promise = dispatch(getSentQuestions({
+                        skip,
+                        limit
+                    }));
+                }
+        
+                return () => {
+                    promise && promise.abort();
+                    dispatch(reset());
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore]);
 
     useEffect(() => {
         let promise = null;
 
         if(!location) {
-            promise = dispatch(getFollowersQuestions());
+            promise = dispatch(getFollowersQuestions({
+                skip,
+                limit
+            }));
         } else if(location === 'sent') {
-            promise = dispatch(getSentQuestions());
+            promise = dispatch(getSentQuestions({
+                skip,
+                limit
+            }));
         }
 
         return () => {
@@ -84,9 +99,7 @@ const Feed = () => {
                     <CreateFAQ />
                 </div>
             </div>
-            <Navbar
-                links={feedNavigation}
-            />
+            <Navbar />
             <div className="questions">
                 {!location || location === 'sent' ? (
                     !isLoading && questions.length === 0 ? (
@@ -94,27 +107,18 @@ const Feed = () => {
                             {location === 'sent' ? 'You have not sent any questions yet.' : 'Follow someone to see their questions here.'}
                         </p>
                     ) : (
-                        questions.map((question) => (
-                            <QuestionCard
-                                key={`questions-${question._id}`}
-                                question={question}
-                            />
-                        ))
+                        questions.map((question, index) => {
+                            if(questions.length === index + 1) {
+                                return <div ref={lastQuestionElementRef} key={`question-${question._id+index}`}>
+                                        <QuestionCard key={`questions-${question._id}`} question={question} />
+                                    </div>
+                            } else {
+                                return <QuestionCard key={`questions-${question._id}`} question={question} />
+                            }
+                        })
                     )
-                ) : (
-                    !isLoading && inbox.length === 0 ? (
-                        <p className="title-3 text-center">
-                            Your inbox is empty.
-                        </p>
-                    ) : (
-                        inbox.map((question) => (
-                            <QuestionCard
-                                key={`inbox-${question._id}`}
-                                question={question}
-                                isOpen={true}
-                            />
-                        ))
-                    )
+                ) : location === 'inbox' && (
+                    <Inbox />
                 )}
                 {isLoading && 
                     <div className="flex align-center mb-1">

@@ -4,27 +4,14 @@ import axios from "axios";
 const API_URL = "/api/questions";
 
 
-// get received questions
-const getReceivedQuestions = async (token) => {
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
-    const res = await axios.get(`${API_URL}/received`, config);
-
-    return res.data;
-}
-
-
 // get sent questions
-const getSentQuestions = async (token) => {
+const getSentQuestions = async (data, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     };
-    const res = await axios.get(`${API_URL}/sent`, config);
+    const res = await axios.get(`${API_URL}/sent?${data.limit}&${data.skip}`, config);
 
     return res.data;
 }
@@ -55,26 +42,26 @@ const getProfileAskedQuestions = async (data) => {
 
 
 // get user private questions
-const getUserPrivateQuestions = async (token) => {
+const getUserPrivateQuestions = async (data, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     };
-    const res = await axios.get(`${API_URL}/private`, config);
+    const res = await axios.get(`${API_URL}/private?${data.limit}&${data.skip}`, config);
 
     return res.data;
 }
 
 
 // get followers questions
-const getFollowersQuestions = async (token) => {
+const getFollowersQuestions = async (data, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     };
-    const res = await axios.get(`${API_URL}/followers`, config);
+    const res = await axios.get(`${API_URL}/followers?${data.limit}&${data.skip}`, config);
 
     return res.data;
 }
@@ -121,7 +108,6 @@ const deleteQuestion = async (questionId, token) => {
 
 
 const questionService = {
-    getReceivedQuestions,
     getSentQuestions,
     getProfileFaqQuestions,
     getProfileAnsweredQuestions,

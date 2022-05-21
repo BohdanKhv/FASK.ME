@@ -37,6 +37,7 @@ import TakePrivate from "./question/TakePrivate";
 import DeleteQuestion from "./question/DeleteQuestion";
 import ClickCount from "./question/ClickCount";
 import UserInfo from "./question/UserInfo";
+import Inbox from "./question/Inbox";
 
 
 export {
@@ -79,4 +80,5 @@ export {
     DeleteQuestion,
     ClickCount,
     UserInfo,
+    Inbox
 }

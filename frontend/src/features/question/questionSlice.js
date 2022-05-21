@@ -3,9 +3,9 @@ import questionService from "./questionService";
 
 
 const initialState = {
-    // inbox: [],
     questions: [],
     numFound: 0,
+    hasMore: false,
     skip: 0,
     limit: 10,
     isLoading: false,
@@ -16,33 +16,13 @@ const initialState = {
 };
 
 
-// Get received questions
-export const getReceivedQuestions = createAsyncThunk(
-    "question/getReceivedQuestions",
-    async (_, thunkAPI) => {
-        try {
-            const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getReceivedQuestions(token);
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.msg) ||
-                error.message ||
-                error.toString();
-            return thunkAPI.rejectWithValue(message);
-        }
-    }
-);
-
-
 // Get sent questions
 export const getSentQuestions = createAsyncThunk(
     "question/getSentQuestions",
-    async (_, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getSentQuestions(token);
+            return await questionService.getSentQuestions(data, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -116,10 +96,10 @@ export const getProfileAskedQuestions = createAsyncThunk(
 // Get user private questions
 export const getUserPrivateQuestions = createAsyncThunk(
     "question/getUserPrivateQuestions",
-    async (_, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getUserPrivateQuestions(token);
+            return await questionService.getUserPrivateQuestions(data, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -136,10 +116,10 @@ export const getUserPrivateQuestions = createAsyncThunk(
 // Get followers questions
 export const getFollowersQuestions = createAsyncThunk(
     "question/getFollowersQuestions",
-    async (_, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getFollowersQuestions(token);
+            return await questionService.getFollowersQuestions(data, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -223,6 +203,7 @@ const questionSlice = createSlice({
         reset: (state) => {
             state.questions = [];
             state.numFound = 0;
+            state.hasMore = false;
             state.skip = 0;
             state.limit = 10;
             state.isCreateLoading = false;
@@ -233,24 +214,6 @@ const questionSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // Get received questions
-        builder.addCase(getReceivedQuestions.pending, (state, action) => {
-            state.isLoading = true;
-            state.isError = false;
-            state.msg = '';
-        });
-        builder.addCase(getReceivedQuestions.fulfilled, (state, action) => {
-            // state.inbox = action.payload;
-            state.isLoading = false;
-            state.isError = false;
-            state.msg = '';
-        });
-        builder.addCase(getReceivedQuestions.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isError = true;
-            state.msg = action.payload;
-        });
-
         // Get sent questions
         builder.addCase(getSentQuestions.pending, (state, action) => {
             state.isLoading = true;
@@ -258,13 +221,15 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getSentQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.questions = [...state.questions, ...action.payload.questions];
+            state.numFound = action.payload.numFound;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(getSentQuestions.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = action.payload ? false : true;
             state.isError = true;
             state.msg = action.payload;
         });
@@ -276,15 +241,16 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileFaqQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload.questions;
+            state.questions = [...state.questions, ...action.payload.questions];
             state.numFound = action.payload.numFound;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.skip = state.skip + state.limit;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(getProfileFaqQuestions.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = action.payload ? false : true;
             state.isError = true;
             state.msg = action.payload;
         });
@@ -296,15 +262,16 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAnsweredQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload.questions;
+            state.questions = [...state.questions, ...action.payload.questions];
             state.numFound = action.payload.numFound;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.skip = state.skip + state.limit;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(getProfileAnsweredQuestions.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = action.payload ? false : true;
             state.isError = true;
             state.msg = action.payload;
         });
@@ -316,15 +283,16 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload.questions;
+            state.questions = [...state.questions, ...action.payload.questions];
             state.numFound = action.payload.numFound;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.skip = state.skip + state.limit;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(getProfileAskedQuestions.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = action.payload ? false : true;
             state.isError = true;
             state.msg = action.payload;
         });
@@ -336,13 +304,15 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getUserPrivateQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.questions = [...state.questions, ...action.payload.questions];
+            state.numFound = action.payload.numFound;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(getUserPrivateQuestions.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = action.payload ? false : true;
             state.isError = true;
             state.msg = action.payload;
         });
@@ -354,13 +324,15 @@ const questionSlice = createSlice({
             state.msg = '';
         });
         builder.addCase(getFollowersQuestions.fulfilled, (state, action) => {
-            state.questions = action.payload;
+            state.questions = [...state.questions, ...action.payload.questions];
+            state.numFound = action.payload.numFound;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.isLoading = false;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(getFollowersQuestions.rejected, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = action.payload ? false : true;
             state.isError = true;
             state.msg = action.payload;
         });
@@ -398,7 +370,6 @@ const questionSlice = createSlice({
             state.isCreateLoading = false;
             state.isError = false;
             state.msg = '';
-            state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
             const index = state.questions.findIndex(question => question._id === action.payload._id);
             state.questions[index] = action.payload;
         });

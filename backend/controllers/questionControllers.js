@@ -26,29 +26,50 @@ const filterAnonymouslyAskedQuestions = async (questions) => {
 // @access Private
 const getReceivedQuestions = async (req, res) => {
     try {
-        const questions = await Question
-        .find({
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
+        const numFound = await Question.countDocuments({
             receiver: req.user._id,
             isArchived: false,
             isAnswered: false,
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
+        });
 
-        const data = await filterAnonymouslyAskedQuestions(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question
+            .find({
+                receiver: req.user._id,
+                isArchived: false,
+                isAnswered: false,
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .populate({
+                path: 'receiver',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
 
-        return res.status(200).json(data);
+            const data = await filterAnonymouslyAskedQuestions(questions);
+
+            return res.status(200).json({
+                questions: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                numFound,
+                questions: [],
+            });
+        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -61,29 +82,50 @@ const getReceivedQuestions = async (req, res) => {
 // @access Private
 const getSentQuestions = async (req, res) => {
     try {
-        const questions = await Question
-        .find({
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
+        const numFound = await Question.countDocuments({
             sender: req.user._id,
             type: 'ask',
             isArchived: false
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
+        });
 
-        const data = await filterAnonymouslyAskedQuestions(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question
+            .find({
+                sender: req.user._id,
+                type: 'ask',
+                isArchived: false
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .populate({
+                path: 'receiver',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
 
-        return res.status(200).json(data);
+            const data = await filterAnonymouslyAskedQuestions(questions);
+
+            return res.status(200).json({
+                questions: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                numFound,
+                questions: [],
+            });
+        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -161,7 +203,6 @@ const getProfileAnsweredQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-
         const numFound = await Question.countDocuments({
             receiver: user._id,
             type: 'ask',
@@ -230,7 +271,6 @@ const getProfileAskedQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'User not found' });
         }
 
-
         const numFound = await Question.countDocuments({
             sender: user._id,
             type: 'ask',
@@ -288,28 +328,49 @@ const getProfileAskedQuestions = async (req, res) => {
 // @access Private
 const getUserPrivateQuestions = async (req, res) => {
     try {
-        const questions = await Question.find({
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
+        const numFound = await Question.countDocuments({
             receiver: req.user._id,
             isPrivate: true,
             isArchived: false
-        })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
+        });
 
-        const data = await filterAnonymouslyAskedQuestions(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question.find({
+                receiver: req.user._id,
+                isPrivate: true,
+                isArchived: false
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .populate({
+                path: 'receiver',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
 
-        return res.status(200).json(data);
+            const data = await filterAnonymouslyAskedQuestions(questions);
+
+            return res.status(200).json({
+                questions: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                questions: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');
@@ -322,6 +383,9 @@ const getUserPrivateQuestions = async (req, res) => {
 // @access Private
 const getFollowersQuestions = async (req, res) => {
     try {
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
+
         const profile = await Profile.findOne({
             user: req.user._id
         });
@@ -330,7 +394,7 @@ const getFollowersQuestions = async (req, res) => {
             return res.status(404).json({ msg: 'Profile not found' });
         }
 
-        const questions = await Question.find({
+        const numFound = await Question.countDocuments({
             $or: [
                 {
                     receiver: {
@@ -347,23 +411,53 @@ const getFollowersQuestions = async (req, res) => {
             isAnswered: true,
             isPrivate: false
         })
-        .populate({
-            path: 'sender',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .populate({
-            path: 'receiver',
-            populate: {
-                path: 'profile',
-            }
-        })
-        .sort({ createdAt: -1 });
 
-        const data = await filterAnonymouslyAskedQuestions(questions);
+        if(numFound && numFound > skip) {
+            const questions = await Question.find({
+                $or: [
+                    {
+                        receiver: {
+                            $in: profile.following
+                        }
+                    },
+                    {
+                        sender: {
+                            $in: profile.following
+                        }
+                    }
+                ],
+                isArchived: false,
+                isAnswered: true,
+                isPrivate: false
+            })
+            .populate({
+                path: 'sender',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .populate({
+                path: 'receiver',
+                populate: {
+                    path: 'profile',
+                }
+            })
+            .sort({ createdAt: -1 })
+            .limit(limit || 10)
+            .skip(skip || 0);
 
-        return res.status(200).json(data);
+            const data = await filterAnonymouslyAskedQuestions(questions);
+
+            return res.status(200).json({
+                questions: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                questions: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         return res.status(500).send('Server Error');

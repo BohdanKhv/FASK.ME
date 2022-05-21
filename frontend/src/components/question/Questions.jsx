@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { 
@@ -9,7 +9,7 @@ import {
     reset 
 } from '../../features/question/questionSlice';
 import { QuestionCard, Navbar } from '../';
-import { faqIcon, answeredIcon, askedIcon, lockIcon, arrowRepeatIcon } from '../../constance/icons';
+import { arrowRepeatIcon } from '../../constance/icons';
 import './styles/Questions.css';
 
 
@@ -20,12 +20,57 @@ const Questions = () => {
     const { username } = useParams();
     const user = useSelector((state) => state.auth.user);
     const { profile } = useSelector((state) => state.profile);
-    const { questions, skip, limit, isLoading } = useSelector(state => state.question);
-    const [profileNavLinks, setProfileNavLinks] = useState([])
+    const { questions, skip, limit, hasMore, isLoading, isError } = useSelector(state => state.question);
 
+    const observer = useRef();
+    const lastQuestionElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && hasMore) {
+                let promise = null;
+
+                if(!location) {
+                    promise = dispatch(getProfileFaqQuestions({
+                        username: profile.username,
+                        skip,
+                        limit
+                    }));
+                } else if (location === 'private') {
+                    if(user && (user.username === profile.username)) {
+                        promise = dispatch(getUserPrivateQuestions({
+                            skip,
+                            limit
+                        }));
+                    } else {
+                        navigate(`/${profile.username}`);
+                    }
+                } else if (location === 'answered') {
+                    promise = dispatch(getProfileAnsweredQuestions({
+                        username: profile.username,
+                        skip,
+                        limit
+                    }));
+                } else if (location === 'asked') {
+                    promise = dispatch(getProfileAskedQuestions({
+                        username: profile.username,
+                        skip,
+                        limit
+                    }));
+                }
+
+                return () => {
+                    promise && promise.abort();
+                    dispatch(reset());
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [isLoading, hasMore]);
 
     useEffect(() => {
         let promise = null;
+
         if(!location) {
             promise = dispatch(getProfileFaqQuestions({
                 username: profile.username,
@@ -34,7 +79,10 @@ const Questions = () => {
             }));
         } else if (location === 'private') {
             if(user && (user.username === profile.username)) {
-                promise = dispatch(getUserPrivateQuestions());
+                promise = dispatch(getUserPrivateQuestions({
+                    skip,
+                    limit
+                }));
             } else {
                 navigate(`/${profile.username}`);
             }
@@ -58,67 +106,18 @@ const Questions = () => {
         }
     }, [location]);
 
-    useEffect(() => {
-        if(user && (profile.username === user.username)) {
-            return setProfileNavLinks([
-                {
-                    name: 'FAQ',
-                    icon: faqIcon,
-                    path: `/${profile.username}`,
-                },
-                {
-                    name: 'Answered',
-                    icon: answeredIcon,
-                    path: `/${profile.username}/answered`,
-                },
-                {
-                    name: 'Asked',
-                    icon: askedIcon,
-                    path: `/${profile.username}/asked`,
-                },
-                {
-                    name: 'Private',
-                    icon: lockIcon,
-                    path: `/${user.username}/private`,
-                }
-            ]);
-        } else {
-            return setProfileNavLinks([
-                {
-                    name: 'FAQ',
-                    icon: faqIcon,
-                    path: `/${profile.username}`,
-                },
-                {
-                    name: 'Answered',
-                    icon: answeredIcon,
-                    path: `/${profile.username}/answered`,
-                },
-                {
-                    name: 'Asked',
-                    icon: askedIcon,
-                    path: `/${profile.username}/asked`,
-                },
-            ]);
-        }
-    }, [profile]);
-
-    useEffect(() => {
-        return () => {
-            dispatch(reset());
-        }
-    }, []);
-
     return (
         <section className="container">
-            <Navbar
-                links={profileNavLinks}
-            />
+            <Navbar />
             <div className="questions">
-                {questions.map((question, index) => (
-                    <QuestionCard key={`privatelyHidden-${question._id+index}`} question={question} />
-                ))}
-                {!isLoading && questions.length === 0 && (
+                {questions.map((question, index) => {
+                    if(questions.length === index + 1) {
+                        return <div ref={lastQuestionElementRef} key={`question-${question._id+index}`}><QuestionCard question={question} /></div>
+                    } else {
+                        return <QuestionCard key={`question-${question._id+index}`} question={question} />
+                    }
+                })}
+                {!isLoading && !isError && questions.length === 0 && (
                     <p className="title-3 text-center">
                         {location === 'private' ? (
                             'You have no private questions.'
@@ -132,7 +131,7 @@ const Questions = () => {
                     </p>
                 )}
                 {isLoading && 
-                    <div className="flex align-center mb-1">
+                    <div className="flex align-center mb-1 mt-1">
                         <div className="btn-icon spinner">{arrowRepeatIcon}</div>
                     </div>
                 }
