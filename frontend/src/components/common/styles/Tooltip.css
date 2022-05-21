@@ -11,7 +11,7 @@
     border-radius: var(--border-radius);
     padding: 0.5rem;
     position: absolute;
-    bottom: 140%;
+    bottom: 150%;
     left: 50%;
     margin-left: -68px;
     transition: var(--transition-duration);

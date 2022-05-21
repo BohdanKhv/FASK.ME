@@ -65,7 +65,8 @@ const SearchField = () => {
                     padding: '0px 8px 0px 0px',
                 }}
                 labelStyle={{
-                    top: '10px',
+                    top: '0',
+                    height: '100%'
                 }}
                 labelFocusNone={true}
                 onClick={() => {setIsOpen(true)}}

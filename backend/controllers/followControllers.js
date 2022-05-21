@@ -7,37 +7,54 @@ const User = require('../models/userModel');
 // @access  Private
 const getFollowers = async (req, res) => {
     try {
-        const followers = await Follow.find({ following: req.params.username })
-        .select('follower')
-        .populate({
-            path: 'follower',
-            populate: {
-                path: 'profile',
-            }
-        });
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
 
-        const data = []
-        let userIsFollowingArr;
+        const numFound = await Follow.countDocuments({ following: req.params.username });
 
-        if(req.user) {
-            userIsFollowingArr = await Follow.find({
-                follower: req.user._id,
-                following: { $in: followers.map(follower => follower.follower) }
-            }).select('following')
-            userIsFollowingArr = userIsFollowingArr.map(follow => follow.following).join(',');
-        }
-
-        for(const follower of followers) {
-            console.log(follower)
-            data.push({
-                _id: follower.follower._id,
-                username: follower.follower.username,
-                profile: follower.follower.profile,
-                canFollow: userIsFollowingArr.includes(follower.follower._id.toString()) ? false : true
+        if(numFound && numFound > skip) {
+            const followers = await Follow.find({ following: req.params.username })
+            .select('follower')
+            .populate({
+                path: 'follower',
+                populate: {
+                    path: 'profile',
+                }
             })
-        }
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .skip(skip);
 
-        return res.status(200).json(data);
+            const data = []
+            let userIsFollowingArr;
+
+            if(req.user) {
+                userIsFollowingArr = await Follow.find({
+                    follower: req.user._id,
+                    following: { $in: followers.map(follower => follower.follower) }
+                }).select('following')
+                userIsFollowingArr = userIsFollowingArr.map(follow => follow.following).join(',');
+            }
+
+            for(const follower of followers) {
+                data.push({
+                    _id: follower.follower._id,
+                    username: follower.follower.username,
+                    profile: follower.follower.profile,
+                    canFollow: userIsFollowingArr.includes(follower.follower._id.toString()) ? false : true
+                })
+            }
+
+            return res.status(200).json({
+                follows: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                follows: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -50,36 +67,54 @@ const getFollowers = async (req, res) => {
 // @access  Private
 const getFollowing = async (req, res) => {
     try {
-        const followings = await Follow.find({ follower: req.params.username })
-        .select('follower')
-        .populate({
-            path: 'following',
-            populate: {
-                path: 'profile',
-            }
-        });
+        const limit = req.query.limit || 10;
+        const skip = req.query.skip || 0;
 
-        const data = []
-        let userIsFollowingArr;
+        const numFound = await Follow.countDocuments({ following: req.params.username });
 
-        if(req.user) {
-            userIsFollowingArr = await Follow.find({
-                follower: req.user._id,
-                following: { $in: followings.map(following => following.following) }
-            }).select('following')
-            userIsFollowingArr = userIsFollowingArr.map(follow => follow.following).join(',');
-        }
-
-        for(const following of followings) {
-            data.push({
-                _id: following.following._id,
-                username: following.following.username,
-                profile: following.following.profile,
-                canFollow: userIsFollowingArr.includes(following.following._id.toString()) ? false : true
+        if(numFound && numFound > skip) {
+            const followings = await Follow.find({ follower: req.params.username })
+            .select('follower')
+            .populate({
+                path: 'following',
+                populate: {
+                    path: 'profile',
+                }
             })
-        }
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .skip(skip);
 
-        return res.status(200).json(data);
+            const data = []
+            let userIsFollowingArr;
+
+            if(req.user) {
+                userIsFollowingArr = await Follow.find({
+                    follower: req.user._id,
+                    following: { $in: followings.map(following => following.following) }
+                }).select('following')
+                userIsFollowingArr = userIsFollowingArr.map(follow => follow.following).join(',');
+            }
+
+            for(const following of followings) {
+                data.push({
+                    _id: following.following._id,
+                    username: following.following.username,
+                    profile: following.following.profile,
+                    canFollow: userIsFollowingArr.includes(following.following._id.toString()) ? false : true
+                })
+            }
+
+            return res.status(200).json({
+                follows: data,
+                numFound
+            });
+        } else {
+            return res.status(200).json({
+                follows: [],
+                numFound
+            });
+        }
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

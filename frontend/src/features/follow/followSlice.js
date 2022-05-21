@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import followService from './followService';
-import { getProfile } from '../profile/profileSlice';
 
 
 const initialState = {
-    profile: null,
     followList: [],
+    numFound: 0,
+    hasMore: false,
+    limit: 10,
+    skip: 0,
     isLoading: false,
+    loadingId: null,
     isError: false,
     isSuccess: false,
     msg: '',
@@ -17,10 +20,10 @@ const initialState = {
 // Get followers
 export const getFollowers = createAsyncThunk(
     'follow/getFollowers',
-    async (username, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await followService.getFollowers(username, token);
+            return await followService.getFollowers(data, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -37,10 +40,10 @@ export const getFollowers = createAsyncThunk(
 // Get following
 export const getFollowing = createAsyncThunk(
     'follow/getFollowing',
-    async (username, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await followService.getFollowing(username, token);
+            return await followService.getFollowing(data, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -83,12 +86,12 @@ const followSlice = createSlice({
         reset: (state) => {
             state.followList = [];
             state.isLoading = false;
+            state.numFound = 0;
+            state.hasMore = false;
+            state.skip = 0;
             state.isError = false;
             state.isSuccess = false;
             state.msg = '';
-        },
-        resetProfile: (state) => {
-            state.profile = null;
         },
     },
     extraReducers: (builder) => {
@@ -97,8 +100,11 @@ const followSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(getFollowers.fulfilled, (state, action) => {
+            state.followList = [...state.followList, ...action.payload.follows];
+            state.numFound = action.payload.numFound;
+            state.skip = state.skip + state.limit;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.isLoading = false;
-            state.followList = [...state.followList, ...action.payload];
         });
         builder.addCase(getFollowers.rejected, (state, action) => {
             state.isLoading = false;
@@ -111,8 +117,11 @@ const followSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(getFollowing.fulfilled, (state, action) => {
+            state.followList = [...state.followList, ...action.payload.follows];
+            state.numFound = action.payload.numFound;
+            state.skip = state.skip + state.limit;
+            state.hasMore = state.skip + state.limit < state.numFound;
             state.isLoading = false;
-            state.followList = [...state.followList, ...action.payload];
         });
         builder.addCase(getFollowing.rejected, (state, action) => {
             state.isLoading = false;
@@ -121,29 +130,21 @@ const followSlice = createSlice({
         });
 
         // Follow user
+        builder.addCase(followUser.pending, (state, action) => {
+            state.loadingId = action.meta.arg;
+        });
         builder.addCase(followUser.fulfilled, (state, action) => {
-            if(state.profile._id === action.payload.follow.following) {
-                state.profile.canFollow = false;
-            } else {
-                const index = state.followList.findIndex(
-                    (user) => user._id === action.payload.follow.following
-                );
+            state.loadingId = null;
+            const index = state.followList.findIndex(
+                (user) => user._id === action.payload.follow.following
+            );
+            if(state.followList[index]) {
                 state.followList[index].canFollow = action.payload.msg !== 'Followed user';
             }
         });
         builder.addCase(followUser.rejected, (state, action) => {
+            state.loadingId = null;
             state.msg = action.payload;
-        });
-
-        builder.addCase(getProfile.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isSuccess = true;
-            state.profile = {
-                _id: action.payload.user._id,
-                canFollow: action.payload.canFollow,
-                followers: action.payload.followers,
-                following: action.payload.following,
-            };
         });
     }
 });
@@ -151,5 +152,5 @@ const followSlice = createSlice({
 
 
 // Export reducer
-export const { reset, resetProfile } = followSlice.actions;
+export const { reset } = followSlice.actions;
 export default followSlice.reducer;

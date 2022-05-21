@@ -1,42 +1,65 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
 
-const Following = ({label, classList}) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const { profile, followList, isLoading } = useSelector((state) => state.follow);
-    const follow = useSelector((state) => state.follow);
+const Following = ({label, setIsOpen}) => {
+    const { followList, isLoading, numFound, limit, skip } = useSelector((state) => state.follow);
+    const { profile } = useSelector((state) => state.profile);
     const dispatch = useDispatch();
+    const location = useLocation();
 
+    const getData = () => {
+        if (label === 'followers') {
+            return dispatch(getFollowers({
+                _id: profile.user._id,
+                limit,
+                skip
+            }));
+        } else if (label === 'following') {
+            return dispatch(getFollowing({
+                _id: profile.user._id,
+                limit,
+                skip
+            }));
+        } else {
+            return;
+        }
+    }
 
-    // useEffect(() => {
-    //     let promise = null;
-    //     if(isOpen) {
-    //         if(label === 'Following') {
-    //             if(offset < profile?.following) {
-    //                 promise = dispatch(getFollowing(profile.user._id));
-    //             }
-    //         } else if (label === 'Followers') {
-    //             if(offset < profile?.followers) {
-    //                 promise = dispatch(getFollowers(profile.user._id));
-    //             }
-    //         }
-    //     } else if ( !isOpen && followList.length > 0) {
-    //         dispatch(reset());
-    //     }
+    const observer = useRef();
+    const lastElementRef = useCallback(node => {
+        if (isLoading) return;
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && skip < numFound) {
+                const promise = getData();
 
-    //     return () => {
-    //         promise && promise.abort();
-    //     }
+                return () => {
+                    promise && promise.abort();
+                    dispatch(reset());
+                }
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, [skip, numFound, getData]);
 
-    // }, [isOpen]);
+    useEffect(() => {
+        const promiser = getData();
+
+        return () => {
+            promiser && promiser.abort();
+            setIsOpen(false);
+            dispatch(reset());
+        }
+    }, [location])
 
     return (
         <>
             <Modal
-                modalIsOpen={isOpen}
+                modalIsOpen={true}
                 setModalIsOpen={setIsOpen}
                 contentLabel={label}
                 isLoading={isLoading}
@@ -44,8 +67,8 @@ const Following = ({label, classList}) => {
                 isScroll={true}
             >
                 <div className="follows-list">
-                    {followList.map((follow) => (
-                        <div className="flex align-between align-center mb-1 flex-align-center" key={follow._id}>
+                    {followList.map((follow, index) => (
+                        <div ref={(followList.length === index + 1) ? lastElementRef : null} className="flex align-between align-center mb-1 flex-align-center" key={`follows-${follow._id}`}>
                             <div className="flex flex-align-center">
                                 <Link to={`/${follow.username}`}>
                                     {follow.avatar ? (
@@ -81,25 +104,15 @@ const Following = ({label, classList}) => {
                     ))}
                     {!isLoading && (
                         <div className="text-center mb-1">
-                            {label === 'Following' && follow.profile && follow.profile.following === 0 ? (
+                            {label === 'Following' && profile && profile.following === 0 ? (
                                 `${profile.username} is not following anyone`
-                            ) : label === 'Followers' && follow.profile && follow.profile.followers === 0 && (
+                            ) : label === 'Followers' && profile && profile.followers === 0 && (
                                 `${profile.username} has no followers`
                             )}
                         </div>
                     )}
                 </div>
             </Modal>
-            <div 
-                className={`btn btn-xs${classList ? ' ' + classList : ''}`}
-                onClick={() => setIsOpen(true)}
-            >
-            {label === 'Following' ? (
-                `${follow.profile && follow.profile.following || 0} Following`
-            ) : label === 'Followers' && (
-                `${follow.profile && follow.profile.followers || 0} Followers`
-            )}
-            </div>
         </>
     )
 }

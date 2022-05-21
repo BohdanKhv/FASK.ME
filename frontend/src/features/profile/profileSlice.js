@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import profileService from './profileService';
+import { followUser } from '../follow/followSlice';
 
 
 const initialState = {
@@ -153,6 +154,16 @@ const profileSlice = createSlice({
         builder.addCase(getProfiles.rejected, (state, action) => {
             state.isFollowLoading = false;
             state.msg = action.payload;
+        });
+
+        builder.addCase(followUser.fulfilled, (state, action) => {
+            if(state.profile && (state.profile.user._id === action.payload.follow.following)) {
+                state.profile.canFollow = action.payload.msg !== 'Followed user';
+                state.profile.followers = action.payload.msg === 'Followed user' ? state.profile.followers + 1 : state.profile.followers - 1;
+            }
+            if(state.profile && (state.profile.user._id === action.payload.follow.follower)) {
+                state.profile.following = action.payload.msg === 'Followed user' ? state.profile.following + 1 : state.profile.following - 1;
+            }
         });
     }
 });

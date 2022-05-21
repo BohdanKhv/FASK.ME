@@ -8,16 +8,13 @@ const ClickCount = ({question}) => {
             <SenderGate
                 sender={question.sender}
             >
-                <div className="flex">
-                    <Tooltip
-                        content={`Clicks`}
-                    >
-                        <div className="text-hover text-hover-main">
-                            {question.readBy ? question.readBy.length : 0}
-                        </div>
-                        
-                    </Tooltip>
-                </div>
+                <Tooltip
+                    content={`Clicks`}
+                >
+                    <div className="btn btn-xs">
+                        {question.readBy ? question.readBy.length : 0}
+                    </div>
+                </Tooltip>
             </SenderGate>
         :
             null

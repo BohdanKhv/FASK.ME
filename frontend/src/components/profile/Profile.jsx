@@ -9,6 +9,8 @@ import './styles/Profile.css';
 const Profile = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenFollowingList, setIsOpenFollowingList] = useState(false);
+    const [isOpenFollowersList, setIsOpenFollowersList] = useState(false);
     const [isDesktop, setDesktop] = useState(window.innerWidth > 735);
     const { profile, isLoading } = useSelector(state => state.profile);
 
@@ -78,13 +80,18 @@ const Profile = () => {
                                 </div>
                                 {isDesktop && (
                                     <div className={`flex${isDesktop ? ' mb-1' : ''}`}>
-                                        <FollowList
-                                            label="Followers"
-                                            classList="mr-1"
-                                        />
-                                        <FollowList
-                                            label="Following"
-                                        />
+                                        <div 
+                                            className="btn btn-xs mr-1"
+                                            onClick={() => setIsOpenFollowingList(true)}
+                                        >
+                                            {profile.following || 0} Following
+                                        </div>
+                                        <div 
+                                            className="btn btn-xs mr-1"
+                                            onClick={() => setIsOpenFollowersList(true)}
+                                        >
+                                            {profile.followers || 0} Followers
+                                        </div>
                                     </div>
                                 )}
                                 {isDesktop && (
@@ -114,13 +121,18 @@ const Profile = () => {
                         )}
                         {!isDesktop && (
                             <div className="flex mb-1">
-                                <FollowList
-                                    label="Followers"
-                                    classList="mr-1"
-                                />
-                                <FollowList
-                                    label="Following"
-                                />
+                                <div 
+                                    className="btn btn-xs mr-1"
+                                    onClick={() => setIsOpenFollowingList(true)}
+                                >
+                                    {profile.following || 0} Following
+                                </div>
+                                <div 
+                                    className="btn btn-xs mr-1"
+                                    onClick={() => setIsOpenFollowersList(true)}
+                                >
+                                    {profile.followers || 0} Followers
+                                </div>
                             </div>
                         )}
                         <IsUserGate>
@@ -138,6 +150,18 @@ const Profile = () => {
                             </div>
                         </AuthGate>
                     </div>
+                    {isOpenFollowingList && (
+                        <FollowList
+                            label="following"
+                            setIsOpen={setIsOpenFollowingList}
+                        />
+                    )}
+                    {isOpenFollowersList && (
+                        <FollowList
+                            label="followers"
+                            setIsOpen={setIsOpenFollowersList}
+                        />
+                    )}
                     <IsUserGate>
                         <EditProfile
                             isOpen={isOpen}

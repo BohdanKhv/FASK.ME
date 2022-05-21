@@ -5,26 +5,26 @@ const API_URL = '/api/follow/';
 
 
 // get followers
-const getFollowers = async (id, token) => {
+const getFollowers = async (data, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
-    const res = await axios.get(`${API_URL}followers/${id}`, config);
+    const res = await axios.get(`${API_URL}followers/${data._id}?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }
 
 
 // get following
-const getFollowing = async (id, token) => {
+const getFollowing = async (data, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`,
         }
     };
-    const res = await axios.get(`${API_URL}following/${id}`, config);
+    const res = await axios.get(`${API_URL}following/${data._id}?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }
