@@ -22,42 +22,44 @@ const Questions = () => {
     const { profile } = useSelector((state) => state.profile);
     const { questions, skip, limit, hasMore, isLoading, isError } = useSelector(state => state.question);
 
+    const getData = () => {
+        if(!location) {
+            return dispatch(getProfileFaqQuestions({
+                username: profile.username,
+                skip,
+                limit
+            }));
+        } else if (location === 'private') {
+            if(user && (user.username === profile.username)) {
+                return dispatch(getUserPrivateQuestions({
+                    skip,
+                    limit
+                }));
+            } else {
+                navigate(`/${profile.username}`);
+            }
+        } else if (location === 'answered') {
+            return dispatch(getProfileAnsweredQuestions({
+                username: profile.username,
+                skip,
+                limit
+            }));
+        } else if (location === 'asked') {
+            return dispatch(getProfileAskedQuestions({
+                username: profile.username,
+                skip,
+                limit
+            }));
+        }
+    }
+
     const observer = useRef();
     const lastQuestionElementRef = useCallback(node => {
         if (isLoading) return;
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                let promise = null;
-
-                if(!location) {
-                    promise = dispatch(getProfileFaqQuestions({
-                        username: profile.username,
-                        skip,
-                        limit
-                    }));
-                } else if (location === 'private') {
-                    if(user && (user.username === profile.username)) {
-                        promise = dispatch(getUserPrivateQuestions({
-                            skip,
-                            limit
-                        }));
-                    } else {
-                        navigate(`/${profile.username}`);
-                    }
-                } else if (location === 'answered') {
-                    promise = dispatch(getProfileAnsweredQuestions({
-                        username: profile.username,
-                        skip,
-                        limit
-                    }));
-                } else if (location === 'asked') {
-                    promise = dispatch(getProfileAskedQuestions({
-                        username: profile.username,
-                        skip,
-                        limit
-                    }));
-                }
+                const promise = getData();
 
                 return () => {
                     promise && promise.abort();
@@ -69,36 +71,7 @@ const Questions = () => {
     }, [isLoading, hasMore]);
 
     useEffect(() => {
-        let promise = null;
-
-        if(!location) {
-            promise = dispatch(getProfileFaqQuestions({
-                username: profile.username,
-                skip,
-                limit
-            }));
-        } else if (location === 'private') {
-            if(user && (user.username === profile.username)) {
-                promise = dispatch(getUserPrivateQuestions({
-                    skip,
-                    limit
-                }));
-            } else {
-                navigate(`/${profile.username}`);
-            }
-        } else if (location === 'answered') {
-            promise = dispatch(getProfileAnsweredQuestions({
-                username: profile.username,
-                skip,
-                limit
-            }));
-        } else if (location === 'asked') {
-            promise = dispatch(getProfileAskedQuestions({
-                username: profile.username,
-                skip,
-                limit
-            }));
-        }
+        const promise = getData();
 
         return () => {
             promise && promise.abort();

@@ -12,25 +12,27 @@ const Feed = () => {
     const { user } = useSelector((state) => state.auth);
     const { questions, skip, limit, hasMore, isLoading } = useSelector(state => state.question);
 
+    const getData = () => {
+        if(!location) {
+            return dispatch(getFollowersQuestions({
+                skip,
+                limit
+            }));
+        } else if(location === 'sent') {
+            return dispatch(getSentQuestions({
+                skip,
+                limit
+            }));
+        }
+    }
+
     const observer = useRef();
     const lastQuestionElementRef = useCallback(node => {
         if (isLoading) return;
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                let promise = null;
-        
-                if(!location) {
-                    promise = dispatch(getFollowersQuestions({
-                        skip,
-                        limit
-                    }));
-                } else if(location === 'sent') {
-                    promise = dispatch(getSentQuestions({
-                        skip,
-                        limit
-                    }));
-                }
+                const promise = getData();
         
                 return () => {
                     promise && promise.abort();
@@ -42,19 +44,7 @@ const Feed = () => {
     }, [isLoading, hasMore]);
 
     useEffect(() => {
-        let promise = null;
-
-        if(!location) {
-            promise = dispatch(getFollowersQuestions({
-                skip,
-                limit
-            }));
-        } else if(location === 'sent') {
-            promise = dispatch(getSentQuestions({
-                skip,
-                limit
-            }));
-        }
+        const promise = getData();
 
         return () => {
             promise && promise.abort();
