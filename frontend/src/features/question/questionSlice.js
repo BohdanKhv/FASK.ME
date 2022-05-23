@@ -9,6 +9,7 @@ const initialState = {
     skip: 0,
     limit: 10,
     isLoading: false,
+    loadingId: null,
     isCreateLoading: false,
     isError: false,
     isSuccess: false,
@@ -362,38 +363,39 @@ const questionSlice = createSlice({
 
         // Update question
         builder.addCase(updateQuestion.pending, (state, action) => {
-            state.isCreateLoading = true;
+            state.loadingId = action.meta.arg._id;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(updateQuestion.fulfilled, (state, action) => {
-            state.isCreateLoading = false;
+            state.loadingId = null;
             state.isError = false;
             state.msg = '';
             const index = state.questions.findIndex(question => question._id === action.payload._id);
             state.questions[index] = action.payload;
         });
         builder.addCase(updateQuestion.rejected, (state, action) => {
-            state.isCreateLoading = false;
+            state.loadingId = null;
             state.isError = true;
             state.msg = action.payload;
         });
 
         // Delete question
         builder.addCase(deleteQuestion.pending, (state, action) => {
+            state.loadingId = action.meta.arg._id;
             state.isCreateLoading = true;
             state.isError = false;
             state.msg = '';
         });
         builder.addCase(deleteQuestion.fulfilled, (state, action) => {
+            state.loadingId = null;
             state.isError = false;
             state.msg = '';
-            state.isCreateLoading = false;
             state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
             state.questions = state.questions.filter(question => question._id !== action.payload._id);
         });
         builder.addCase(deleteQuestion.rejected, (state, action) => {
-            state.isCreateLoading = false;
+            state.loadingId = null;
             state.isError = true;
             state.msg = action.payload;
         });

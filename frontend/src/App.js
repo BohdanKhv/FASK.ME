@@ -12,7 +12,7 @@ const App = () => {
       if (theme === 'dark') {
           document.body.setAttribute('data-theme', 'dark');
       } else {
-          document.body.setAttribute('data-theme', '');
+          document.body.setAttribute('data-theme', 'light');
       }
   }, [theme]);
 

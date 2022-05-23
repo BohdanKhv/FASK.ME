@@ -5,7 +5,7 @@ import { updateQuestion } from '../../features/question/questionSlice';
 
 const TakePrivate = ({question}) => {
     const dispatch = useDispatch();
-    const { isCreateLoading } = useSelector((state) => state.question);
+    const { loadingId } = useSelector((state) => state.question);
 
     return (
         question.isAnswered && (
@@ -16,7 +16,7 @@ const TakePrivate = ({question}) => {
                     content={question.isPrivate ? 'Unlock' : 'Lock'}
                     classList="ml-1"
                 >
-                    {isCreateLoading ? (
+                    {loadingId && loadingId === question._id ? (
                         <div 
                             className="btn-icon spinner"
                         >

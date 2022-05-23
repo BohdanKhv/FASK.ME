@@ -48,7 +48,7 @@ const Ask = ({classList}) => {
 
     return (
             isSuccess ? (
-                <div className="success-msg">Your question has been sent</div>
+                <div className={`success-msg${classList ? ' ' + classList : ''}`}>Your question has been sent</div>
             ) : (
             <>
                 <Modal
