@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/authMiddleware');
 const {
+    getReceivedQuestionsCount,
     getReceivedQuestions,
     getSentQuestions,
     getProfileFaqQuestions,
@@ -18,6 +19,7 @@ const {
 
 router
     .post('/', protect, createQuestion)
+    .get('/received/count', protect, getReceivedQuestionsCount)
     .get('/received', protect, getReceivedQuestions)
     .get('/sent', protect, getSentQuestions)
     .get('/private', protect, getUserPrivateQuestions)

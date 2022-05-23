@@ -21,6 +21,27 @@ const filterAnonymouslyAskedQuestions = async (questions) => {
 }
 
 
+// @desc   Get received questions count
+// @route  GET /api/questions/received/count
+// @access Private
+const getReceivedQuestionsCount = async (req, res) => {
+    try {
+        const numFound = await Question.countDocuments({
+            receiver: req.user._id,
+            isArchived: false,
+            isAnswered: false,
+        });
+
+        return res.status(200).json(numFound);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            msg: 'Server Error'
+        });
+    }
+}
+
+
 // @desc   Get received questions
 // @route  GET /api/questions/received
 // @access Private
@@ -622,6 +643,7 @@ const incrementViewCount = async (req, res) => {
 
 
 module.exports = {
+    getReceivedQuestionsCount,
     getReceivedQuestions,
     getSentQuestions,
     getProfileFaqQuestions,

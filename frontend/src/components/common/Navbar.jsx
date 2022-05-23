@@ -8,7 +8,7 @@ import './styles/Navbar.css';
 const Navbar = () => {
     const location = useLocation().pathname.toLocaleLowerCase();
     const { profile } = useSelector((state) => state.profile);
-    const { inbox } = useSelector((state) => state.inbox);
+    const { numFound } = useSelector((state) => state.inbox);
     const { user } = useSelector((state) => state.auth);
     const [links, setLinks] = useState([]);
 
@@ -30,7 +30,7 @@ const Navbar = () => {
                         <Link
                             key={`navbar-${link.name+index}`}
                             to={`${link.path}`} 
-                            className={`navbar-item${location === link.path.toLocaleLowerCase() ? ' active' : ''}${link.notify && inbox.length > 0 ? ' notify' : ''}`}
+                            className={`navbar-item${location === link.path.toLocaleLowerCase() ? ' active' : ''}${link.notify && numFound > 0 ? ' notify' : ''}`}
                         >
                             { link.icon }
                                 <div className="flex flex-column align-center">

@@ -16,8 +16,21 @@ const getReceivedQuestions = async (data, token) => {
     return res.data;
 }
 
+// get received questions
+const getReceivedQuestionsCount = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+    const res = await axios.get(`${API_URL}/received/count`, config);
+
+    return res.data;
+}
+
 
 const inboxService = {
     getReceivedQuestions,
+    getReceivedQuestionsCount
 };
 export default inboxService;

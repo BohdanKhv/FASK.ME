@@ -13,7 +13,7 @@ const Nav = () => {
     const location = useLocation().pathname.split('/')[1];
     const user = useSelector((state) => state.auth.user);
     const { msg } = useSelector((state) => state.profile);
-    const { inbox } = useSelector((state) => state.inbox);
+    const { numFound } = useSelector((state) => state.inbox);
 
 
     return (
@@ -32,7 +32,7 @@ const Nav = () => {
                 <div className="nav-right">
                     <ul className="nav-links">
                         <li>
-                            <NavLink to={`/`} className={`${inbox.length > 0 ? "notify" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
+                            <NavLink to={`/`} className={`${numFound > 0 ? "notify" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
                                 {homeIcon}
                             </NavLink>
                         </li>
@@ -60,7 +60,7 @@ const Nav = () => {
                             <NavLink 
                                 to={`/`}
                                 onClick={() => {setSidenav(false)}}
-                                className={`${inbox.length > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
+                                className={`${numFound > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
                                     {homeIcon}
                                 <span className="ml-1">
                                     Home

@@ -16,6 +16,26 @@ const initialState = {
 };
 
 
+// get received questions count
+export const getReceivedQuestionsCount = createAsyncThunk(
+    'inbox/getReceivedQuestionsCount',
+    async (_, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await inboxService.getReceivedQuestionsCount(token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Get received questions
 export const getReceivedQuestions = createAsyncThunk(
     "inbox/getReceivedQuestions",
@@ -77,6 +97,11 @@ const questionsSlice = createSlice({
 
         builder.addCase(updateQuestion.fulfilled, (state, action) => {
             state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
+        });
+
+        // Get received questions count
+        builder.addCase(getReceivedQuestionsCount.fulfilled, (state, action) => {
+            state.numFound = action.payload;
         });
     }
 });
