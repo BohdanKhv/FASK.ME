@@ -108,7 +108,7 @@ const Ask = ({classList}) => {
                         classList={'mr-1'}
                         content={`You've already sent a question. You have to wait until ${profile.username} responds, or delete an existing question.`}
                     >
-                        <div className="btn-icon btn-icon-lg">
+                        <div className="btn-icon">
                             {infoIcon}
                         </div>
                     </Tooltip>

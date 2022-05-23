@@ -59,7 +59,7 @@ const Login = () => {
             <div className="auth-wrapper">
                 <div className="auth-container">
                     <div className="form-header">
-                        <h1 className="title-1 text-center py-1">
+                        <h1 className="title-1 text-center p-1">
                             Log in to your account
                         </h1>
                     </div>
@@ -93,6 +93,9 @@ const Login = () => {
                             </button>
                             {isError && <div className="text-danger mt-1 bg-err">{msg}</div>}
                         </form>
+                        <NavLink to="/forgot-password">
+                            Forgot password?
+                        </NavLink>
                         <p className="mt-1 text-end">
                             Don't have an account? <NavLink className="text-hover" to="/register">Create One</NavLink>
                         </p>

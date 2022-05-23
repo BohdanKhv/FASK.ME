@@ -52,12 +52,29 @@ export const updateUser = async (userData, token) => {
 }
 
 
+// Sent reset password email
+export const forgotPassword = async (data) => {
+    const response = await axios.post(`${API_URL}forgot-password`, data);
+
+    return response.data;
+}
+
+
+// Create new password
+export const resetPassword = async (data) => {
+    const response = await axios.post(`${API_URL}reset-password`, data);
+    
+    return response.data;
+}
+
 
 const authService = {
     register,
     logout,
     login,
     updateUser,
+    forgotPassword,
+    resetPassword,
 };
 
 export default authService;

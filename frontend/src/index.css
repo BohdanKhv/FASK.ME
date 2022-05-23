@@ -211,8 +211,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 .btn-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 
 .btn.btn-sm {
@@ -322,10 +322,13 @@ body::-webkit-scrollbar-thumb {
   text-align: center;
 }
 
+.bg-err,
 .danger-msg {
   background-color: var(--color-danger);
   border-radius: var(--border-radius);
   padding: 0.75rem 1rem;
+  color: #000000;
+  text-align: center;
 }
 
 .form-group-row {
@@ -555,15 +558,6 @@ input:active label {
   text-decoration: none;
   color: var(--text-dark);
   transition: var(--transition-duration);
-}
-
-.bg-err {
-  color: var(--color-danger);
-  background: var(--color-secondary);
-  border-radius: var(--border-radius);
-  border: 2px solid var(--color-danger);
-  padding: 0.5rem;
-  text-align: center;
 }
 
 .bg-info {

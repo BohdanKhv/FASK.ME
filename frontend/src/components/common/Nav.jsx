@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { burgerIcon, homeIcon, userIcon } from '../../constance/icons';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
 import { Sidenav, Slime, SearchField, ThemeToggle } from '../';
+import { homePathNames } from '../../constance/localData';
 import './styles/Nav.css';
 
 
@@ -20,14 +21,14 @@ const Nav = () => {
         user ? (
         <nav className="main-nav">
             <div className="container nav-wrapper">
-                <div className="h-100 flex align-center">
+                <Link to="/" className="h-100 flex align-center">
                     <div className="logo">
                         {logoNameSvg}
                     </div>
                     <div className="logo-sm">
                         {logoSvg}
                     </div>
-                </div>
+                </Link>
                 <SearchField/>
                 <div className="nav-right">
                     <ul className="nav-links">
@@ -84,8 +85,7 @@ const Nav = () => {
             </Sidenav>
         </nav>
         ) : 
-        location === 'login' || 
-        location === 'register' || 
+        homePathNames.includes(location) || 
         (!user && msg == 'Profile not found') ? (
         <>
         <Slime/>

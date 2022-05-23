@@ -64,10 +64,10 @@ const Register = () => {
             <div className="auth-wrapper">
                 <div className="auth-container">
                     <div className="form-header">
-                        <h1 className="title-1 text-center py-1">
-                            Create an account for free
+                        <h1 className="title-1 text-center p-1">
+                            Create an account
                         </h1>
-                        <p className="title-3 text-secondary text-center pb-1">
+                        <p className="title-3 text-secondary text-center pb-1 px-1">
                             Free forever, no ads, no limits.
                         </p>
                     </div>

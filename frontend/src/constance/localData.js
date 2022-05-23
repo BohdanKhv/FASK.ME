@@ -49,8 +49,11 @@ const feedNav = [
     },
 ];
 
+const homePathNames = ['login', 'register', 'reset-password', 'forgot-password'];
+
 
 export {
     questionsNav,
     feedNav,
+    homePathNames
 }

@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getProfile, reset } from "../features/profile/profileSlice";
 import { Profile, Questions, AuthInitial } from "../components";
+import { homePathNames } from '../constance/localData';
 
 
 const User = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const username = useParams().username;
     const { profile } = useSelector((state) => state.profile);
     const { user } = useSelector((state) => state.auth);
@@ -14,7 +16,9 @@ const User = () => {
     useEffect(() => {
         let promise = null;
 
-        if(username) {
+        if ( homePathNames.includes(username) ) {
+            navigate('/');
+        } else if(username) {
             promise = dispatch(getProfile(username));
         }
 

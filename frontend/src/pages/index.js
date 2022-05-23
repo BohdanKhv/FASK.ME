@@ -4,6 +4,8 @@ import User from "./User";
 import Home from "./Home";
 import Feed from "./Feed";
 import Main from "./Main";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 
 export {
@@ -12,5 +14,7 @@ export {
     User,
     Home,
     Feed,
-    Main
+    Main,
+    ForgotPassword,
+    ResetPassword
 }
