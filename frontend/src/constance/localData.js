@@ -32,7 +32,7 @@ const questionsNav = (username) => {
 
 const feedNav = [
     {
-        name: 'Following',
+        name: 'Feed',
         icon: faqIcon,
         path: '/',
     },

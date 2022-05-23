@@ -40,6 +40,10 @@
   padding: 0;
 }
 
+html, body, #root {
+  height: 100%;
+}
+
 html {
   overflow-x: hidden;
 }
@@ -192,6 +196,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .btn-icon:hover {
+  color: #000000;
   background: var(--color-primary);
   border-color: var(--color-primary);
   box-shadow: var(--box-shadow);

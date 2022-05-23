@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { arrowRepeatIcon, closeIcon } from '../../constance/icons';
 import './styles/Modal.css';
 
-const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading, notCloseOnUpdate, isError, errMsg, isScroll, onClose}) => {
+const Modal = ({children, bodyStyles, headerNone, footerNone, style, modalIsOpen, contentLabel, setModalIsOpen, actionBtnText, onSubmit, actionDangerBtnText, onSubmitDanger, disableClose, isLoading, notCloseOnUpdate, isError, errMsg, isScroll, onClose}) => {
 
     const closeModal = () => {
         setModalIsOpen(false);
@@ -27,12 +27,26 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
         }
     }, [isLoading, isError]);
 
+
+    useEffect(() => {
+        if(modalIsOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        }
+    }, [modalIsOpen])
+
     return (
         <>
         {modalIsOpen ? (
         <div className="modal-overlay" onMouseDown={onClickOutside} style={style}>
             <div className="modal-wrapper">
                 <div className="modal-body">
+                    {!headerNone ? (
                     <div className="modal-header">
                         <h3>{contentLabel}</h3>
                         {disableClose ? null : (
@@ -41,6 +55,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                             </div>
                         )}
                     </div>
+                    ) : null}
                     <div className={`modal-content${isScroll ? ' modal-scroll' : ''}`} style={bodyStyles}>
                         <div className="h-100">
                             {children}
@@ -56,7 +71,7 @@ const Modal = ({children, bodyStyles, style, modalIsOpen, contentLabel, setModal
                             {errMsg}
                         </div>
                     )}
-                    {!isScroll && (
+                    {!isScroll && !footerNone && (
                         <div className="modal-footer">
                             {actionDangerBtnText && !isLoading && (
                                 <div className="btn btn-outline-danger" onClick={onSubmitDanger}>

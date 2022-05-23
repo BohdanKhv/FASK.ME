@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { trashIcon, arrowRepeatIcon } from '../../constance/icons';
 import { deleteQuestion } from '../../features/question/questionSlice';
-import { RecSenGate, Tooltip } from '../';
+import { RecSenGate } from '../';
 
 const DeleteQuestion = ({question}) => {
     const dispatch = useDispatch();
@@ -12,27 +12,14 @@ const DeleteQuestion = ({question}) => {
             sender={question.sender}
             receiver={question.receiver ? question.receiver : null}
         >
-            <Tooltip
-                content="Delete"
-                classList="ml-1"
+            <div 
+                className={`btn mb-1${loadingId && loadingId === question._id ? ' spinner' : ''}`}
+                onClick={() => 
+                    dispatch(deleteQuestion(question._id))
+                }
             >
-                {loadingId && loadingId === question._id ? (
-                    <div 
-                        className="btn-icon spinner"
-                    >
-                        {arrowRepeatIcon}
-                        </div>
-                ) : (
-                    <div 
-                        className="btn-icon"
-                        onClick={() => 
-                            dispatch(deleteQuestion(question._id))
-                        }
-                    >
-                        {trashIcon}
-                    </div>
-                )}
-            </Tooltip>
+                <span className="mr-1">{loadingId && loadingId === question._id ? arrowRepeatIcon : trashIcon}</span>Delete
+            </div>
         </RecSenGate>
     )
 }

@@ -135,10 +135,8 @@ const getSentQuestions = async (req, res) => {
             .limit(limit || 10)
             .skip(skip || 0);
 
-            const data = await filterAnonymouslyAskedQuestions(questions);
-
             return res.status(200).json({
-                questions: data,
+                questions: questions,
                 numFound
             });
         } else {

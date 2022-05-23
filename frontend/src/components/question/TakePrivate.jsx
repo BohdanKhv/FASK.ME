@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { lockIcon, arrowRepeatIcon, unlockIcon } from '../../constance/icons';
-import { ReceiverGate, Tooltip } from '../';
+import { ReceiverGate } from '../';
 import { updateQuestion } from '../../features/question/questionSlice';
 
 const TakePrivate = ({question}) => {
@@ -12,31 +12,18 @@ const TakePrivate = ({question}) => {
             <ReceiverGate
                 receiver={question.receiver ? question.receiver : null}
             >
-                <Tooltip
-                    content={question.isPrivate ? 'Unlock' : 'Lock'}
-                    classList="ml-1"
+                <div 
+                    className={`btn mb-1${loadingId && loadingId === question._id ? ' spinner' : ''}`}
+                    onClick={() => 
+                        dispatch(
+                            updateQuestion({
+                            _id: question._id,
+                            isPrivate: !question.isPrivate,
+                        }))
+                    }
                 >
-                    {loadingId && loadingId === question._id ? (
-                        <div 
-                            className="btn-icon spinner"
-                        >
-                            {arrowRepeatIcon}
-                            </div>
-                    ) : (
-                        <div 
-                            className="btn-icon"
-                            onClick={() => 
-                                dispatch(
-                                    updateQuestion({
-                                    _id: question._id,
-                                    isPrivate: !question.isPrivate,
-                                }))
-                            }
-                        >
-                            {question.isPrivate ? unlockIcon : lockIcon}
-                        </div>
-                    )}
-                </Tooltip>
+                    <span className="mr-1">{loadingId && loadingId === question._id ? arrowRepeatIcon : question.isPrivate ? lockIcon : unlockIcon}</span> {question.isPrivate ? 'Mark as Public' : 'Mark as Private'}
+                </div>
             </ReceiverGate>
         )
     )

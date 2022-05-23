@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { downArrow, answareIcon, questionIcon } from '../../constance/icons';
-import { TakePrivate, DeleteQuestion, ViewCount, UserInfo } from '../';
+import { downArrow } from '../../constance/icons';
+import { QuestionMenu, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, Image } from '../';
 
@@ -94,10 +93,7 @@ const QuestionCard = ({question, isOpen}) => {
                             question={question}
                             showAnswer={showAnswer}
                         />
-                        <DeleteQuestion
-                            question={question}
-                        />
-                        <TakePrivate
+                        <QuestionMenu
                             question={question}
                         />
                     </div>

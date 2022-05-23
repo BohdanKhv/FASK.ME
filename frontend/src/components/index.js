@@ -38,6 +38,7 @@ import DeleteQuestion from "./question/DeleteQuestion";
 import ViewCount from "./question/ViewCount";
 import UserInfo from "./question/UserInfo";
 import Inbox from "./question/Inbox";
+import QuestionMenu from "./question/QuestionMenu";
 
 
 export {
@@ -80,5 +81,6 @@ export {
     DeleteQuestion,
     ViewCount,
     UserInfo,
-    Inbox
+    Inbox,
+    QuestionMenu
 }
