@@ -10,7 +10,7 @@ const ThemeToggle = () => {
     return (
         <div className="p-1 flex align-between border-top">
             <div className="title-2">
-                Theme
+                Dark Theme
             </div>
             <Switch
                 onChange={() => {

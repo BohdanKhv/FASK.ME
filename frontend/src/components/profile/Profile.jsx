@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, Tooltip, ProfileNotFound } from '../';
-import { logout } from '../../features/auth/authSlice';
-import { doorClosedIcon } from '../../constance/icons';
+import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, ProfileNotFound, ProfileMenu } from '../';
 import './styles/Profile.css';
 
 
@@ -55,18 +53,7 @@ const Profile = () => {
                                     <div className="flex flex-align-center">
                                         <FollowToggle />
                                         <IsUserGate>
-                                            <div className="mr-1">
-                                                <Tooltip
-                                                    content="Log out"
-                                                >
-                                                    <div 
-                                                        className="btn-icon"
-                                                        onClick={() => dispatch(logout())}
-                                                    >
-                                                        {doorClosedIcon}
-                                                    </div>
-                                                </Tooltip>
-                                            </div>
+                                            <ProfileMenu />
                                         </IsUserGate>
                                         <IsUserGate>
                                             <div 
