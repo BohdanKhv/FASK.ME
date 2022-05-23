@@ -114,7 +114,7 @@ const Ask = ({classList}) => {
                     </Tooltip>
                 )}
                 <div 
-                    className={`btn btn-primary${classList ? ` ${classList}` : ''}`}
+                    className={`btn btn-sm btn-primary${classList ? ` ${classList}` : ''}`}
                     onClick={() => setIsOpen(true)}
                 >
                     Ask {profile.username}

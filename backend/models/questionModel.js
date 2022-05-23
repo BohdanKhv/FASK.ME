@@ -24,6 +24,10 @@ const questionModelSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    price: {
+        type: Number,
+        required: false
+    },
     isAnswered: {
         type: Boolean,
         default: false,
@@ -43,18 +47,10 @@ const questionModelSchema = new mongoose.Schema({
         default: false,
         required: false
     },
-    // !TODO: add this to separate model
-    // readBy: [{
-    //     user: {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'User',
-    //     },
-    //     readAt: {
-    //         type: Date,
-    //         default: Date.now,
-    //         required: false
-    //     }
-    // }],
+    views: {
+        type: Number,
+        default: 0,
+    }
 }, { timestamps: true });
 
 

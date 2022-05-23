@@ -598,6 +598,28 @@ const updateQuestion = async (req, res) => {
 }
 
 
+// @desc   View question
+// @route  GET /api/questions/view/:id
+// @access Public
+const incrementViewCount = async (req, res) => {
+    try {
+        const question = await Question.findById(req.params.id);
+
+        if (!question) {
+            return res.status(404).json({ msg: 'Question not found' });
+        }
+
+        question.views += 1;
+        await question.save();
+
+        return res.status(200).json();
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+}
+
+
 
 module.exports = {
     getReceivedQuestions,
@@ -608,6 +630,7 @@ module.exports = {
     getUserPrivateQuestions,
     getFollowersQuestions,
     createQuestion,
+    incrementViewCount,
     updateQuestion,
     deleteQuestion
 }

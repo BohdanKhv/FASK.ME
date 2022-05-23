@@ -10,19 +10,13 @@ const Feed = () => {
     const dispatch = useDispatch()
     const location = useLocation().pathname.split("/")[1]
     const { user } = useSelector((state) => state.auth);
-    const { questions, skip, limit, hasMore, isLoading } = useSelector(state => state.question);
+    const { questions, hasMore, isLoading } = useSelector(state => state.question);
 
     const getData = () => {
         if(!location) {
-            return dispatch(getFollowersQuestions({
-                skip,
-                limit
-            }));
+            return dispatch(getFollowersQuestions());
         } else if(location === 'sent') {
-            return dispatch(getSentQuestions({
-                skip,
-                limit
-            }));
+            return dispatch(getSentQuestions());
         }
     }
 

@@ -167,3 +167,8 @@ module.exports = {
     getFollowing,
     followUser,
 }
+
+// await childSchema
+//   .aggregate()
+//   .group({ _id: '$parentId', countOfChildrenPerParent: { $sum: 1 } })
+//   .exec();

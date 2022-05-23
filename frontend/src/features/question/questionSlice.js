@@ -20,10 +20,11 @@ const initialState = {
 // Get sent questions
 export const getSentQuestions = createAsyncThunk(
     "question/getSentQuestions",
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getSentQuestions(data, token);
+            const { skip, limit } = thunkAPI.getState().question;
+            return await questionService.getSentQuestions({username, skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -40,9 +41,10 @@ export const getSentQuestions = createAsyncThunk(
 // Get pinned questions
 export const getProfileFaqQuestions = createAsyncThunk(
     "question/getProfileFaqQuestions",
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
-            return await questionService.getProfileFaqQuestions(data);
+            const { skip, limit } = thunkAPI.getState().question;
+            return await questionService.getProfileFaqQuestions({username, skip, limit});
         } catch (error) {
             const message =
                 (error.response &&
@@ -59,9 +61,10 @@ export const getProfileFaqQuestions = createAsyncThunk(
 // Get answered questions
 export const getProfileAnsweredQuestions = createAsyncThunk(
     "question/getProfileAnsweredQuestions",
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
-            return await questionService.getProfileAnsweredQuestions(data);
+            const { skip, limit } = thunkAPI.getState().question;
+            return await questionService.getProfileAnsweredQuestions({username, skip, limit});
         } catch (error) {
             const message =
                 (error.response &&
@@ -78,9 +81,10 @@ export const getProfileAnsweredQuestions = createAsyncThunk(
 // Get Asked questions
 export const getProfileAskedQuestions = createAsyncThunk(
     "question/getProfileAskedQuestions",
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
-            return await questionService.getProfileAskedQuestions(data);
+            const { skip, limit } = thunkAPI.getState().question;
+            return await questionService.getProfileAskedQuestions({username, skip, limit});
         } catch (error) {
             const message =
                 (error.response &&
@@ -97,10 +101,11 @@ export const getProfileAskedQuestions = createAsyncThunk(
 // Get user private questions
 export const getUserPrivateQuestions = createAsyncThunk(
     "question/getUserPrivateQuestions",
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getUserPrivateQuestions(data, token);
+            const { skip, limit } = thunkAPI.getState().question;
+            return await questionService.getUserPrivateQuestions({username, skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -117,10 +122,11 @@ export const getUserPrivateQuestions = createAsyncThunk(
 // Get followers questions
 export const getFollowersQuestions = createAsyncThunk(
     "question/getFollowersQuestions",
-    async (data, thunkAPI) => {
+    async (username, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await questionService.getFollowersQuestions(data, token);
+            const { skip, limit } = thunkAPI.getState().question;
+            return await questionService.getFollowersQuestions({username, skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -181,6 +187,25 @@ export const deleteQuestion = createAsyncThunk(
         try {
             const token = thunkAPI.getState().auth.user.token;
             return await questionService.deleteQuestion(questionId, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
+// Increment view count
+export const incrementViewCount = createAsyncThunk(
+    "question/incrementViewCount",
+    async (questionId, thunkAPI) => {
+        try {
+            return await questionService.incrementViewCount(questionId);
         } catch (error) {
             const message =
                 (error.response &&

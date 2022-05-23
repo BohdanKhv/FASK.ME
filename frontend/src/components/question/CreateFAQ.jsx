@@ -136,7 +136,7 @@ const CreateFAQ = ({classList}) => {
                 </div>
             </Modal>
             <div 
-                className={`btn btn-primary text-nowrap${classList ? ` ${classList}` : ''}`}
+                className={`btn btn-sm btn-primary text-nowrap${classList ? ` ${classList}` : ''}`}
                 onClick={() => { setIsOpen(true) }}
             >
                 Create FAQ

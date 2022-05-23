@@ -11,7 +11,7 @@ const getSentQuestions = async (data, token) => {
             Authorization: `Bearer ${token}`
         }
     };
-    const res = await axios.get(`${API_URL}/sent?${data.limit}&${data.skip}`, config);
+    const res = await axios.get(`${API_URL}/sent?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }
@@ -19,7 +19,7 @@ const getSentQuestions = async (data, token) => {
 
 // get pinned questions
 const getProfileFaqQuestions = async (data) => {
-    const res = await axios.get(`${API_URL}/user/${data.username}/faq?${data.limit}&${data.skip}`);
+    const res = await axios.get(`${API_URL}/user/${data.username}/faq?limit=${data.limit}&skip=${data.skip}`);
 
     return res.data;
 }
@@ -27,7 +27,7 @@ const getProfileFaqQuestions = async (data) => {
 
 // get answered questions
 const getProfileAnsweredQuestions = async (data) => {
-    const res = await axios.get(`${API_URL}/user/${data.username}/answered?${data.limit}&${data.skip}`);
+    const res = await axios.get(`${API_URL}/user/${data.username}/answered?limit=${data.limit}&skip=${data.skip}`);
 
     return res.data;
 }
@@ -35,7 +35,7 @@ const getProfileAnsweredQuestions = async (data) => {
 
 // get profile asked questions
 const getProfileAskedQuestions = async (data) => {
-    const res = await axios.get(`${API_URL}/user/${data.username}/asked?${data.limit}&${data.skip}`);
+    const res = await axios.get(`${API_URL}/user/${data.username}/asked?limit=${data.limit}&skip=${data.skip}`);
 
     return res.data;
 }
@@ -48,7 +48,7 @@ const getUserPrivateQuestions = async (data, token) => {
             Authorization: `Bearer ${token}`
         }
     };
-    const res = await axios.get(`${API_URL}/private?${data.limit}&${data.skip}`, config);
+    const res = await axios.get(`${API_URL}/private?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }
@@ -61,7 +61,7 @@ const getFollowersQuestions = async (data, token) => {
             Authorization: `Bearer ${token}`
         }
     };
-    const res = await axios.get(`${API_URL}/followers?${data.limit}&${data.skip}`, config);
+    const res = await axios.get(`${API_URL}/followers?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }
@@ -106,6 +106,14 @@ const deleteQuestion = async (questionId, token) => {
 }
 
 
+// increment view count
+const incrementViewCount = async (questionId) => {
+    const res = await axios.post(`${API_URL}/view/${questionId}`);
+
+    return res.data;
+}
+
+
 
 const questionService = {
     getSentQuestions,
@@ -115,6 +123,7 @@ const questionService = {
     getUserPrivateQuestions,
     getFollowersQuestions,
     createQuestion,
+    incrementViewCount,
     updateQuestion,
     deleteQuestion
 }

@@ -10,6 +10,7 @@ const {
     getUserPrivateQuestions,
     getFollowersQuestions,
     createQuestion,
+    incrementViewCount,
     updateQuestion,
     deleteQuestion
 } = require('../controllers/questionControllers');
@@ -24,6 +25,7 @@ router
     .get('/user/:username/faq', getProfileFaqQuestions)
     .get('/user/:username/answered', getProfileAnsweredQuestions)
     .get('/user/:username/asked', getProfileAskedQuestions)
+    .post('/view/:id', incrementViewCount)
     .put('/:id', protect, updateQuestion)
     .delete('/:id', protect, deleteQuestion);
 

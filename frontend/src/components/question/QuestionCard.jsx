@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { downArrow, answareIcon, questionIcon } from '../../constance/icons';
-import { TakePrivate, DeleteQuestion, ClickCount, UserInfo } from '../';
+import { TakePrivate, DeleteQuestion, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, Image } from '../';
 
@@ -80,20 +80,20 @@ const QuestionCard = ({question, isOpen}) => {
             <div className="question-card-footer">
                 <div className="receiver flex space-between">
                     <div className="user-info flex flex-align-center min-width-0">
-                        {question.type !== 'faq' && question.receiver ? (
+                        {question.type !== 'faq' && question.receiver && (
                             <UserInfo 
                                 profile={question.receiver.profile}
                                 secondary={!question.isAnswered ? 'Pending' : 'Answered'}
-                            />
-                        ) : question.type === 'faq' && (
-                            <ClickCount
-                                question={question}
                             />
                         )}
                     </div>
                     <div 
                         className="flex actions"
                     >
+                        <ViewCount
+                            question={question}
+                            showAnswer={showAnswer}
+                        />
                         <DeleteQuestion
                             question={question}
                         />
