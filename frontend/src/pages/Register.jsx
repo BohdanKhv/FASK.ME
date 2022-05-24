@@ -3,6 +3,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, reset } from '../features/auth/authSlice';
 import { Input } from '../components';
+import { arrowRepeatIcon } from '../constance/icons';
+import { reservedUsernames } from '../constance/reservedUsernames';
 import './styles/Auth.css';
 
 const Register = () => {
@@ -13,6 +15,7 @@ const Register = () => {
     });
 
     const { email, username, password } = formData;
+    const [ clientErr, setClientErr ] = useState('');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -46,6 +49,10 @@ const Register = () => {
         e.preventDefault();
 
         if (email === '' || password === '' || username === '') {
+            setClientErr('All fields are required');
+            return;
+        } else if (reservedUsernames.includes(username)) {
+            setClientErr('Username is reserved');
             return;
         } else {
             const userData = {
@@ -104,11 +111,15 @@ const Register = () => {
                             </div>
                             <button 
                                 type="submit" 
-                                className={`btn w-100${username.length > 0 && email.length > 0 && password.length > 0 ? ' btn-primary' : ''}`}
+                                className={`btn w-100 spinner${username.length > 0 && email.length > 0 && password.length > 0 ? ' btn-primary' : ''}`}
                             >
-                                Sign up
+                                {isLoading ? arrowRepeatIcon : 'Sign up'}
                             </button>
-                            {isError && <div className="text-danger mt-1 bg-err">{msg}</div>}
+                            {isError ? 
+                                <div className="text-danger mt-1 bg-err">{msg}</div>
+                            : clientErr ?
+                                <div className="text-danger mt-1 bg-err">{clientErr}</div>
+                            : null}
                         </form>
                         <p className="mt-1 text-end">
                             Already have an account? <NavLink className="text-hover" to="/login">Log in</NavLink>

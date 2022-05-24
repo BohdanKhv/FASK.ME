@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getProfile, reset } from "../features/profile/profileSlice";
 import { Profile, Questions, AuthInitial } from "../components";
 import { homePathNames } from '../constance/localData';
+import { reservedUsernames } from "../constance/reservedUsernames";
 
 
 const User = () => {
@@ -17,6 +18,8 @@ const User = () => {
         let promise = null;
 
         if ( homePathNames.includes(username) ) {
+            navigate('/');
+        } else if ( reservedUsernames.includes(username) ) {
             navigate('/');
         } else if(username) {
             promise = dispatch(getProfile(username));

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, reset } from '../features/auth/authSlice';
 import { Input } from '../components';
 import './styles/Auth.css';
+import { arrowRepeatIcon } from '../constance/icons';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -87,9 +88,9 @@ const Login = () => {
                                 />
                             </div>
                             <button type="submit" 
-                                className={`btn w-100 ${username.length > 0 && password.length > 0 ? 'btn-primary' : 'btn-secondary'}`}
+                                className={`btn w-100 spinner${username.length > 0 && password.length > 0 ? ' btn-primary' : ' btn-secondary'}`}
                             >
-                                Log in
+                                {isLoading ? arrowRepeatIcon : 'Log in'}
                             </button>
                             {isError && <div className="text-danger mt-1 bg-err">{msg}</div>}
                         </form>

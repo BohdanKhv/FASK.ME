@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodeMailer = require('nodemailer');
 const crypto = require('crypto');
+const { reservedUsernames } = require('../config/reservedUsernames');
 
 
 // @desc    Get user
@@ -44,6 +45,13 @@ const registerUser = async (req, res) => {
         if (!email || !username || !password) {
             return res.status(400).json({
                 msg: 'Please enter all fields'
+            });
+        }
+
+        // Check if username is in reserved list
+        if (reservedUsernames.includes(username.toLowerCase())) {
+            return res.status(400).json({
+                msg: 'Username is reserved'
             });
         }
 
