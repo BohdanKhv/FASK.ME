@@ -88,6 +88,7 @@ nav ul a {
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--color-main);
+    white-space: nowrap;
 }
 
 .nav-burger-links a {
@@ -101,11 +102,12 @@ nav ul a {
     cursor: pointer;
     transition: var(--transition-duration);
     background: var(--color-main);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .nav-links a:hover, 
 .nav-burger-links a:hover{
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .nav-links a, 

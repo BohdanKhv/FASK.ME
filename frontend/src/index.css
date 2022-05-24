@@ -151,6 +151,10 @@ body::-webkit-scrollbar-thumb {
   opacity: 0;
 }
 
+.opacity-1 {
+  opacity: 1!important;
+}
+
 .align-center {
   align-items: center;
   justify-content: center;

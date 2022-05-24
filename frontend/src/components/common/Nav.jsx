@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { burgerIcon, homeIcon, userIcon } from '../../constance/icons';
+import { addUserIcon, burgerIcon, doorOpenIcon, homeIcon, userIcon } from '../../constance/icons';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
 import { Sidenav, Slime, SearchField, ThemeToggle } from '../';
 import { homePathNames } from '../../constance/localData';
@@ -18,7 +18,7 @@ const Nav = () => {
 
 
     return (
-        user ? (
+        user || (!user && location === '') ? (
         <nav className="main-nav">
             <div className="container nav-wrapper">
                 <Link to="/" className="h-100 flex align-center">
@@ -32,16 +32,33 @@ const Nav = () => {
                 <SearchField/>
                 <div className="nav-right">
                     <ul className="nav-links">
-                        <li>
-                            <NavLink to={`/`} className={`${numFound > 0 ? "notify" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
-                                {homeIcon}
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={`/${user.username}`}>
-                                {userIcon}
-                            </NavLink>
-                        </li>
+                        { user ? (
+                        <>
+                            <li>
+                                <NavLink to={`/`} className={`${numFound > 0 ? "notify" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
+                                    {homeIcon}
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to={`/${user.username}`}>
+                                    {userIcon}
+                                </NavLink>
+                            </li>
+                        </>
+                        ) : !user && location === ''  && (
+                        <>
+                            <li>
+                                <NavLink to={`/login`} className="opacity-1">
+                                    Log in
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to={`/register`} className="opacity-1">
+                                    Sign up
+                                </NavLink>
+                            </li>
+                        </>
+                        )}
                     </ul>
                     <div className="nav-burger">
                         <div className="btn-icon" onClick={() => {setSidenav(true)}}>
@@ -57,28 +74,55 @@ const Nav = () => {
             >
                 <div className="flex flex-column h-100 space-between">
                     <ul className="nav-burger-links">
-                        <li>
-                            <NavLink 
-                                to={`/`}
-                                onClick={() => {setSidenav(false)}}
-                                className={`${numFound > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
-                                    {homeIcon}
-                                <span className="ml-1">
-                                    Home
-                                </span>
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink 
-                                to={`/${user.username}`}
-                                onClick={() => {setSidenav(false)}}
-                            >
-                                {userIcon}
-                                <span className="ml-1">
-                                    {user.username}
-                                </span>
-                            </NavLink>
-                        </li>
+                        { user ? (
+                        <>
+                            <li>
+                                <NavLink 
+                                    to={`/`}
+                                    onClick={() => {setSidenav(false)}}
+                                    className={`${numFound > 0 ? "notify-burger" : ""}${(location === 'inbox' || location === 'sent') ? " active" : ""}`}>
+                                        {homeIcon}
+                                    <span className="ml-1">
+                                        Home
+                                    </span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink 
+                                    to={`/${user.username}`}
+                                    onClick={() => {setSidenav(false)}}
+                                >
+                                    {userIcon}
+                                    <span className="ml-1">
+                                        {user.username}
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </>
+                        ) : !user && location === ''  && (
+                        <>
+                            <li>
+                                <NavLink className="opacity-1"
+                                    to={`/login`}
+                                    onClick={() => {setSidenav(false)}}>
+                                    {doorOpenIcon}
+                                    <span className="ml-1 opacity-1">
+                                        Login
+                                    </span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink className="opacity-1"
+                                    to={`/register`}
+                                    onClick={() => {setSidenav(false)}}>
+                                    {addUserIcon}
+                                    <span className="ml-1 opacity-1">
+                                        Register
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </>
+                        )}
                     </ul>
                     <ThemeToggle />
                 </div>
@@ -88,19 +132,18 @@ const Nav = () => {
         homePathNames.includes(location) || 
         (!user && msg == 'Profile not found') ? (
         <>
-        <Slime/>
-        <nav className="auth-nav">
-            <div className="container h-100 flex">
-                <div className="logo">
-                    {logoNameSvg}
+            <Slime/>
+            <nav className="auth-nav">
+                <div className="container h-100 flex">
+                    <Link to="/" className="logo">
+                        {logoNameSvg}
+                    </Link>
                 </div>
-            </div>
-        </nav>
+            </nav>
         </>
         ) : (
             null
         )
-
     )
 }
 

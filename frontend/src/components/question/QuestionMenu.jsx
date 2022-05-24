@@ -27,7 +27,7 @@ const QuestionMenu = ({ question }) => {
                 </div>
             </Modal>
             <div 
-                className="btn-icon ml-1"
+                className="btn-icon btn-icon-sm ml-1"
                 onClick={() => setIsOpen(true)}
             >
                 {moreIcon}
