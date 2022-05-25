@@ -48,12 +48,12 @@ const Nav = () => {
                         ) : !user && location === ''  && (
                         <>
                             <li>
-                                <NavLink to={`/login`} className="opacity-1">
+                                <NavLink to={`/login`} className="opacity-1 btn">
                                     Log in
                                 </NavLink>
                             </li>
                             <li>
-                                <NavLink to={`/register`} className="opacity-1">
+                                <NavLink to={`/register`} className="opacity-1 btn btn-primary ml-1">
                                     Sign up
                                 </NavLink>
                             </li>
@@ -117,7 +117,7 @@ const Nav = () => {
                                     onClick={() => {setSidenav(false)}}>
                                     {addUserIcon}
                                     <span className="ml-1 opacity-1">
-                                        Register
+                                        Sign up
                                     </span>
                                 </NavLink>
                             </li>

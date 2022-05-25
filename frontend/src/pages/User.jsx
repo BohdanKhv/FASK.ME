@@ -19,7 +19,7 @@ const User = () => {
 
         if ( homePathNames.includes(username) ) {
             navigate('/');
-        } else if ( reservedUsernames.includes(username) ) {
+        } else if ( reservedUsernames.includes(username) || username.length < 3 ) {
             navigate('/');
         } else if(username) {
             promise = dispatch(getProfile(username));

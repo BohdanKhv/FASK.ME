@@ -51,6 +51,12 @@ const Register = () => {
         if (email === '' || password === '' || username === '') {
             setClientErr('All fields are required');
             return;
+        } else if (username.length < 3) {
+            setClientErr('Username must be at least 3 characters long');
+            return;
+        } else if (password.length < 6) {
+            setClientErr('Password must be at least 6 characters long');
+            return;
         } else if (reservedUsernames.includes(username)) {
             setClientErr('Username is reserved');
             return;

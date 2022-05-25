@@ -243,13 +243,18 @@ const forgotPassword = async (req, res) => {
             to: user.email,
             subject: 'Reset Password',
             html: `
-                <h1>Reset Password</h1>
-                <p>You can reset your password by clicking on the following link:</p>
-                <a style="background-color: #0ed3ff; border-radius: 0.25rem; text-decoration: none; font-size: 1.3rem; color: black; padding: 0.5rem 1rem;" href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}">Reset Password</a>
-                <p>This link will expire in 1 hour</p>
-                <p>If you did not request a password reset, please ignore this email</p>
+            <div style="width: 400px;">
+                <div style="background-color: #f6f7f8; padding: 0.5rem 1rem; border-radius: 0.25rem;">
+                <h1 style="text-align: center; border-bottom: 1px solid #cccccc; padding-bottom: 0.5rem">Reset Password</h1>
+                    <p>You can reset your password by clicking on the following link:</p>
+                    <a style="background-color: #0ed3ff; border-radius: 0.25rem; text-decoration: none; font-size: 1.3rem; color: black; padding: 0.5rem 1rem;" href="${process.env.CLIENT_URL}/reset-password?token=${token}&id=${user._id}">Reset Password</a>
+                    <p>This link will expire in 1 hour.</p>
+                    <p>If you did not request a password reset, please ignore this email</p>
+                </div>
                 <br/>
+                <hr/>
                 <p>Fask.Me Team</p>
+            </div>
             `
         };
 
