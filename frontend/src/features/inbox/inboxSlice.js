@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import inboxService from './inboxService';
-import { updateQuestion } from '../question/questionSlice';
+import { updateQuestion, deleteQuestion } from '../question/questionSlice';
 
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
     hasMore: false,
     skip: 0,
     limit: 10,
+    loadingId: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -68,6 +69,7 @@ const questionsSlice = createSlice({
             state.hasMore = false;
             state.skip = 0;
             state.limit = 10;
+            state.loadingId = null;
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = false;
@@ -95,8 +97,52 @@ const questionsSlice = createSlice({
             state.msg = action.payload;
         });
 
+        // Update question
+        builder.addCase(updateQuestion.pending, (state, action) => {
+            if(state.inbox.length > 0) {
+                state.loadingId = action.meta.arg._id;
+                state.isError = false;
+                state.msg = '';
+            }
+        });
         builder.addCase(updateQuestion.fulfilled, (state, action) => {
-            state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
+            if(state.inbox.length > 0) {
+                state.loadingId = null;
+                state.isSuccess = true;
+                const index = state.inbox.findIndex(question => question._id === action.payload._id);
+                state.inbox[index] = action.payload;
+            }
+        });
+        builder.addCase(updateQuestion.rejected, (state, action) => {
+            if(state.inbox.length > 0) {
+                state.loadingId = null;
+                state.isError = true;
+                state.msg = action.payload;
+            }
+        });
+
+        // Delete question
+        builder.addCase(deleteQuestion.pending, (state, action) => {
+            if(state.inbox.length > 0) {
+                state.loadingId = action.meta.arg;
+                state.isError = false;
+                state.msg = '';
+            }
+        });
+        builder.addCase(deleteQuestion.fulfilled, (state, action) => {
+            if(state.inbox.length > 0) {
+                state.loadingId = null;
+                state.isError = false;
+                state.msg = '';
+                state.inbox = state.inbox.filter(question => question._id !== action.payload._id);
+            }
+        });
+        builder.addCase(deleteQuestion.rejected, (state, action) => {
+            if(state.inbox.length > 0) {
+                state.loadingId = null;
+                state.isError = true;
+                state.msg = action.payload;
+            }
         });
 
         // Get received questions count

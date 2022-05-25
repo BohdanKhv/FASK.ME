@@ -8,7 +8,7 @@ import { arrowRepeatIcon } from "../../constance/icons";
 const PostAnswer = ({question}) => {
     const dispatch = useDispatch();
     const [answer, setAnswer] = useState("");
-    const { isCreateLoading } = useSelector((state) => state.question);
+    const { loadingId } = useSelector((state) => state.inbox);
 
     const onSubmit = () => {
         dispatch(updateQuestion({
@@ -17,7 +17,7 @@ const PostAnswer = ({question}) => {
             isAnswered: true,
         }));
     }
-    // well fuck you then
+
     return (
         <div className="flex-grow">
             <Textarea
@@ -31,7 +31,7 @@ const PostAnswer = ({question}) => {
                 rows={4}
                 cols={50}
                 maxLength={500}
-                isDisabled={isCreateLoading}
+                isDisabled={(loadingId && (loadingId === question._id)) ? true : false}
                 inputStyle={{
                     maxHeight: '20vh',
                 }}
@@ -39,9 +39,9 @@ const PostAnswer = ({question}) => {
             <div className="flex flex-end">
             <div
                 className="btn btn-primary spinner btn-sm mt-3"
-                onClick={isCreateLoading ? null : onSubmit}
+                onClick={(loadingId && (loadingId === question._id)) ? null : onSubmit}
             >
-                {isCreateLoading ? arrowRepeatIcon: "Answer"}
+                {(loadingId && (loadingId === question._id)) ? arrowRepeatIcon: "Answer"}
             </div>
             </div>
         </div>

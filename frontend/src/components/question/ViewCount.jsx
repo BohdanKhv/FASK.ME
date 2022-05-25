@@ -13,7 +13,7 @@ const ViewCount = ({question, showAnswer}) => {
 
         if (showAnswer && question.answer) {
             timeout = setTimeout(() => {
-                if(!user || (user && user._id !== question.sender._id && user._id !== question.receiver._id)) {
+                if((!user || (user && user._id !== question.sender._id && user._id !== question.receiver._id)) && question.isAnswered) {
                     dispatch(incrementViewCount(question._id));
                 }
             }, 2000);

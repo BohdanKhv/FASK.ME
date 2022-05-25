@@ -560,7 +560,12 @@ const deleteQuestion = async (req, res) => {
             question.sender.toString() !== req.user._id.toString() || 
             question.receiver.toString() !== req.user._id.toString()
         ) {
-            await question.remove();
+            if(question.sender && question.receiver && question.answer) {
+                question.isArchived = true;
+                await question.save();
+            } else {
+                await question.remove();
+            }
 
             return res.status(200).json(question);
         } else {

@@ -266,6 +266,10 @@ body::-webkit-scrollbar-thumb {
   box-shadow: var(--box-shadow);
 }
 
+.btn:hover svg {
+  fill: #000000;
+}
+
 .btn:active {
   outline: none;
   filter: brightness(90%);

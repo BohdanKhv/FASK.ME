@@ -22,7 +22,7 @@ const TakePrivate = ({question}) => {
                         }))
                     }
                 >
-                    <span className="mr-1">{loadingId && loadingId === question._id ? arrowRepeatIcon : question.isPrivate ? lockIcon : unlockIcon}</span> {question.isPrivate ? 'Mark as Public' : 'Mark as Private'}
+                    {loadingId && loadingId === question._id ? arrowRepeatIcon : question.isPrivate ? lockIcon : unlockIcon} <span>{question.isPrivate ? 'Mark as Public' : 'Mark as Private'}</span>
                 </div>
             </ReceiverGate>
         )

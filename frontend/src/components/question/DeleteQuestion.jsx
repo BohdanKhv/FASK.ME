@@ -6,6 +6,7 @@ import { RecSenGate } from '../';
 const DeleteQuestion = ({question}) => {
     const dispatch = useDispatch();
     const { loadingId } = useSelector((state) => state.question);
+    const inbox = useSelector((state) => state.inbox);
 
     return (
         <RecSenGate
@@ -13,12 +14,16 @@ const DeleteQuestion = ({question}) => {
             receiver={question.receiver ? question.receiver : null}
         >
             <div 
-                className={`btn mb-1${loadingId && loadingId === question._id ? ' spinner' : ''}`}
+                className={`btn mb-1${(loadingId && loadingId === question._id) || (inbox.loadingId && inbox.loadingId === question._id) ? " spinner" : ""}`}
                 onClick={() => 
                     dispatch(deleteQuestion(question._id))
                 }
             >
-                <span className="mr-1">{loadingId && loadingId === question._id ? arrowRepeatIcon : trashIcon}</span>Delete
+                {
+                    (
+                        (loadingId && loadingId === question._id) || 
+                        (inbox.loadingId && inbox.loadingId === question._id)
+                    ) ? arrowRepeatIcon : trashIcon} <span>Delete</span>
             </div>
         </RecSenGate>
     )

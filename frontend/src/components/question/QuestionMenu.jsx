@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { moreIcon } from '../../constance/icons';
+import { closeIcon, moreIcon } from '../../constance/icons';
 import { DeleteQuestion, TakePrivate, Modal } from '../';
 
 const QuestionMenu = ({ question }) => {
@@ -23,7 +23,7 @@ const QuestionMenu = ({ question }) => {
                     className="btn"
                     onClick={() => setIsOpen(false)}
                 >
-                    Close
+                    {closeIcon} <span>Close</span>
                 </div>
             </Modal>
             <div 
