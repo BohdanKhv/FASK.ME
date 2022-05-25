@@ -74,12 +74,12 @@ const Modal = ({children, bodyStyles, headerNone, footerNone, style, modalIsOpen
                     {!isScroll && !footerNone && (
                         <div className="modal-footer">
                             {actionDangerBtnText && !isLoading && (
-                                <div className="btn btn-outline-danger" onClick={onSubmitDanger}>
+                                <div className="btn btn-sm btn-outline-danger" onClick={onSubmitDanger}>
                                     {actionDangerBtnText}
                                 </div>
                             )}
                             {actionBtnText && (
-                                <div className="btn btn-primary" onClick={!isLoading ? onSubmit : null}>
+                                <div className="btn btn-sm btn-primary" onClick={!isLoading ? onSubmit : null}>
                                     {isLoading ? <div className="modal-spinner">{arrowRepeatIcon}</div> : actionBtnText}
                                 </div>
                             )}

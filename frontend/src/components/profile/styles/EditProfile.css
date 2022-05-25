@@ -1,3 +1,7 @@
+.edit-profile-container {
+    max-height: 50vh;
+}
+
 .edit-avatar {
     width: 130px;
     height: 130px;

@@ -241,12 +241,22 @@ body::-webkit-scrollbar-thumb {
   cursor: pointer;
   user-select: none;
   transition: var(--transition-duration);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 1.5px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
+  text-transform: capitalize;
+}
+
+.btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.btn span {
+  margin-left: 0.5rem;
 }
 
 .btn:hover {

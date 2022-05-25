@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { updateProfile, updateProfileImage } from '../../features/profile/profileSlice';
 import { Modal, Input, Textarea, UploadImage } from '../';
 import { storage } from '../../firebase';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { updateProfile, updateProfileImage, updateProfileImageFinished } from '../../features/profile/profileSlice';
 import './styles/EditProfile.css';
 
 const EditProfile = ({isOpen, setIsOpen}) => {
@@ -14,12 +14,11 @@ const EditProfile = ({isOpen, setIsOpen}) => {
         fullName: profile.fullName || '',
         bio: profile.bio || '',
     });
-    const [avatarProfile, setAvatarProfile] = useState('null');
     const [avatar, setAvatar] = useState(null);
     const [progress, setProgress] = useState(0);
 
     const [links, setLinks] = useState([
-        profile.links,
+        ...profile.links,
         '',
     ]);
 
@@ -44,6 +43,7 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     dispatch(updateProfile({
                         ...editProfile,
+                        links: links.filter((link) => link !== ''),
                         [label]: downloadURL,
                     })).then(() => {
                         setProgress(0);
@@ -58,8 +58,12 @@ const EditProfile = ({isOpen, setIsOpen}) => {
             dispatch(updateProfileImage());
             uploadImageToFirebase(avatar, 'avatar', 'avatars', profile.username+'_avatar');
         }
-        if (editProfile.fullName !== profile.fullName || editProfile.bio !== profile.bio) {
-            dispatch(updateProfile(editProfile));
+        if (editProfile.fullName !== profile.fullName || editProfile.bio !== profile.bio || links !== profile.links) {
+            const data = {
+                ...editProfile,
+                links: links.filter(link => link !== ''),
+            }
+            dispatch(updateProfile(data));
         } else {
             setIsOpen(false);
         }
@@ -152,6 +156,38 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                         </div>
                     </div>
                 </div>
+                <div className="border-top">
+                    <p className="title-4 pt-1 px-1">
+                        Add up to 8 links to your profile
+                    </p>
+                </div>
+                {links.map((link, index) => (
+                    <div className="form-group" key={`links-${profile._id}-${index}`}>
+                        <Input
+                            type="text"
+                            placeholder="Link"
+                            label="Link"
+                            name="link"
+                            value={link}
+                            onChange={(e) => {
+                                const newLinks = [...links];
+                                newLinks[index] = e.target.value;
+                                if(index === links.length - 1 && e.target.value !== '') {
+                                    if(newLinks.length < 8) {
+                                        setLinks([...newLinks, '']);
+                                    } else {
+                                        setLinks(newLinks);
+                                    }
+                                } else if(index === links.length - 2 && e.target.value === '') {
+                                    setLinks(newLinks.slice(0, -1));
+                                } else {
+                                    setLinks(newLinks);
+                                }
+                            }}
+                            isDisabled={isUpdating}
+                        />
+                    </div>
+                ))}
             </Modal>
         </div>
     )

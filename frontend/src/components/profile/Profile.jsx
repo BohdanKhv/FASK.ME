@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, ProfileNotFound, ProfileMenu } from '../';
+import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, ProfileNotFound, ProfileMenu, LinksMenu } from '../';
 import './styles/Profile.css';
 
 
@@ -51,17 +51,12 @@ const Profile = () => {
                                         </h2>
                                     )}
                                     <div className="flex flex-align-center">
+                                        {profile.links && profile.links.length > 0 && (
+                                            <LinksMenu />
+                                        )}
                                         <FollowToggle />
                                         <IsUserGate>
                                             <ProfileMenu />
-                                        </IsUserGate>
-                                        <IsUserGate>
-                                            <div 
-                                                className="btn btn-outline text-nowrap btn-sm"
-                                                onClick={() => setIsOpen(true)}
-                                            >
-                                                Edit Profile
-                                            </div>
                                         </IsUserGate>
                                     </div>
                                 </div>
@@ -149,12 +144,6 @@ const Profile = () => {
                             setIsOpen={setIsOpenFollowersList}
                         />
                     )}
-                    <IsUserGate>
-                        <EditProfile
-                            isOpen={isOpen}
-                            setIsOpen={setIsOpen}
-                        />
-                    </IsUserGate>
                     </>
                 )}
                 {isLoading && (

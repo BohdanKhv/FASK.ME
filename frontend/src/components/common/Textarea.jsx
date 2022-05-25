@@ -34,6 +34,13 @@ const Textarea = ({children, icon, type, name, label, value, onChange, bodyStyle
             }}
             style={bodyStyle}
         >
+            <div
+                style={labelStyle}
+                className={`textarea-label${isFocused || value || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}
+            >
+                {icon}
+                {label}
+            </div>
             {children && (
                 <div className={`textarea-pre${isFocused || value || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}>
                     <p>
@@ -58,13 +65,6 @@ const Textarea = ({children, icon, type, name, label, value, onChange, bodyStyle
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
             />
-            <div
-                style={labelStyle}
-                className={`textarea-label${isFocused || value || ( textareaRef.current && textareaRef.current.value.length !== 0 ) ? ' focused' : ''}`}
-            >
-                {icon}
-                {label}
-            </div>
         </div>
     )
 }

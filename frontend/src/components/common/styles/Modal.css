@@ -24,7 +24,7 @@
     border-radius: var(--border-radius);
     background-color: var(--color-main);
     min-width: 650px;
-    max-height: 90vh;
+    max-height: 80vh;
     overflow: hidden;
     box-shadow: var(--box-shadow);
 }
@@ -52,9 +52,22 @@
 }
 
 .modal-body .modal-content {
-    padding: 1rem 1rem 0 1rem;
-    margin-bottom: 20px;
+    padding: 1rem;
     position: relative;
+    max-height: 50vh;
+    overflow-y: scroll;
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+.modal-content::-webkit-scrollbar-track {
+    background: var(--color-tertiary);
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
 }
 
 .modal-body .modal-footer {
