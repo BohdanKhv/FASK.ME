@@ -22,10 +22,10 @@ const Nav = () => {
         <nav className="main-nav">
             <div className="container nav-wrapper">
                 <Link to="/" className="h-100 flex align-center">
-                    <div className="logo">
+                    <div className="logo-sm">
                         {logoNameSvg}
                     </div>
-                    <div className="logo-sm">
+                    <div className="logo-sm min">
                         {logoSvg}
                     </div>
                 </Link>
@@ -135,7 +135,7 @@ const Nav = () => {
             <Slime/>
             <nav className="auth-nav">
                 <div className="container h-100 flex">
-                    <Link to="/" className="logo">
+                    <Link to="/" className="logo-lg">
                         {logoNameSvg}
                     </Link>
                 </div>

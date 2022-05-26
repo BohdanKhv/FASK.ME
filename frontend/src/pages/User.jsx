@@ -32,7 +32,8 @@ const User = () => {
     }, [dispatch, username]);
 
     return (
-        <main className="user">
+        <div className="container">
+        <main className="user flex flex-column min-100-vh">
             <AuthInitial>
                 <Profile/>
                 {profile && (
@@ -40,6 +41,7 @@ const User = () => {
                 )}
             </AuthInitial>
         </main>
+        </div>
     )
 }
 

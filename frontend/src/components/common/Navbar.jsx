@@ -22,7 +22,7 @@ const Navbar = () => {
     }, [location])
 
     return (
-        <div className="navbar">
+        <div className="navbar w-100 w-max">
             <div className="navbar-wrapper">
                 {links.map((link, index) => (
                     ( link.isPrivate && user && (user._id === profile.user._id) ||

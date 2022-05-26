@@ -147,6 +147,14 @@ body::-webkit-scrollbar-thumb {
   display: none;
 }
 
+.d-absolute {
+  position: absolute;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -173,6 +181,11 @@ body::-webkit-scrollbar-thumb {
   padding: 0 50px;
   margin: 0 auto;
   max-width: 935px;
+}
+
+.w-max {
+  max-width: 935px;
+  margin: 0 auto;
 }
 
 .btn-icon {
@@ -535,6 +548,14 @@ input:active label {
   text-align: end;
 }
 
+.w-fill {
+  width: -webkit-fill-available;
+}
+
+.min-100-vh {
+  min-height: 100vh;
+}
+
 .w-100 {
   width: 100%;
 }
@@ -674,6 +695,19 @@ svg {
   border-radius: var(--border-radius);
   margin: 0 16px;
   height: 100%;
+}
+
+.logo-sm,
+.logo-sm svg {
+  height: 40px;
+  width: auto;
+}
+
+.logo-lg,
+.logo-lg svg {
+  height: 75px;
+  width: auto;
+  display: block;
 }
 
 @keyframes spin {

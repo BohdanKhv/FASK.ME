@@ -16,21 +16,6 @@
     z-index: 10;
 }
 
-.main-nav .logo-sm,
-.main-nav .logo,
-.main-nav .logo-sm svg,
-.main-nav .logo svg {
-    height: 40px;
-    width: auto;
-}
-
-.auth-nav .logo,
-.auth-nav .logo svg {
-    height: 100px;
-    width: auto;
-    display: block;
-}
-
 nav .nav-wrapper {
     display: flex;
     justify-content: space-between;
@@ -152,18 +137,18 @@ nav li svg {
     min-width: 160px;
 }
 
-.logo-sm,
+.logo-sm.min,
 .nav-wrapper .nav-burger {
     display: none;
 }
 
 @media (max-width: 735px) {
-    .nav-wrapper .logo,
+    .logo-sm,
     .nav-wrapper .nav-links {
         display: none;
     }
 
-    .logo-sm,
+    .logo-sm.min,
     .nav-wrapper .nav-burger {
         display: block;
     }

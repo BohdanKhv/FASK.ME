@@ -27,147 +27,143 @@ const Profile = () => {
     return (
         <section className="profile">
             <ProfileNotFound />
-            <div className="container">
-                {!isLoading && profile && (
-                    <>
-                    <div className="profile-info">
-                        <div className={`profile-info-container flex${isDesktop ? ' mb-xl' : ' mb-1'}`}>
-                            <div className="profile-image-placeholder mx-auto">
-                                { profile.avatar ? (
-                                    <DisplayImage
-                                        image={ profile.avatar }
-                                        alt="Avatar"
-                                        classList="profile-image"
-                                    />
-                                ) : (
-                                    profile.username[0].toUpperCase()
-                                ) }
-                            </div>
-                            <div className="flex-grow-2 flex-shrink-1 flex-basis-0">
-                                <div className="profile-header flex flex-align-center mb-1">
-                                    {isDesktop && (
-                                        <h2 className="title-1 flex-grow text-nowrap">
-                                            {profile.username}
-                                        </h2>
-                                    )}
-                                    <div className="flex flex-align-center">
-                                        {profile.links && profile.links.length > 0 && (
-                                            <LinksMenu />
-                                        )}
-                                        <FollowToggle />
-                                        <IsUserGate>
-                                            <ProfileMenu />
-                                        </IsUserGate>
-                                    </div>
-                                </div>
-                                {isDesktop && (
-                                    <div className={`flex${isDesktop ? ' mb-1' : ''}`}>
-                                        <div 
-                                            className="btn btn-xs mr-1"
-                                            onClick={() => setIsOpenFollowingList(true)}
-                                        >
-                                            {profile.following || 0} Following
-                                        </div>
-                                        <div 
-                                            className="btn btn-xs mr-1"
-                                            onClick={() => setIsOpenFollowersList(true)}
-                                        >
-                                            {profile.followers || 0} Followers
-                                        </div>
-                                    </div>
-                                )}
-                                {isDesktop && (
-                                <>
-                                <h5 className="title-4">
-                                    {profile.fullName}
-                                </h5>
-                                <div className="text-secondary">
-                                    {profile.bio}
-                                </div>
-                                </>
-                                )}
-                            </div>
+            {!isLoading && profile && (
+                <>
+                <div className="profile-info">
+                    <div className={`profile-info-container flex${isDesktop ? ' mb-xl' : ' mb-1'}`}>
+                        <div className="profile-image-placeholder mx-auto">
+                            { profile.avatar ? (
+                                <DisplayImage
+                                    image={ profile.avatar }
+                                    alt="Avatar"
+                                    classList="profile-image"
+                                />
+                            ) : (
+                                profile.username[0].toUpperCase()
+                            ) }
                         </div>
-                        {!isDesktop && (
-                        <div className="mb-1">
-                            <h2 className="title-1 flex-grow text-nowrap">
-                                {profile.username}
-                            </h2>
-                            <h5 className="title-4 text-secondary mb-1">
+                        <div className="flex-grow-2 flex-shrink-1 flex-basis-0">
+                            <div className="profile-header flex flex-align-center mb-1">
+                                {isDesktop && (
+                                    <h2 className="title-1 flex-grow text-nowrap">
+                                        {profile.username}
+                                    </h2>
+                                )}
+                                <div className="flex flex-align-center">
+                                    <LinksMenu />
+                                    <FollowToggle />
+                                    <IsUserGate>
+                                        <ProfileMenu />
+                                    </IsUserGate>
+                                </div>
+                            </div>
+                            {isDesktop && (
+                                <div className={`flex${isDesktop ? ' mb-1' : ''}`}>
+                                    <div 
+                                        className="btn btn-xs mr-1"
+                                        onClick={() => setIsOpenFollowingList(true)}
+                                    >
+                                        {profile.following || 0} Following
+                                    </div>
+                                    <div 
+                                        className="btn btn-xs mr-1"
+                                        onClick={() => setIsOpenFollowersList(true)}
+                                    >
+                                        {profile.followers || 0} Followers
+                                    </div>
+                                </div>
+                            )}
+                            {isDesktop && (
+                            <>
+                            <h5 className="title-4">
                                 {profile.fullName}
                             </h5>
                             <div className="text-secondary">
                                 {profile.bio}
                             </div>
-                        </div>
-                        )}
-                        {!isDesktop && (
-                            <div className="flex mb-1">
-                                <div 
-                                    className="btn btn-xs mr-1"
-                                    onClick={() => setIsOpenFollowingList(true)}
-                                >
-                                    {profile.following || 0} Following
-                                </div>
-                                <div 
-                                    className="btn btn-xs mr-1"
-                                    onClick={() => setIsOpenFollowersList(true)}
-                                >
-                                    {profile.followers || 0} Followers
-                                </div>
-                            </div>
-                        )}
-                        <IsUserGate>
-                            <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
-                                <CreateFAQ
-                                    classList={`${!isDesktop ? 'flex-grow' : ''}`}
-                                />
-                            </div>
-                        </IsUserGate>
-                        <AuthGate>
-                            <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
-                                <Ask
-                                    classList={`${!isDesktop ? 'flex-grow' : ''}`}
-                                />
-                            </div>
-                        </AuthGate>
-                    </div>
-                    {isOpenFollowingList && (
-                        <FollowList
-                            label="following"
-                            setIsOpen={setIsOpenFollowingList}
-                        />
-                    )}
-                    {isOpenFollowersList && (
-                        <FollowList
-                            label="followers"
-                            setIsOpen={setIsOpenFollowersList}
-                        />
-                    )}
-                    </>
-                )}
-                {isLoading && (
-                    <>
-                    <div className="profile-info blink border-bottom">
-                        <div className="flex mb-xl">
-                            <div className="flex-grow">
-                                <div className="profile-image flex align-center mx-auto">
-                                    <div className="profile-image-placeholder"/>
-                                </div>
-                            </div>
-                            <div className="flex-grow-2">
-                                <div className="username blink mb-1"/>
-                                <div className="username blink w-25 mb-1"/>
-                                <div className="username blink w-50 mb-1"/>
-                                <div className="username blink w-75 mb-1"/>
-                            </div>
+                            </>
+                            )}
                         </div>
                     </div>
-                    <div className="username blink mb-1 my-1"/>
-                    <div className="username blink mb-1 my-1"/>
-                    </>
+                    {!isDesktop && (
+                    <div className="mb-1">
+                        <h2 className="title-1 flex-grow text-nowrap">
+                            {profile.username}
+                        </h2>
+                        <h5 className="title-4 text-secondary mb-1">
+                            {profile.fullName}
+                        </h5>
+                        <div className="text-secondary">
+                            {profile.bio}
+                        </div>
+                    </div>
+                    )}
+                    {!isDesktop && (
+                        <div className="flex mb-1">
+                            <div 
+                                className="btn btn-xs mr-1"
+                                onClick={() => setIsOpenFollowingList(true)}
+                            >
+                                {profile.following || 0} Following
+                            </div>
+                            <div 
+                                className="btn btn-xs mr-1"
+                                onClick={() => setIsOpenFollowersList(true)}
+                            >
+                                {profile.followers || 0} Followers
+                            </div>
+                        </div>
+                    )}
+                    <IsUserGate>
+                        <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
+                            <CreateFAQ
+                                classList={`${!isDesktop ? 'flex-grow' : ''}`}
+                            />
+                        </div>
+                    </IsUserGate>
+                    <AuthGate>
+                        <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
+                            <Ask
+                                classList={`${!isDesktop ? 'flex-grow' : ''}`}
+                            />
+                        </div>
+                    </AuthGate>
+                </div>
+                {isOpenFollowingList && (
+                    <FollowList
+                        label="following"
+                        setIsOpen={setIsOpenFollowingList}
+                    />
                 )}
-            </div>
+                {isOpenFollowersList && (
+                    <FollowList
+                        label="followers"
+                        setIsOpen={setIsOpenFollowersList}
+                    />
+                )}
+                </>
+            )}
+            {isLoading && (
+                <>
+                <div className="profile-info blink border-bottom">
+                    <div className="flex mb-xl">
+                        <div className="flex-grow">
+                            <div className="profile-image flex align-center mx-auto">
+                                <div className="profile-image-placeholder"/>
+                            </div>
+                        </div>
+                        <div className="flex-grow-2">
+                            <div className="username blink mb-1"/>
+                            <div className="username blink w-25 mb-1"/>
+                            <div className="username blink w-50 mb-1"/>
+                            <div className="username blink w-75 mb-1"/>
+                        </div>
+                    </div>
+                </div>
+                <div className="username blink mb-1 my-1"/>
+                <div className="username blink mb-1 my-1"/>
+                </>
+            )}
         </section>
     )
 }

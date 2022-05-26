@@ -26,7 +26,7 @@ const getFollowers = async (req, res) => {
             .skip(skip);
 
             const data = []
-            let userIsFollowingArr;
+            let userIsFollowingArr = [];
 
             if(req.user) {
                 userIsFollowingArr = await Follow.find({
@@ -86,7 +86,7 @@ const getFollowing = async (req, res) => {
             .skip(skip);
 
             const data = []
-            let userIsFollowingArr;
+            let userIsFollowingArr = [];
 
             if(req.user) {
                 userIsFollowingArr = await Follow.find({
@@ -145,7 +145,7 @@ const followUser = async (req, res) => {
                 return res.status(200).json({follow: follow, msg: 'Followed user'});
             } else {
                 await following.remove();
-    
+
                 return res.status(200).json({follow: following, msg: 'Unfollowed user'});
             }
 

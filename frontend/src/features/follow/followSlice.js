@@ -22,7 +22,7 @@ export const getFollowers = createAsyncThunk(
     'follow/getFollowers',
     async (data, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().auth.user.token;
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await followService.getFollowers(data, token);
         } catch (error) {
             const message =
@@ -42,7 +42,7 @@ export const getFollowing = createAsyncThunk(
     'follow/getFollowing',
     async (data, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().auth.user.token;
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             return await followService.getFollowing(data, token);
         } catch (error) {
             const message =

@@ -8,7 +8,7 @@ import {
     getUserPrivateQuestions,
     reset 
 } from '../../features/question/questionSlice';
-import { QuestionCard, Navbar } from '../';
+import { QuestionCard, Navbar, Footer } from '../';
 import { arrowRepeatIcon } from '../../constance/icons';
 import './styles/Questions.css';
 
@@ -65,7 +65,8 @@ const Questions = () => {
     }, [location]);
 
     return (
-        <section className="container">
+        <>
+        <section className="flex flex-column flex-grow w-max w-100">
             <Navbar />
             <div className="questions">
                 {questions.map((question, index) => {
@@ -95,6 +96,8 @@ const Questions = () => {
                 }
             </div>
         </section>
+        <Footer/>
+        </>
     )
 }
 

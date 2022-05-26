@@ -13,6 +13,7 @@ import Tooltip from "./common/Tooltip";
 import NotFound from "./common/NotFound";
 import Slime from "./common/Slime";
 import ThemeToggle from "./common/ThemeToggle";
+import Footer from "./common/Footer";
 
 import RequireAuth from "./gate/RequireAuth";
 import AuthGate from "./gate/AuthGate";
@@ -61,6 +62,7 @@ export {
     NotFound,
     Slime,
     ThemeToggle,
+    Footer,
 
     RequireAuth,
     AuthGate,
