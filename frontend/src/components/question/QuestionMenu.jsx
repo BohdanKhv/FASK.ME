@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { closeIcon, moreIcon } from '../../constance/icons';
-import { DeleteQuestion, TakePrivate, Modal } from '../';
+import { DeleteQuestion, PinQuestion, TakePrivate, Modal } from '../';
 
 const QuestionMenu = ({ question }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,10 +13,13 @@ const QuestionMenu = ({ question }) => {
                 headerNone={true}
                 footerNone={true}
             >
-                <DeleteQuestion
+                <PinQuestion
                     question={question}
                 />
                 <TakePrivate
+                    question={question}
+                />
+                <DeleteQuestion
                     question={question}
                 />
                 <div 
@@ -27,7 +30,7 @@ const QuestionMenu = ({ question }) => {
                 </div>
             </Modal>
             <div 
-                className="btn-icon btn-icon-sm ml-1"
+                className="btn-icon btn-icon-sm ml-4"
                 onClick={() => setIsOpen(true)}
             >
                 {moreIcon}

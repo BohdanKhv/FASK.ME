@@ -114,6 +114,19 @@ const incrementViewCount = async (questionId) => {
 }
 
 
+// pin question
+const pinQuestion = async (questionId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    };
+    const res = await axios.post(`${API_URL}/pin/${questionId}`, null, config);
+
+    return res.data;
+}
+
+
 
 const questionService = {
     getSentQuestions,
@@ -123,9 +136,10 @@ const questionService = {
     getUserPrivateQuestions,
     getFollowersQuestions,
     createQuestion,
-    incrementViewCount,
     updateQuestion,
-    deleteQuestion
+    deleteQuestion,
+    incrementViewCount,
+    pinQuestion
 }
 
 export default questionService;

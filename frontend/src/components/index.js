@@ -37,6 +37,8 @@ import Ask from "./question/Ask";
 import PostAnswer from "./question/PostAnswer";
 import TakePrivate from "./question/TakePrivate";
 import DeleteQuestion from "./question/DeleteQuestion";
+import PinnedQuestion from "./question/PinnedQuestion";
+import PinQuestion from "./question/PinQuestion";
 import ViewCount from "./question/ViewCount";
 import UserInfo from "./question/UserInfo";
 import Inbox from "./question/Inbox";
@@ -83,6 +85,8 @@ export {
     PostAnswer,
     TakePrivate,
     DeleteQuestion,
+    PinnedQuestion,
+    PinQuestion,
     ViewCount,
     UserInfo,
     Inbox,

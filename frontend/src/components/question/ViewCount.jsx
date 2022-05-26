@@ -26,13 +26,9 @@ const ViewCount = ({question, showAnswer}) => {
         // <SenderGate
         //     sender={question.sender}
         // >
-            <Tooltip
-                content={`Views`}
-            >
-                <div className="btn-icon">
-                    {question.views ? question.views : 0}
-                </div>
-            </Tooltip>
+            <div className="btn-icon btn-icon-sm btn-icon-transparent" title="Views">
+                {question.views ? question.views : 0}
+            </div>
         // </SenderGate>
     )
 }

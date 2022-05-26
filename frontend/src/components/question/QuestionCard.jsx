@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { downArrow } from '../../constance/icons';
 import { QuestionMenu, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
-import { PostAnswer, ReceiverGate, SenderGate, Image } from '../';
+import { PostAnswer, ReceiverGate, SenderGate, PinnedQuestion } from '../';
 
 
 const QuestionCard = ({question, isOpen}) => {
@@ -94,6 +94,9 @@ const QuestionCard = ({question, isOpen}) => {
                         <ViewCount
                             question={question}
                             showAnswer={showAnswer}
+                        />
+                        <PinnedQuestion
+                            question={question}
                         />
                         {user && (user._id === question.sender._id || user._id === question.receiver._id) && (
                             <QuestionMenu

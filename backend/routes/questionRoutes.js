@@ -13,7 +13,8 @@ const {
     createQuestion,
     incrementViewCount,
     updateQuestion,
-    deleteQuestion
+    deleteQuestion,
+    pinQuestion,
 } = require('../controllers/questionControllers');
 
 
@@ -28,6 +29,7 @@ router
     .get('/user/:username/answered', getProfileAnsweredQuestions)
     .get('/user/:username/asked', getProfileAskedQuestions)
     .post('/view/:id', incrementViewCount)
+    .post('/pin/:id', protect, pinQuestion)
     .put('/:id', protect, updateQuestion)
     .delete('/:id', protect, deleteQuestion);
 

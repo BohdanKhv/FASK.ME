@@ -14,6 +14,10 @@
     cursor: pointer;
 }
 
+.open-question:hover svg {
+    fill: var(--color-primary);
+}
+
 .question-card .content {
     font-size: 0.9rem;
     font-weight: 500;

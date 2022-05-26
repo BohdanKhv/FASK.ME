@@ -31,21 +31,26 @@ const questionModelSchema = new mongoose.Schema({
     isAnswered: {
         type: Boolean,
         default: false,
-        required: false
     },
     isArchived: {
         type: Boolean,
         default: false,
-        required: false
     },
     isPrivate: {
+        type: Boolean,
+        default: false,
+    },
+    isSenderPinned: {
+        type: Boolean,
+        default: false,
+    },
+    isReceiverPinned: {
         type: Boolean,
         default: false,
     },
     isAnonymous: {
         type: Boolean,
         default: false,
-        required: false
     },
     views: {
         type: Number,

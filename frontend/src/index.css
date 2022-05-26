@@ -185,6 +185,19 @@ body::-webkit-scrollbar-thumb {
   padding: 5px;
 }
 
+.btn-icon.btn-icon-transparent {
+  background-color: transparent;
+}
+
+.btn-icon.btn-icon-transparent:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.btn-icon.btn-icon-transparent:hover svg {
+  fill: var(--text-dark);
+}
+
 .btn-icon-outline {
   border: 1px solid var(--color-border);
 }
@@ -408,6 +421,18 @@ input:active label {
 
 .ml-1 {
   margin-left: 1rem;
+}
+
+.ml-2 {
+  margin-left: 0.75rem;
+}
+
+.ml-3 {
+  margin-left: 0.5rem;
+}
+
+.ml-4 {
+  margin-left: 0.25rem;
 }
 
 .mb-xl {

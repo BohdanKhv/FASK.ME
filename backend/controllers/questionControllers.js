@@ -185,7 +185,7 @@ const getProfileFaqQuestions = async (req, res) => {
                     path: 'profile',
                 }
             })
-            .sort({ createdAt: -1 })
+            .sort({ isSenderPinned: -1, createdAt: -1 })
             .limit(limit || 10)
             .skip(skip || 0);
 
@@ -251,7 +251,7 @@ const getProfileAnsweredQuestions = async (req, res) => {
                     path: 'profile',
                 }
             })
-            .sort({ createdAt: -1 })
+            .sort({ isReceiverPinned: -1, createdAt: -1 })
             .limit(limit || 10)
             .skip(skip || 0);
 
@@ -319,7 +319,7 @@ const getProfileAskedQuestions = async (req, res) => {
                     path: 'profile',
                 }
             })
-            .sort({ createdAt: -1 })
+            .sort({ isSenderPinned: -1, createdAt: -1 })
             .limit(limit || 10)
             .skip(skip || 0);
 
@@ -644,6 +644,37 @@ const incrementViewCount = async (req, res) => {
 }
 
 
+// @desc   View question
+// @route  GET /api/questions/view/:id
+// @access Public
+const pinQuestion = async (req, res) => {
+    try {
+        const question = await Question.findById(req.params.id);
+
+        if (!question) {
+            return res.status(404).json({ msg: 'Question not found' });
+        }
+
+        if(question.receiver && req.user._id.toString() === question.receiver.toString()) {
+            question.isReceiverPinned = !question.isReceiverPinned;
+            await question.save();
+
+            return res.status(200).json(question);
+        } else if (req.user._id.toString() === question.sender.toString()) {
+            question.isSenderPinned = !question.isSenderPinned;
+            await question.save();
+
+            return res.status(200).json(question);
+        } else {
+            return res.status(401).json({ msg: 'User not authorized' });
+        }
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+}
+
+
 
 module.exports = {
     getReceivedQuestionsCount,
@@ -657,5 +688,6 @@ module.exports = {
     createQuestion,
     incrementViewCount,
     updateQuestion,
-    deleteQuestion
+    deleteQuestion,
+    pinQuestion,
 }

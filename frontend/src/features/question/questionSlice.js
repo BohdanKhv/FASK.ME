@@ -219,6 +219,26 @@ export const incrementViewCount = createAsyncThunk(
 );
 
 
+// Pin question
+export const pinQuestion = createAsyncThunk(
+    "question/pinQuestion",
+    async (questionId, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await questionService.pinQuestion(questionId, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 
 // Create slice
 const questionSlice = createSlice({
@@ -434,6 +454,24 @@ const questionSlice = createSlice({
                 state.isError = true;
                 state.msg = action.payload;
             }
+        });
+
+        // Pin question
+        builder.addCase(pinQuestion.pending, (state, action) => {
+            state.loadingId = action.meta.arg;
+            state.isError = false;
+            state.msg = '';
+        });
+        builder.addCase(pinQuestion.fulfilled, (state, action) => {
+            state.loadingId = null;
+            const index = state.questions.findIndex(question => question._id === action.payload._id);
+            state.questions[index].isReceiverPinned = action.payload.isReceiverPinned;
+            state.questions[index].isSenderPinned = action.payload.isSenderPinned;
+        });
+        builder.addCase(pinQuestion.rejected, (state, action) => {
+            state.loadingId = null;
+            state.isError = true;
+            state.msg = action.payload;
         });
     }
 });
