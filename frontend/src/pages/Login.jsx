@@ -28,7 +28,7 @@ const Login = () => {
                 user_id: user._id,
                 user_username: user.username
             });
-            setUserId(user._id);
+            setUserId(analytics, user._id);
 
             navigate(`/${user.username}`);
         }

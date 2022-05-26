@@ -10,8 +10,9 @@ import {
 } from '../../features/question/questionSlice';
 import { QuestionCard, Navbar, Footer } from '../';
 import { arrowRepeatIcon } from '../../constance/icons';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 import './styles/Questions.css';
-
 
 const Questions = () => {
     const dispatch = useDispatch();
@@ -23,6 +24,13 @@ const Questions = () => {
     const { questions, hasMore, isLoading, isError } = useSelector(state => state.question);
 
     const getData = () => {
+        logEvent(analytics, 'view_profile_question', {
+            user_id: user._id,
+            user_username: user.username,
+            profile_id: profile.user._id,
+            profile_username: profile.username,
+        });
+
         if(!location) {
             return dispatch(getProfileFaqQuestions(profile.username));
         } else if (location === 'private') {

@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { arrowRepeatIcon } from "../constance/icons";
 import { getFollowersQuestions, getSentQuestions, reset } from '../features/question/questionSlice';
 import { CreateFAQ, Navbar, QuestionCard, Tooltip, Image, Inbox } from "../components";
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../firebase';
+
 
 const Feed = () => {
     const dispatch = useDispatch()
@@ -13,6 +16,11 @@ const Feed = () => {
 
     const getData = () => {
         if(!location) {
+            logEvent(analytics, 'view_feed_question', {
+                user_id: user._id,
+                user_username: user.username
+            });
+
             return dispatch(getFollowersQuestions());
         } else if(location === 'sent') {
             return dispatch(getSentQuestions());
@@ -93,8 +101,8 @@ const Feed = () => {
                     ) : (
                         questions.map((question, index) => {
                             if(questions.length === index + 1) {
-                                return <div ref={lastQuestionElementRef} key={`question-${question._id+index}`}>
-                                        <QuestionCard key={`questions-${question._id}`} question={question} />
+                                return <div ref={lastQuestionElementRef} key={`question-${question._id}`}>
+                                        <QuestionCard question={question} />
                                     </div>
                             } else {
                                 return <QuestionCard key={`questions-${question._id}`} question={question} />

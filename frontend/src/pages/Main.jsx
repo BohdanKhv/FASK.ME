@@ -184,7 +184,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-                <div className="footer">
+                <div className="footer w-100 w-max">
                     <div className="title-1 mb-l">
                         Join Fask.me today
                     </div>

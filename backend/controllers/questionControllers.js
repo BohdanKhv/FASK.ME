@@ -557,8 +557,8 @@ const deleteQuestion = async (req, res) => {
         }
 
         if (
-            question.sender.toString() !== req.user._id.toString() || 
-            question.receiver.toString() !== req.user._id.toString()
+            question.sender.toString() === req.user._id.toString() || 
+            (question.receive && question.receiver.toString() === req.user._id.toString())
         ) {
             if(question.sender && question.receiver && question.answer) {
                 question.isArchived = true;

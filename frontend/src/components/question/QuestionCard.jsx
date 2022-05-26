@@ -12,6 +12,7 @@ const QuestionCard = ({question, isOpen}) => {
     const { user } = useSelector((state) => state.auth);
     const [showAnswer, setShowAnswer] = useState(isOpen || false);
 
+
     return (
         question && (
         <div 
