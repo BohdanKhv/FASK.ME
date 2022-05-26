@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { register, reset } from '../features/auth/authSlice';
 import { Input } from '../components';
@@ -8,8 +8,9 @@ import { reservedUsernames } from '../constance/reservedUsernames';
 import './styles/Auth.css';
 
 const Register = () => {
+    const [params, setParams] = useSearchParams();
     const [formData, setFormData] = useState({
-        username: '',
+        username: params.get('username') || '',
         email: '',
         password: '',
     });
@@ -67,6 +68,7 @@ const Register = () => {
                 password,
             };
 
+            setClientErr('');
             dispatch(register(userData));
         }
     };

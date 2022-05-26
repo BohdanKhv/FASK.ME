@@ -1,8 +1,20 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { faqIcon, askedIcon, anonymousIcon, answeredIcon, doorOpenIcon, downArrow } from '../constance/icons';
+import { Input } from '../components';
 import './styles/Main.css';
+import { group1, group2, group3, group4, group5 } from '../constance/main/images';
 
 
 const Main = () => {
+    const [username, setUsername] = useState('');
+
+
+    useEffect(() => {
+        document.title = 'Fask.Me - Home | All of your questions and answeres in one place';
+        
+        // document.body.scrollTo(0, 0);
+    }, []);
 
     return (
         <section className="main-page">
@@ -12,7 +24,7 @@ const Main = () => {
                         The Last Time You'll Ever Need to Answer Questions Again
                     </h1>
                     <p className="title-3 mb-l">
-                        Create an FAQ and never have to worry about answering the same question again
+                        Create an FAQs and you never have to worry about answering the same question again
                     </p>
                     <p className="mb-l">
                         <span className="text-secondary">Already on Fask.me?</span> <Link className="text-hover" to="/login">Login</Link>
@@ -23,91 +35,148 @@ const Main = () => {
                         </Link>
                     </div>
                 </div>
-                <div className="brief">
-                    <div className="img-placeholder">
-                        <img src="https://websitelinktree.gatsbyjs.io/static/device-deee8c126310b52fd50ed2fdb21ba2cd.png" alt=""/>
+                <div className="brief container">
+                    <div className="mobile-frame-container">
+                        <div className="mobile-frame">
+                            <div className="content">
+                                <div className="content-wrapper">
+                                    <div className="flex mb-l">
+                                        <div className="p-img mr-1"/>
+                                        <div
+                                            className="title-1 text-nowrap"
+                                            onClick={() => {
+                                                document.querySelector('input[name="username"]').scrollIntoView({
+                                                    behavior: 'smooth',
+                                                    block: 'center',
+                                                    });
+                                                document.querySelector('input[name="username"]').focus();
+                                            }}
+                                        >{username.length === 0 ? 'Your Username' : username}</div>
+                                    </div>
+                                    <div className="flex little-nav align-center pt-1 mb-1">
+                                        <div className="flex-grow text-center flex flex-column align-center">{faqIcon } <span>FAQ</span></div>
+                                        <div className="flex-grow text-center flex flex-column align-center">{answeredIcon} <span>Answered</span></div>
+                                        <div className="flex-grow text-center flex flex-column align-center">{askedIcon} <span>Asked</span></div>
+                                    </div>
+                                    <div className="flex flex-column">
+                                        <div className="qa-placeholder">
+                                            <div className="q-placeholder flex p-1">Q | <div className="plch ml-1 w-75"/></div>
+                                            <div className="a-placeholder flex border-top p-1">A | <div className="plch ml-1 w-50"/></div>
+                                        </div>
+                                        <div className="qa-placeholder">
+                                            <div className="q-placeholder flex p-1">Q | <div className="plch ml-1 w-75"/></div>
+                                            <div className="a-placeholder flex border-top p-1">A | <div className="plch ml-1 w-25"/></div>
+                                        </div>
+                                        <div className="qa-placeholder">
+                                            <div className="q-placeholder flex p-1">Q | <div className="plch ml-1 w-25"/></div>
+                                            <div className="a-placeholder flex border-top p-1">A | <div className="plch ml-1 w-50"/></div>
+                                        </div>
+                                        <div className="qa-placeholder">
+                                            <div className="q-placeholder flex p-1">Q | <div className="plch ml-1 w-50"/></div>
+                                            <div className="a-placeholder flex border-top p-1">A | <div className="plch ml-1 w-25"/></div>
+                                        </div>
+                                        <div className="qa-placeholder">
+                                            <div className="q-placeholder flex p-1">Q | <div className="plch ml-1 w-50"/></div>
+                                            <div className="a-placeholder flex border-top p-1">A | <div className="plch ml-1 w-25"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="line"/>
+                    <div className="flex sign-up">
+                        <Input
+                            type="text"
+                            name="username"
+                            label="Your Username"
+                            bodyStyle={{
+                                flexGrow: 1,
+                            }}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        >
+                            fask.me/
+                        </Input>
+                        {username.length > 2 && (
+                            <Link to={`/register?username=${username}`} className="btn-icon btn-icon-outline ml-1">
+                                {downArrow}
+                            </Link>
+                        )}
                     </div>
                 </div>
-                <div className="features">
+            </div>
+            <div className="features">
+                <div className="container">
                     <div className="card">
-                        <div className="card-video">
-                        <video autoPlay playsInline muted loop key="video-1">
-                            <source src="https://videos.ctfassets.net/lbsm39fugycf/1i6LctbRMzKsEmWCdbZWe8/3aecc0e1dd43fa2e291e9d6778c822ee/link_to_anywhere.mp4"/>
-                        </video>
+                        <div className="card-body">
+                            <h2 className="title-1 mb-1">
+                                Don't answer the same question again
+                            </h2>
+                            <p className="title-3">
+                                Create FAQs and you'll never have to worry about answering the same questions ever again.
+                            </p>
+                        </div>
+                        <div className="card-img">
+                            <img src={group1} alt="Don't answer the same question again" />
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="card-img">
+                            <img src={group2} alt="Use it anywhere" />
                         </div>
                         <div className="card-body">
                             <h2 className="title-1 mb-1">
-                                Easy To Use
+                                Use it anywhere
                             </h2>
                             <p className="title-3">
-                                Share firendly profiles. No headers, no footers, no ads, no distractions.
+                                Share your Fask.me profile wherever your audience is, to help them to know you better. No headers, no footers, no ads, no distractions.
                             </p>
                         </div>
                     </div>
                     <div className="card">
                         <div className="card-body">
                             <h2 className="title-1 mb-1">
-                                Create an FAQ
+                                Ask & answer
                             </h2>
                             <p className="title-3">
-                                Create an FAQ and never have to worry about answering the same question again
+                                Ask questions and answer them. They will be attached to your profile and your audience will be able to see them.
                             </p>
                         </div>
-                        <div className="card-video">
-                        <video autoPlay playsInline muted loop key="video-1">
-                            <source src="https://videos.ctfassets.net/lbsm39fugycf/1i6LctbRMzKsEmWCdbZWe8/3aecc0e1dd43fa2e291e9d6778c822ee/link_to_anywhere.mp4"/>
-                        </video>
+                        <div className="card-img">
+                            <img src={group3} alt="Use it anywhere" />
                         </div>
                     </div>
                     <div className="card">
-                    <div className="card-video">
-                        <video autoPlay playsInline muted loop key="video-1">
-                            <source src="https://videos.ctfassets.net/lbsm39fugycf/1i6LctbRMzKsEmWCdbZWe8/3aecc0e1dd43fa2e291e9d6778c822ee/link_to_anywhere.mp4"/>
-                        </video>
-                    </div>
-                    <div className="card-body">
-                        <h2 className="title-1 mb-1">
-                            Answere your audiences questions
-                        </h2>
-                        <p className="title-3">
-                            Let your audience see your answers and get to know you better
-                        </p>
-                    </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-body">
-                            <h2 className="title-1 mb-1">
-                                Ask others
-                            </h2>
-                            <p className="title-3">
-                                Ask others and let your audience know what you were interested in.
-                            </p>
-                        </div>
-                        <div className="card-video">
-                        <video autoPlay playsInline muted loop key="video-1">
-                            <source src="https://videos.ctfassets.net/lbsm39fugycf/1i6LctbRMzKsEmWCdbZWe8/3aecc0e1dd43fa2e291e9d6778c822ee/link_to_anywhere.mp4"/>
-                        </video>
-                        </div>
-                    </div>
-                    <div className="card">
-                        <div className="card-video">
-                        <video autoPlay playsInline muted loop key="video-1">
-                            <source src="https://videos.ctfassets.net/lbsm39fugycf/1i6LctbRMzKsEmWCdbZWe8/3aecc0e1dd43fa2e291e9d6778c822ee/link_to_anywhere.mp4"/>
-                        </video>
+                        <div className="card-img">
+                            <img src={group4} alt="Use it anywhere" />
                         </div>
                         <div className="card-body">
                             <h2 className="title-1 mb-1">
                                 Ask anonymously
                             </h2>
                             <p className="title-3">
-                                Don't worry about being identified. Ask anonymously!
+                                Don't have to worry about your identity. Ask anonymously.
                             </p>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="card-body">
+                            <h2 className="title-1 mb-1">
+                                No more spam
+                            </h2>
+                            <p className="title-3">
+                                We have a one question limit. Sender can only ask once untill it's answered or deleted.
+                            </p>
+                        </div>
+                        <div className="card-img">
+                            <img src={group5} alt="Use it anywhere" />
                         </div>
                     </div>
                 </div>
                 <div className="footer">
                     <div className="title-1 mb-l">
-                        Join the Fask.me community today
+                        Join Fask.me today
                     </div>
                     <div className="flex align-center mb-xl">
                         <Link to="/register" className="btn btn-primary">
