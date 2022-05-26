@@ -57,6 +57,7 @@ const Questions = () => {
 
     useEffect(() => {
         const promise = getData();
+        document.title = `${profile ? `${profile.fullName ? profile.fullName+' ' : ''}(@${profile.username}'s) ` : ''}Fask.me | Questions, Answers, and FAQs | ${location ? location : 'FAQs'}`;
 
         return () => {
             promise && promise.abort();

@@ -11,9 +11,9 @@ const Main = () => {
 
 
     useEffect(() => {
-        document.title = 'Fask.Me - Home | All of your questions and answeres in one place';
+        document.title = 'Fask.me - Main | All of your questions and answeres in one place';
         
-        // document.body.scrollTo(0, 0);
+        document.body.scrollTo(0, 0);
     }, []);
 
     return (

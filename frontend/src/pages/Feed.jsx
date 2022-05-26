@@ -39,6 +39,7 @@ const Feed = () => {
 
     useEffect(() => {
         const promise = getData();
+        document.title = `Fask.me | ${location ? location : 'Feed'}`;
 
         return () => {
             promise && promise.abort();

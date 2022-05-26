@@ -24,6 +24,8 @@ const ResetPassword = () => {
     }, [user, isSuccess, msg, navigate, dispatch]);
 
     useEffect(() => {
+        document.title = 'Fask.me | Reset Password';
+
         return () => {
             dispatch(reset());
         }

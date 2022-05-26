@@ -27,6 +27,8 @@ const Login = () => {
     }, [user, isSuccess, msg, navigate, dispatch]);
 
     useEffect(() => {
+        document.title = 'Fask.me | Login';
+
         return () => {
             dispatch(reset());
         }

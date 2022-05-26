@@ -34,6 +34,8 @@ const Register = () => {
     }, [user, isError, isSuccess, msg, navigate, dispatch]);
 
     useEffect(() => {
+        document.title = 'Fask.me | Register';
+
         return () => {
             dispatch(reset());
         }

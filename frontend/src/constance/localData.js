@@ -3,7 +3,7 @@ import { faqIcon, inboxIcon, sentIcon, answeredIcon, askedIcon, lockIcon } from 
 const questionsNav = (username) => {
     const nav = [
         {
-            name: 'FAQ',
+            name: 'FAQs',
             icon: faqIcon,
             path: `/${username}`,
             isPrivate: false,

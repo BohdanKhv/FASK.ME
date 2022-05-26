@@ -20,6 +20,8 @@ const ForgotPassword = () => {
     }, [user, isSuccess, msg, navigate, dispatch]);
 
     useEffect(() => {
+        document.title = 'Fask.me | Forgot Password';
+
         return () => {
             dispatch(reset());
         }
