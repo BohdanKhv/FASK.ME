@@ -5,6 +5,9 @@ import { login, reset } from '../features/auth/authSlice';
 import { Input } from '../components';
 import './styles/Auth.css';
 import { arrowRepeatIcon } from '../constance/icons';
+import { logEvent, setUserId } from 'firebase/analytics';
+import { analytics } from '../firebase';
+
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -21,7 +24,12 @@ const Login = () => {
 
     useEffect(() => {
         if (isSuccess || user) {
-            console.log('user', user);
+            logEvent(analytics, 'login', {
+                user_id: user._id,
+                user_username: user.username
+            });
+            setUserId(user._id);
+
             navigate(`/${user.username}`);
         }
     }, [user, isSuccess, msg, navigate, dispatch]);

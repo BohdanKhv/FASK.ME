@@ -5,7 +5,6 @@ import { arrowRepeatIcon } from "../constance/icons";
 import { getFollowersQuestions, getSentQuestions, reset } from '../features/question/questionSlice';
 import { CreateFAQ, Navbar, QuestionCard, Tooltip, Image, Inbox } from "../components";
 
-
 const Feed = () => {
     const dispatch = useDispatch()
     const location = useLocation().pathname.split("/")[1]

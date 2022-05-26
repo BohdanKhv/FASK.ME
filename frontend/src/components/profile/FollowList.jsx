@@ -4,6 +4,9 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
+
 
 const Following = ({label, setIsOpen}) => {
     const { followList, isLoading, numFound, limit, skip } = useSelector((state) => state.follow);
@@ -13,12 +16,22 @@ const Following = ({label, setIsOpen}) => {
 
     const getData = () => {
         if (label === 'followers') {
+            logEvent(analytics, 'followers', {
+                user_id: profile.user._id,
+                user_username: profile.username
+            });
+
             return dispatch(getFollowers({
                 _id: profile.user._id,
                 limit,
                 skip
             }));
         } else if (label === 'following') {
+            logEvent(analytics, 'following', {
+                user_id: profile.user._id,
+                user_username: profile.username
+            });
+
             return dispatch(getFollowing({
                 _id: profile.user._id,
                 limit,

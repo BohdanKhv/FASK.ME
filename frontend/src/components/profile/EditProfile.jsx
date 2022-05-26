@@ -4,6 +4,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { updateProfile, updateProfileImage } from '../../features/profile/profileSlice';
 import { Modal, Input, Textarea, UploadImage } from '../';
 import { storage } from '../../firebase';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 import './styles/EditProfile.css';
 
 const EditProfile = ({isOpen, setIsOpen}) => {
@@ -57,6 +59,11 @@ const EditProfile = ({isOpen, setIsOpen}) => {
         if (avatar) {
             dispatch(updateProfileImage());
             uploadImageToFirebase(avatar, 'avatar', 'avatars', profile.username+'_avatar');
+        
+            logEvent(analytics, 'update_profile_image', {
+                user_id: profile.user._id,
+                user_username: profile.username,
+            });
         }
         if (editProfile.fullName !== profile.fullName || editProfile.bio !== profile.bio || links !== profile.links) {
             const data = {
@@ -64,6 +71,11 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                 links: links.filter(link => link !== ''),
             }
             dispatch(updateProfile(data));
+
+            logEvent(analytics, 'edit_profile', {
+                user_id: profile.user._id,
+                user_username: profile.username,
+            });
         } else {
             setIsOpen(false);
         }

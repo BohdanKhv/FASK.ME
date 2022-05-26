@@ -5,6 +5,8 @@ import { register, reset } from '../features/auth/authSlice';
 import { Input } from '../components';
 import { arrowRepeatIcon } from '../constance/icons';
 import { reservedUsernames } from '../constance/reservedUsernames';
+import { logEvent, setUserId } from 'firebase/analytics';
+import { analytics } from '../firebase';
 import './styles/Auth.css';
 
 const Register = () => {
@@ -29,6 +31,12 @@ const Register = () => {
         }
 
         if (isSuccess || user) {
+            logEvent(analytics, 'register', {
+                user_id: user._id,
+                user_username: user.username
+            });
+            setUserId(user._id);
+
             navigate('/');
         }
     }, [user, isError, isSuccess, msg, navigate, dispatch]);

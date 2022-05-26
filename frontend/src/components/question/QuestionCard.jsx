@@ -4,6 +4,8 @@ import { downArrow } from '../../constance/icons';
 import { QuestionMenu, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, PinnedQuestion } from '../';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const QuestionCard = ({question, isOpen}) => {
@@ -34,7 +36,17 @@ const QuestionCard = ({question, isOpen}) => {
                 </div>
                 <div
                     className="flex space-between open-question content"
-                    onClick={() => setShowAnswer(!showAnswer)}
+                    onClick={() => {
+                        if(!showAnswer) {
+                            logEvent(analytics, 'view_question', {
+                                user_id: user._id,
+                                user_username: user.username,
+                                question_id: question._id,
+                                question_title: question.question,
+                            });
+                        }
+                        setShowAnswer(!showAnswer);
+                    }}
                 >
                     <div className="flex-grow">
                         <div className="flex">

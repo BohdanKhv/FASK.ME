@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from "react-redux"
 import { arrowRepeatIcon, pinIcon } from "../../constance/icons"
 import { pinQuestion } from "../../features/question/questionSlice"
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const PinQuestion = ({ question }) => {
@@ -9,7 +11,16 @@ const PinQuestion = ({ question }) => {
     const { user } = useSelector((state) => state.auth)
 
     const handlePin = () => {
-        dispatch(pinQuestion(question._id))
+        dispatch(pinQuestion(question._id));
+
+        logEvent(analytics, 'pin_question', {
+            question_id: question._id,
+            question_title: question.question,
+            question_sender_id: question.sender._id,
+            question_sender_username: question.sender.username,
+            question_receiver_id: question.receiver ? question.receiver._id : null,
+            question_receiver_username: question.receiver ? question.receiver.username : null
+        });
     }
 
     return (

@@ -3,9 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { answareIcon, questionIcon } from '../../constance/icons';
 import { Modal, Textarea } from '../';
 import { createQuestion } from '../../features/question/questionSlice';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 const CreateFAQ = ({classList}) => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user } = useSelector(state => state.auth);
     const [inputErr, setInputErr] = useState({
         question: false,
         answer: false,
@@ -29,6 +32,11 @@ const CreateFAQ = ({classList}) => {
             setFaq({
                 question: '',
                 answer: '',
+            });
+
+            logEvent(analytics, 'create_faq', {
+                user_id: user._id,
+                user_username: user.username,
             });
         }
     }, [isSuccess]);

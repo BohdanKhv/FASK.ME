@@ -4,6 +4,8 @@ import { faqIcon, askedIcon, anonymousIcon, answeredIcon, doorOpenIcon, downArro
 import { Input } from '../components';
 import './styles/Main.css';
 import { group1, group2, group3, group4, group5 } from '../constance/main/images';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../firebase';
 
 
 const Main = () => {
@@ -30,7 +32,11 @@ const Main = () => {
                         <span className="text-secondary">Already on Fask.me?</span> <Link className="text-hover" to="/login">Login</Link>
                     </p>
                     <div className="flex align-center mb-xl">
-                        <Link to="/register" className="btn btn-primary">
+                        <Link 
+                            to="/register" 
+                            className="btn btn-primary"
+                            onClick={() => logEvent(analytics, 'register_click')}
+                        >
                             GET STARTED FOR FREE
                         </Link>
                     </div>
@@ -99,7 +105,11 @@ const Main = () => {
                             fask.me/
                         </Input>
                         {username.length > 2 && (
-                            <Link to={`/register?username=${username}`} className="btn-icon btn-icon-outline ml-1">
+                            <Link 
+                                to={`/register?username=${username}`} 
+                                className="btn-icon btn-icon-outline ml-1"
+                                onClick={() => logEvent(analytics, 'register_click')}
+                            >
                                 {downArrow}
                             </Link>
                         )}
@@ -179,7 +189,10 @@ const Main = () => {
                         Join Fask.me today
                     </div>
                     <div className="flex align-center mb-xl">
-                        <Link to="/register" className="btn btn-primary">
+                        <Link 
+                            to="/register" className="btn btn-primary"
+                            onClick={() => logEvent(analytics, 'register_click')}
+                        >
                             GET STARTED FOR FREE
                         </Link>
                     </div>

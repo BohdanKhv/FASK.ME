@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Textarea } from "../../components";
 import { updateQuestion } from "../../features/question/questionSlice";
 import { arrowRepeatIcon } from "../../constance/icons";
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const PostAnswer = ({question}) => {
@@ -16,6 +18,15 @@ const PostAnswer = ({question}) => {
             answer,
             isAnswered: true,
         }));
+
+        logEvent(analytics, 'post_answer', {
+            question_id: question._id,
+            question_title: question.question,
+            question_sender_id: question.sender._id,
+            question_sender_username: question.sender.username,
+            question_receiver_id: question.receiver ? question.receiver._id : null,
+            question_receiver_username: question.receiver ? question.receiver.username : null
+        });
     }
 
     return (

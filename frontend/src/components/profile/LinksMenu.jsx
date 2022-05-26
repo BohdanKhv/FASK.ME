@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { closeIcon, linkIcon, shareIcon } from "../../constance/icons";
 import { Modal } from '../';
 import { trimLink } from '../../constance/trimLink';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const LinksMenu = () => {
@@ -17,6 +19,19 @@ const LinksMenu = () => {
             url: window.location.href
         }
         navigator.share(shareData)
+
+        logEvent(analytics, 'share_profile', {
+            user_id: profile.user._id,
+            user_username: profile.username,
+        });
+    }
+
+    const openMenu = () => {
+        setIsOpen(true);
+        logEvent(analytics, 'profile_links_view', {
+            user_id: profile.user._id,
+            user_username: profile.username
+        });
     }
 
     return (
@@ -28,7 +43,16 @@ const LinksMenu = () => {
             footerNone
         >
             {profile.links.map((link, index) => (
-                <a key={`links-link-${index}`} href={link} target="_blank" className="btn mb-1">
+                <a 
+                    key={`links-link-${index}`} href={link} target="_blank" className="btn mb-1"
+                    onClick={() => {
+                        logEvent(analytics, 'profile_link_click', {
+                            user_id: profile.user._id,
+                            user_username: profile.username,
+                            link_url: link
+                        });
+                    }}
+                >
                     {trimLink(link)}<span>{link.replace(/^(http(s)?:\/\/)?(www\.)?/i, '').split('/')[0].split('.')[0]}</span>
                 </a>
             ))}
@@ -47,7 +71,7 @@ const LinksMenu = () => {
         </Modal>
         <div 
             className="btn-icon mr-1"
-            onClick={() => setIsOpen(true)}
+            onClick={openMenu}
         >
             {linkIcon}
         </div>

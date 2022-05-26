@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { followUser } from '../../features/follow/followSlice';
 import { arrowRepeatIcon } from '../../constance/icons';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const FollowToggle = ({follow}) => {
@@ -12,6 +14,13 @@ const FollowToggle = ({follow}) => {
 
     const handleFollow = () => {
         dispatch(followUser(follow ? follow._id : profile.user._id));
+
+        logEvent(analytics, 'follow', {
+            user_id: user._id,
+            user_username: user.username,
+            follow_id: follow ? follow._id : profile.user._id,
+            follow_username: follow ? follow.username : profile.username
+        });
     }
 
     return (

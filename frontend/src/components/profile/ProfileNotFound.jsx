@@ -1,11 +1,22 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { NotFound } from '../';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 const ProfileNotFound = () => {
     const { username } = useParams();
     const { user } = useSelector((state) => state.auth);
     const { isError, msg } = useSelector(state => state.profile);
+
+    useEffect(() => {
+        if(msg === 'Profile not found') {
+            logEvent(analytics, 'profile_not_found', {
+                username,
+            });
+        }
+    }, [msg]);
 
     return (
             isError && msg === "Profile not found" && 

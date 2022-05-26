@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createQuestion } from '../../features/question/questionSlice';
 import { Textarea, Switch, Modal, Tooltip } from '../';
 import { infoIcon, questionIcon } from '../../constance/icons';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const Ask = ({classList}) => {
     const [isOpen, setIsOpen] = useState(false);
     const { profile } = useSelector(state => state.profile);
+    const { user } = useSelector(state => state.auth);
     const { isSuccess, isCreateLoading, msg, isError } = useSelector(state => state.question);
     const dispatch = useDispatch();
     const [question, setQuestion] = useState({
@@ -30,6 +33,13 @@ const Ask = ({classList}) => {
             setQuestion({
                 question: '',
                 isAnonymous: false,
+            });
+
+            logEvent(analytics, 'ask_question', {
+                user_id: profile.user._id,
+                user_username: profile.user.username,
+                sender_id: user._id,
+                sender_username: user.username,
             });
         } else {
             setErr(true);
