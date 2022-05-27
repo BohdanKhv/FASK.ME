@@ -49,7 +49,10 @@ const LinksMenu = () => {
         >
             {profile.links.map((link, index) => (
                 <a 
-                    key={`links-link-${index}`} href={link} target="_blank" className="btn mb-1"
+                    key={`links-link-${index}`}
+                    href={link.startsWith('http') ? link : `https://${link}`} 
+                    target="_blank" 
+                    className="btn mb-1"
                     onClick={() => {
                         logEvent(analytics, 'profile_link_click', {
                             user_id: user ? user._id : null,

@@ -80,13 +80,11 @@ const Login = () => {
                                 <Input
                                     type="text"
                                     name="username"
-                                    label="Username"
+                                    label="Username or email"
                                     value={username}
                                     onChange={onChange}
                                     autoCompleteOn={true}
-                                >
-                                    fask.me/
-                                </Input>
+                                />
                             </div>
                             <div className="form-group">
                                 <Input

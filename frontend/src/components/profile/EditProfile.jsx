@@ -161,7 +161,8 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                                     maxLength={200}
                                     isDisabled={isUpdating}
                                     inputStyle={{
-                                        maxHeight: '10vh'
+                                        // maxHeight: '300px',
+                                        resize: 'none',
                                     }}
                                 />
                             </div>

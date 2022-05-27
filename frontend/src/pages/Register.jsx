@@ -65,6 +65,12 @@ const Register = () => {
         } else if (username.length < 3) {
             setClientErr('Username must be at least 3 characters long');
             return;
+        } else if (username.length > 30) {
+            setClientErr('Username must be less than 30 characters long');
+            return;
+        } else if (username.split(' ').length > 1) {
+            setClientErr('Username cannot contain spaces');
+            return;
         } else if (password.length < 6) {
             setClientErr('Password must be at least 6 characters long');
             return;
@@ -105,6 +111,8 @@ const Register = () => {
                                     label="Username *"
                                     value={username}
                                     onChange={onChange}
+                                    maxLength={30}
+                                    minLength={3}
                                 >
                                     fask.me/
                                 </Input>

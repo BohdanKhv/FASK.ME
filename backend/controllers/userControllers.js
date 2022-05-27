@@ -67,6 +67,15 @@ const registerUser = async (req, res) => {
             });
         }
 
+        // Check if email exists
+        const emailExists = await User.findOne({ email });
+
+        if (emailExists) {
+            return res.status(400).json({
+                msg: 'Email is already in use'
+            });
+        }
+
         // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -107,7 +116,13 @@ const loginUser = async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        const user = await User.findOne({ username }).populate('profile');
+        // login using username or email
+        const user = await User.findOne({
+            $or: [
+                { 'username': {'$regex': `^${username}$`, '$options': 'i'} },
+                { email: username }
+            ]
+        }).populate('profile');
 
         if (!user) {
             return res.status(400).json({

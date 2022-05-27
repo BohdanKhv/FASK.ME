@@ -8,12 +8,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please add a username'],
         unique: true,
         minlength: 3,
-        maxlength: 20,
+        maxlength: 30,
         validate(value) {
             if (value.length < 3) {
                 throw new Error('Username must be at least 3 characters');
-            } else if (value.length > 15) {
-                throw new Error('Username must be less than 15 characters');
+            } else if (value.length > 30) {
+                throw new Error('Username must be less than 30 characters');
             }
 
             if(/\s/.test(value)) {
@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please add an email'],
+        unique: true,
         match: [
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             'Please add a valid email'
