@@ -49,7 +49,7 @@ const Main = () => {
                                     <div className="flex mb-l">
                                         <div className="p-img mr-1"/>
                                         <div
-                                            className="title-1 text-nowrap"
+                                            className="title-2 text-nowrap"
                                             onClick={() => {
                                                 document.querySelector('input[name="username"]').scrollIntoView({
                                                     behavior: 'smooth',
@@ -60,7 +60,7 @@ const Main = () => {
                                         >{username.length === 0 ? 'Your Username' : username}</div>
                                     </div>
                                     <div className="flex little-nav align-center pt-1 mb-1">
-                                        <div className="flex-grow text-center flex flex-column align-center">{faqIcon } <span>FAQ</span></div>
+                                        <div className="flex-grow text-center flex flex-column align-center">{faqIcon } <span>FAQs</span></div>
                                         <div className="flex-grow text-center flex flex-column align-center">{answeredIcon} <span>Answered</span></div>
                                         <div className="flex-grow text-center flex flex-column align-center">{askedIcon} <span>Asked</span></div>
                                     </div>
@@ -98,6 +98,9 @@ const Main = () => {
                             label="Your Username"
                             bodyStyle={{
                                 flexGrow: 1,
+                            }}
+                            inputStyle={{
+                                maxHeight: '61px',
                             }}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}

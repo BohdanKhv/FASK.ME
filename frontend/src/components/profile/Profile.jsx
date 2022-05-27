@@ -84,7 +84,7 @@ const Profile = () => {
                         </div>
                     </div>
                     {!isDesktop && (
-                    <div className="mb-1">
+                    <div className="my-1">
                         <h2 className="title-1 flex-grow text-nowrap">
                             {profile.username}
                         </h2>

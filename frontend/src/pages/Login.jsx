@@ -98,7 +98,7 @@ const Login = () => {
                                 />
                             </div>
                             <button type="submit" 
-                                className={`btn w-100 spinner${username.length > 0 && password.length > 0 ? ' btn-primary' : ' btn-secondary'}`}
+                                className={`btn w-100 mb-3 spinner${username.length > 0 && password.length > 0 ? ' btn-primary' : ' btn-secondary'}`}
                             >
                                 {isLoading ? arrowRepeatIcon : 'Log in'}
                             </button>

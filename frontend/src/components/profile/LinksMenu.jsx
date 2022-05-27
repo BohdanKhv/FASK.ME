@@ -13,7 +13,6 @@ const LinksMenu = () => {
     const { user } = useSelector(state => state.auth);
 
     const handleShare = () => {
-        setIsOpen(false);
         const shareData = {
             title: `${profile.username}`,
             text: `Check out ${profile.username} on Fask.me`,
@@ -27,6 +26,7 @@ const LinksMenu = () => {
             viewed_user_id: profile.user._id,
             viewed_user_username: profile.username
         });
+        setIsOpen(false);
     }
 
     const openMenu = () => {
