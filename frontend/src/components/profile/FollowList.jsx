@@ -11,14 +11,17 @@ import { analytics } from '../../firebase';
 const Following = ({label, setIsOpen}) => {
     const { followList, isLoading, numFound, limit, skip } = useSelector((state) => state.follow);
     const { profile } = useSelector((state) => state.profile);
+    const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const location = useLocation();
 
     const getData = () => {
         if (label === 'followers') {
             logEvent(analytics, 'followers', {
-                user_id: profile.user._id,
-                user_username: profile.username
+                user_id: user ? user._id : null,
+                user_username: user ? user.username : null,
+                viewed_user_id: profile.user._id,
+                viewed_user_id: profile.username,
             });
 
             return dispatch(getFollowers({
@@ -28,8 +31,10 @@ const Following = ({label, setIsOpen}) => {
             }));
         } else if (label === 'following') {
             logEvent(analytics, 'following', {
-                user_id: profile.user._id,
-                user_username: profile.username
+                user_id: user ? user._id : null,
+                user_username: user ? user.username : null,
+                viewed_user_id: profile.user._id,
+                viewed_user_id: profile.username,
             });
 
             return dispatch(getFollowing({

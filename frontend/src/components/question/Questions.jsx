@@ -25,8 +25,8 @@ const Questions = () => {
 
     const getData = () => {
         logEvent(analytics, 'view_profile_question', {
-            user_id: user._id,
-            user_username: user.username,
+            user_id: user ? user._id : null,
+            user_username: user ? user.username : null,
             profile_id: profile.user._id,
             profile_username: profile.username,
         });

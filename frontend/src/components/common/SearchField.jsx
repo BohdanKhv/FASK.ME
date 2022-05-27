@@ -107,7 +107,7 @@ const SearchField = () => {
                                         to={`/${profile.username}`}
                                         className="title-4 text-hover"
                                     >
-                                        @{profile.username}
+                                        {profile.username}
                                     </Link>
                                     {profile.fullName && (
                                         <p className="text-secondary mx-3">

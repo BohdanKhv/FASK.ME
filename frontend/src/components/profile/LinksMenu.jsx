@@ -10,6 +10,7 @@ import { analytics } from '../../firebase';
 const LinksMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { profile } = useSelector(state => state.profile);
+    const { user } = useSelector(state => state.auth);
 
     const handleShare = () => {
         setIsOpen(false);
@@ -21,16 +22,20 @@ const LinksMenu = () => {
         navigator.share(shareData)
 
         logEvent(analytics, 'share_profile', {
-            user_id: profile.user._id,
-            user_username: profile.username,
+            user_id: user ? user._id : null,
+            user_username: user ? user.username : null,
+            viewed_user_id: profile.user._id,
+            viewed_user_username: profile.username
         });
     }
 
     const openMenu = () => {
         setIsOpen(true);
         logEvent(analytics, 'profile_links_view', {
-            user_id: profile.user._id,
-            user_username: profile.username
+            user_id: user ? user._id : null,
+            user_username: user ? user.username : null,
+            viewed_user_id: profile.user._id,
+            viewed_user_username: profile.username
         });
     }
 
@@ -47,9 +52,11 @@ const LinksMenu = () => {
                     key={`links-link-${index}`} href={link} target="_blank" className="btn mb-1"
                     onClick={() => {
                         logEvent(analytics, 'profile_link_click', {
-                            user_id: profile.user._id,
-                            user_username: profile.username,
-                            link_url: link
+                            user_id: user ? user._id : null,
+                            user_username: user ? user.username : null,
+                            link_url: link,
+                            viewed_user_id: profile.user._id,
+                            viewed_user_username: profile.username
                         });
                     }}
                 >

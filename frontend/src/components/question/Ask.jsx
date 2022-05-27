@@ -36,10 +36,10 @@ const Ask = ({classList}) => {
             });
 
             logEvent(analytics, 'ask_question', {
-                user_id: profile.user._id,
-                user_username: profile.user.username,
-                sender_id: user._id,
-                sender_username: user.username,
+                user_id: user._id,
+                user_username: user.username,
+                receiver_id: profile.user._id,
+                receiver_username: profile.username,
             });
         } else {
             setErr(true);

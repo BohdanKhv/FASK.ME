@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, ProfileNotFound, ProfileMenu, LinksMenu } from '../';
 import './styles/Profile.css';
 
 
 const Profile = () => {
-    const dispatch = useDispatch();
-    const [isOpen, setIsOpen] = useState(false);
     const [isOpenFollowingList, setIsOpenFollowingList] = useState(false);
     const [isOpenFollowersList, setIsOpenFollowersList] = useState(false);
     const [isDesktop, setDesktop] = useState(window.innerWidth > 735);

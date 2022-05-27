@@ -40,8 +40,8 @@ const QuestionCard = ({question, isOpen}) => {
                     onClick={() => {
                         if(!showAnswer) {
                             logEvent(analytics, 'view_question', {
-                                user_id: user._id,
-                                user_username: user.username,
+                                user_id: user ? user._id : null,
+                                user_username: user ? user.username : null,
                                 question_id: question._id,
                                 question_title: question.question,
                             });
