@@ -5,6 +5,7 @@ import { searchUsers } from '../../features/search/searchSlice';
 import { arrowRepeatIcon, searchIcon } from '../../constance/icons';
 import { Input, Image } from '../';
 import './styles/SearchField.css';
+import { bgColor } from '../../constance/userMiddleware';
 
 
 const SearchField = () => {
@@ -97,7 +98,7 @@ const SearchField = () => {
                                             classList="profile-image-md"
                                         /> 
                                     ) : (
-                                        <div className="profile-image-placeholder profile-image-placeholder-md">
+                                        <div className={`avatar avatar-md ${bgColor(profile.username)}`}>
                                             {profile.username[0].toUpperCase()}
                                         </div>
                                     )}

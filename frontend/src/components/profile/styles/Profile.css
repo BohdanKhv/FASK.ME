@@ -59,6 +59,7 @@
     white-space: nowrap;
     -webkit-user-select: none;
     user-select: none;
+    text-shadow: 2px 2px 2px black;
 }
 
 
@@ -100,7 +101,7 @@
         min-width: 100px;
         height: 100px;
         width: 100px;
-        line-height: 88px;
+        line-height: 90px;
         font-size: 4rem;
         margin: 0 12px 0 0;
     }
