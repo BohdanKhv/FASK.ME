@@ -43,20 +43,4 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-userSchema.pre('save', async function (next) {
-    try {
-    const profile = await Profile.create({
-        user: this._id,
-        username: this.username,
-    });
-
-    this.profile = profile._id;
-    next();
-    } catch (err) {
-        console.log(err);
-        next(err);
-    }
-})
-
-
 module.exports = mongoose.model('User', userSchema);

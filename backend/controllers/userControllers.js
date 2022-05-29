@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Profile = require('../models/profileModel');
 const ResetToken = require('../models/resetTokenModel'); 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -87,17 +88,40 @@ const registerUser = async (req, res) => {
             password: hashedPassword
         });
 
-        if (newUser) {
-            res.status(201).json({
-                _id: newUser.id,
-                email: newUser.email,
-                username: newUser.username,
-                profile: newUser.profile,
-                token: generateToken(newUser._id)
-            });
-        } else {
+        if(!newUser) {
             return res.status(400).json({
-                msg: 'Invalid user data'
+                msg: 'User could not be created'
+            });
+        }
+
+        try {
+            // Create profile
+            const newProfile = await Profile.create({
+                user: newUser._id,
+                username: newUser.username,
+            });
+
+            newUser.profile = newProfile._id;
+            await newUser.save();
+
+            if (newUser && newProfile) {
+                res.status(201).json({
+                    _id: newUser.id,
+                    email: newUser.email,
+                    username: newUser.username,
+                    profile: newProfile,
+                    token: generateToken(newUser._id)
+                });
+            } else {
+                return res.status(400).json({
+                    msg: 'Invalid user data'
+                });
+            }
+        } catch (err) {
+            // Delete user if profile creation fails
+            await User.findOneAndDelete({ _id: newUser._id });
+            return res.status(500).json({
+                msg: 'Profile could not be created'
             });
         }
     } catch (err) {

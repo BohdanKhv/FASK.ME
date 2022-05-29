@@ -41,7 +41,7 @@ const getProfile = async (req, res) => {
         if(req.user) {
             const isFollowing = await Follow.findOne({
                 follower: req.user._id,
-                followee: profile.user._id,
+                following: profile.user._id,
                 active: true
             });
 
@@ -107,6 +107,9 @@ const getProfiles = async (req, res) => {
                 },
                 {
                     'username': {'$regex': `^${username}`, '$options': 'i'}
+                },
+                {
+                    'fullName': {'$regex': `^${username}`, '$options': 'i'}
                 }
             ]
         })

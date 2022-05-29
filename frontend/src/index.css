@@ -5,6 +5,14 @@
   --color-info: #91c4d4;
 
   --border-radius: 0.25rem;
+
+  --color-user-1: #e17076;
+  --color-user-2: #7bc862;
+  --color-user-3: #65aadd;
+  --color-user-4: #a695e7;
+  --color-user-5: #ee7aae;
+  --color-user-6: #6ec9cb;
+  --color-user-7: #faa774;
 }
 
 [data-theme='dark'] {
@@ -708,6 +716,34 @@ svg {
   height: 75px;
   width: auto;
   display: block;
+}
+
+div.bg-user-1 {
+  background: linear-gradient(white -125%, var(--color-user-1));
+}
+
+div.bg-user-2 {
+  background: linear-gradient(white -125%, var(--color-user-2));
+}
+
+div.bg-user-3 {
+  background: linear-gradient(white -125%, var(--color-user-3));
+}
+
+div.bg-user-4 {
+  background: linear-gradient(white -125%, var(--color-user-4));
+}
+
+div.bg-user-5 {
+  background: linear-gradient(white -125%, var(--color-user-5));
+}
+
+div.bg-user-6 {
+  background: linear-gradient(white -125%, var(--color-user-6));
+}
+
+div.bg-user-7 {
+  background: linear-gradient(white -125%, var(--color-user-7));
 }
 
 @keyframes spin {

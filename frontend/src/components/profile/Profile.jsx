@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, ProfileNotFound, ProfileMenu, LinksMenu } from '../';
+import { bgColor } from '../../constance/userMiddleware';
 import './styles/Profile.css';
 
 
@@ -29,7 +30,7 @@ const Profile = () => {
                 <>
                 <div className="profile-info">
                     <div className={`profile-info-container flex${isDesktop ? ' mb-xl' : ' mb-1'}`}>
-                        <div className="profile-image-placeholder mx-auto">
+                        <div className={`avatar mx-auto ${bgColor(profile.username)}`}>
                             { profile.avatar ? (
                                 <DisplayImage
                                     image={ profile.avatar }
@@ -147,7 +148,7 @@ const Profile = () => {
                     <div className="flex mb-xl">
                         <div className="flex-grow">
                             <div className="profile-image flex align-center mx-auto">
-                                <div className="profile-image-placeholder"/>
+                                <div className="avatar"/>
                             </div>
                         </div>
                         <div className="flex-grow-2">

@@ -9,8 +9,8 @@ const {
 
 
 router
-    .get('/followers/:username', isAuth, getFollowers)
-    .get('/following/:username', isAuth, getFollowing)
+    .get('/followers/:id', isAuth, getFollowers)
+    .get('/following/:id', isAuth, getFollowing)
     .post('/:id', protect, followUser);
 
 

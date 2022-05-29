@@ -20,10 +20,11 @@ const initialState = {
 // Get followers
 export const getFollowers = createAsyncThunk(
     'follow/getFollowers',
-    async (data, thunkAPI) => {
+    async (id, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await followService.getFollowers(data, token);
+            const { skip, limit } = thunkAPI.getState().follow;
+            return await followService.getFollowers({id, skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&
@@ -40,10 +41,11 @@ export const getFollowers = createAsyncThunk(
 // Get following
 export const getFollowing = createAsyncThunk(
     'follow/getFollowing',
-    async (data, thunkAPI) => {
+    async (id, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
-            return await followService.getFollowing(data, token);
+            const { skip, limit } = thunkAPI.getState().follow;
+            return await followService.getFollowing({id, skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&

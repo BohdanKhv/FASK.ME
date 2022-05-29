@@ -40,39 +40,45 @@
     object-position: center;
 }
 
-.profile-image-placeholder {
+.avatar {
     min-height: 150px;
     min-width: 150px;
     height: 150px;
     width: 150px;
     border-radius: 50%;
-    font-size: 6rem;
-    font-weight: 500;
-    line-height: 150px;
+    margin: 0 28px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 0;
+    font-size: 5rem;
+    background: linear-gradient(white -125%, var(--color-user-7));
+    color: #fff;
+    font-weight: bold;
+    line-height: 130px;
     text-align: center;
-    background-color: var(--color-border);
-    color: var(--text-dark);
-    text-transform: uppercase;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 
-.profile-image-placeholder.profile-image-placeholder-md {
+.avatar.avatar-md {
     min-width: 45px;
     min-height: 45px;
     height: 45px;
     width: 45px;
     font-size: 1.75rem;
     margin: 0;
-    line-height: 45px;
+    line-height: 41px;
     margin-right: 0.5rem;
 }
 
-.profile-image-placeholder.profile-image-placeholder-sm {
+.avatar.avatar-sm {
     min-width: 30px;
     min-height: 30px;
     height: 30px;
     width: 30px;
-    line-height: 30px;
+    line-height: 28px;
     font-size: 1.15rem;
     margin: 0 0.25rem 0 0;
 }
@@ -88,20 +94,13 @@
     flex-basis: 0;
 }
 
-.profile-image-placeholder {
-    margin: 0 28px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    flex-basis: 0;
-}
-
 @media (max-width: 735px) {
-    .profile-image-placeholder {
+    .avatar {
         min-height: 100px;
         min-width: 100px;
         height: 100px;
         width: 100px;
-        line-height: 100px;
+        line-height: 88px;
         font-size: 4rem;
         margin: 0 12px 0 0;
     }

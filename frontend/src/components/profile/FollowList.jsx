@@ -5,18 +5,19 @@ import { Link } from "react-router-dom";
 import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
 import { logEvent } from 'firebase/analytics';
+import { bgColor } from "../../constance/userMiddleware";
 import { analytics } from '../../firebase';
 
 
 const Following = ({label, setIsOpen}) => {
-    const { followList, isLoading, numFound, limit, skip } = useSelector((state) => state.follow);
+    const { followList, isLoading, numFound, skip } = useSelector((state) => state.follow);
     const { profile } = useSelector((state) => state.profile);
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const location = useLocation();
 
     const getData = () => {
-        if (label === 'followers') {
+        if (label === 'followers' && profile.followers && profile.followers > 0) {
             logEvent(analytics, 'followers', {
                 user_id: user ? user._id : null,
                 user_username: user ? user.username : null,
@@ -24,12 +25,8 @@ const Following = ({label, setIsOpen}) => {
                 viewed_user_id: profile.username,
             });
 
-            return dispatch(getFollowers({
-                _id: profile.user._id,
-                limit,
-                skip
-            }));
-        } else if (label === 'following') {
+            return dispatch(getFollowers(profile.user._id));
+        } else if (label === 'following' && profile.following && profile.following > 0) {
             logEvent(analytics, 'following', {
                 user_id: user ? user._id : null,
                 user_username: user ? user.username : null,
@@ -37,11 +34,7 @@ const Following = ({label, setIsOpen}) => {
                 viewed_user_id: profile.username,
             });
 
-            return dispatch(getFollowing({
-                _id: profile.user._id,
-                limit,
-                skip
-            }));
+            return dispatch(getFollowing(profile.user._id));
         } else {
             return;
         }
@@ -89,14 +82,14 @@ const Following = ({label, setIsOpen}) => {
                         <div ref={(followList.length === index + 1) ? lastElementRef : null} className="flex align-between align-center mb-1 flex-align-center" key={`follows-${follow._id}`}>
                             <div className="flex flex-align-center">
                                 <Link to={`/${follow.username}`}>
-                                    {follow.avatar ? (
+                                    {follow.profile.avatar ? (
                                         <Image
-                                            image={follow.avatar}
+                                            image={follow.profile.avatar}
                                             alt="Avatar"
                                             classList="profile-image-md"
                                         /> 
                                     ) : (
-                                        <div className="profile-image-placeholder profile-image-placeholder-md">
+                                        <div className={`avatar avatar-md ${bgColor(profile.username)}`}>
                                             {follow.username[0].toUpperCase()}
                                         </div>
                                     )}
@@ -122,9 +115,9 @@ const Following = ({label, setIsOpen}) => {
                     ))}
                     {!isLoading && (
                         <div className="text-center mb-1">
-                            {label === 'Following' && profile && profile.following === 0 ? (
+                            {label === 'following' && profile && profile.following === 0 ? (
                                 `${profile.username} is not following anyone`
-                            ) : label === 'Followers' && profile && profile.followers === 0 && (
+                            ) : label === 'followers' && profile && profile.followers === 0 && (
                                 `${profile.username} has no followers`
                             )}
                         </div>

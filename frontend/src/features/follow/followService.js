@@ -11,7 +11,7 @@ const getFollowers = async (data, token) => {
             Authorization: `Bearer ${token ? token : ''}`,
         }
     };
-    const res = await axios.get(`${API_URL}followers/${data._id}?limit=${data.limit}&skip=${data.skip}`, config);
+    const res = await axios.get(`${API_URL}followers/${data.id}?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }
@@ -24,7 +24,7 @@ const getFollowing = async (data, token) => {
             Authorization: `Bearer ${token ? token : ''}`,
         }
     };
-    const res = await axios.get(`${API_URL}following/${data._id}?limit=${data.limit}&skip=${data.skip}`, config);
+    const res = await axios.get(`${API_URL}following/${data.id}?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }

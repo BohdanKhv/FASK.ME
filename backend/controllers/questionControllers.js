@@ -1,6 +1,7 @@
 const Question = require('../models/questionModel');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
+const Follow = require('../models/followModel');
 
 
 const filterAnonymouslyAskedQuestions = async (questions) => {
@@ -405,43 +406,22 @@ const getFollowersQuestions = async (req, res) => {
         const limit = req.query.limit || 10;
         const skip = req.query.skip || 0;
 
-        const profile = await Profile.findOne({
-            user: req.user._id
+        const follow = await Follow.find({
+            follower: req.user._id,
+            active: true
         });
 
-        if (!profile) {
-            return res.status(404).json({ msg: 'Profile not found' });
-        }
-
-        const numFound = await Question.countDocuments({
-            $or: [
-                {
-                    receiver: {
-                        $in: profile.following
-                    }
-                },
-                {
-                    sender: {
-                        $in: profile.following
-                    }
-                }
-            ],
-            isArchived: false,
-            isAnswered: true,
-            isPrivate: false
-        })
-
-        if(numFound && numFound > skip) {
-            const questions = await Question.find({
+        if(follow.length > 0) {
+            const numFound = await Question.countDocuments({
                 $or: [
                     {
                         receiver: {
-                            $in: profile.following
+                            $in: follow.following
                         }
                     },
                     {
                         sender: {
-                            $in: profile.following
+                            $in: follow.following
                         }
                     }
                 ],
@@ -449,28 +429,53 @@ const getFollowersQuestions = async (req, res) => {
                 isAnswered: true,
                 isPrivate: false
             })
-            .populate({
-                path: 'sender',
-                populate: {
-                    path: 'profile',
-                }
-            })
-            .populate({
-                path: 'receiver',
-                populate: {
-                    path: 'profile',
-                }
-            })
-            .sort({ createdAt: -1 })
-            .limit(limit || 10)
-            .skip(skip || 0);
 
-            const data = await filterAnonymouslyAskedQuestions(questions);
+            if(numFound && numFound > skip) {
+                const questions = await Question.find({
+                    $or: [
+                        {
+                            receiver: {
+                                $in: follow.following
+                            }
+                        },
+                        {
+                            sender: {
+                                $in: follow.following
+                            }
+                        }
+                    ],
+                    isArchived: false,
+                    isAnswered: true,
+                    isPrivate: false
+                })
+                .populate({
+                    path: 'sender',
+                    populate: {
+                        path: 'profile',
+                    }
+                })
+                .populate({
+                    path: 'receiver',
+                    populate: {
+                        path: 'profile',
+                    }
+                })
+                .sort({ createdAt: -1 })
+                .limit(limit || 10)
+                .skip(skip || 0);
 
-            return res.status(200).json({
-                questions: data,
-                numFound
-            });
+                const data = await filterAnonymouslyAskedQuestions(questions);
+
+                return res.status(200).json({
+                    questions: data,
+                    numFound
+                });
+            } else {
+                return res.status(200).json({
+                    questions: [],
+                    numFound
+                });
+            }
         } else {
             return res.status(200).json({
                 questions: [],

@@ -10,10 +10,10 @@ const getFollowers = async (req, res) => {
         const limit = req.query.limit || 10;
         const skip = req.query.skip || 0;
 
-        const numFound = await Follow.countDocuments({ following: req.params.username });
+        const numFound = await Follow.countDocuments({ following: req.params.id });
 
         if(numFound && numFound > skip) {
-            const followers = await Follow.find({ following: req.params.username })
+            const followers = await Follow.find({ following: req.params.id })
             .select('follower')
             .populate({
                 path: 'follower',
@@ -70,10 +70,10 @@ const getFollowing = async (req, res) => {
         const limit = req.query.limit || 10;
         const skip = req.query.skip || 0;
 
-        const numFound = await Follow.countDocuments({ following: req.params.username });
+        const numFound = await Follow.countDocuments({ follower: req.params.id });
 
         if(numFound && numFound > skip) {
-            const followings = await Follow.find({ follower: req.params.username })
+            const followings = await Follow.find({ follower: req.params.id })
             .select('follower')
             .populate({
                 path: 'following',

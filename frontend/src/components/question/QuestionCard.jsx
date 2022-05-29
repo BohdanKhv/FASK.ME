@@ -111,7 +111,7 @@ const QuestionCard = ({question, isOpen}) => {
                         <PinnedQuestion
                             question={question}
                         />
-                        {user && (user._id === question.sender._id || user._id === question.receiver._id) && (
+                        {user && (user._id === question.sender._id || (question.receiver && user._id === question.receiver._id)) && (
                             <QuestionMenu
                                 question={question}
                             />

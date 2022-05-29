@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Image } from '../';
+import { bgColor } from '../../constance/userMiddleware';
 import { anonymousIcon } from '../../constance/icons';
 
 const UserInfo = ({ profile, secondary }) => {
@@ -15,7 +16,7 @@ const UserInfo = ({ profile, secondary }) => {
                             classList="profile-image-sm"
                         />
                     ) : (
-                        <div className="profile-image-placeholder profile-image-placeholder-sm">
+                        <div className={`avatar avatar-sm ${bgColor(profile.username)}`}>
                             {profile.username[0].toUpperCase()}
                         </div>
                     ) }
@@ -30,7 +31,7 @@ const UserInfo = ({ profile, secondary }) => {
                 </>
                 ) : profile === 'Anonymous' && (
                     <>
-                    <div className="profile-image-placeholder profile-image-placeholder-sm">
+                    <div className={`avatar avatar-sm ${bgColor(profile.username)}`}>
                         A
                     </div>
                     <div>

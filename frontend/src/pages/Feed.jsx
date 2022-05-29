@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { arrowRepeatIcon } from "../constance/icons";
 import { getFollowersQuestions, getSentQuestions, reset } from '../features/question/questionSlice';
 import { CreateFAQ, Navbar, QuestionCard, Tooltip, Image, Inbox } from "../components";
+import { bgColor } from "../constance/userMiddleware";
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '../firebase';
 
@@ -66,7 +67,7 @@ const Feed = () => {
                                 classList="profile-image-md"
                             /> 
                         ) : (
-                            <div className="profile-image-placeholder profile-image-placeholder-md">
+                            <div className={`avatar avatar-md ${bgColor(user.username)}`}>
                                 {user.username[0].toUpperCase()}
                             </div>
                         )}
