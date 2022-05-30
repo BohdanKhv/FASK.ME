@@ -411,17 +411,19 @@ const getFollowersQuestions = async (req, res) => {
             active: true
         });
 
+        const filterFollow = follow.map(f => f.following);
+
         if(follow.length > 0) {
             const numFound = await Question.countDocuments({
                 $or: [
                     {
                         receiver: {
-                            $in: follow.following
+                            $in: filterFollow
                         }
                     },
                     {
                         sender: {
-                            $in: follow.following
+                            $in: filterFollow
                         }
                     }
                 ],
@@ -435,12 +437,12 @@ const getFollowersQuestions = async (req, res) => {
                     $or: [
                         {
                             receiver: {
-                                $in: follow.following
+                                $in: filterFollow
                             }
                         },
                         {
                             sender: {
-                                $in: follow.following
+                                $in: filterFollow
                             }
                         }
                     ],
@@ -479,7 +481,7 @@ const getFollowersQuestions = async (req, res) => {
         } else {
             return res.status(200).json({
                 questions: [],
-                numFound
+                numFound: 0
             });
         }
     } catch (err) {

@@ -89,7 +89,7 @@ const SearchField = () => {
                     {!isLoading ? (
                         search.map((profile) => (
                         <div className="flex align-between align-center flex-align-center mx-2 mt-1" key={profile._id}>
-                            <div className="flex flex-align-center">
+                            <div className="flex flex-align-center overflow-hidden">
                                 <Link to={`/${profile.username}`}>
                                     {profile.avatar ? (
                                         <Image
@@ -103,15 +103,15 @@ const SearchField = () => {
                                         </div>
                                     )}
                                 </Link>
-                                <div>
+                                <div className="min-width-0">
                                     <Link 
                                         to={`/${profile.username}`}
-                                        className="title-4 text-hover"
+                                        className="title-4 text-hover text-nowrap"
                                     >
                                         {profile.username}
                                     </Link>
                                     {profile.fullName && (
-                                        <p className="text-secondary mx-3">
+                                        <p className="text-secondary mx-3 text-nowrap">
                                             {profile.fullName}
                                         </p>
                                     )}

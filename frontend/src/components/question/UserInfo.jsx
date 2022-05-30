@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Image } from '../';
 import { bgColor } from '../../constance/userMiddleware';
-import { anonymousIcon } from '../../constance/icons';
 
 const UserInfo = ({ profile, secondary }) => {
     return (
@@ -31,7 +30,7 @@ const UserInfo = ({ profile, secondary }) => {
                 </>
                 ) : profile === 'Anonymous' && (
                     <>
-                    <div className={`avatar avatar-sm ${bgColor(profile.username)}`}>
+                    <div className={`avatar avatar-sm ${bgColor('Anonymous')}`}>
                         A
                     </div>
                     <div>

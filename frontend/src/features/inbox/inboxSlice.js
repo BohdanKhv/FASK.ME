@@ -40,10 +40,11 @@ export const getReceivedQuestionsCount = createAsyncThunk(
 // Get received questions
 export const getReceivedQuestions = createAsyncThunk(
     "inbox/getReceivedQuestions",
-    async (data, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token;
-            return await inboxService.getReceivedQuestions(data, token);
+            const { skip, limit } = thunkAPI.getState().inbox;
+            return await inboxService.getReceivedQuestions({skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&

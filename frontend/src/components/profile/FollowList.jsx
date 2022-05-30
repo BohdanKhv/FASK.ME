@@ -80,7 +80,7 @@ const Following = ({label, setIsOpen}) => {
                 <div className="follows-list">
                     {followList.map((follow, index) => (
                         <div ref={(followList.length === index + 1) ? lastElementRef : null} className="flex align-between align-center mb-1 flex-align-center" key={`follows-${follow._id}`}>
-                            <div className="flex flex-align-center">
+                            <div className="flex flex-align-center overflow-hidden">
                                 <Link to={`/${follow.username}`}>
                                     {follow.profile.avatar ? (
                                         <Image
@@ -94,16 +94,16 @@ const Following = ({label, setIsOpen}) => {
                                         </div>
                                     )}
                                 </Link>
-                                <div>
+                                <div className="min-width-0">
                                     <Link 
                                         to={`/${follow.username}`}
-                                        className="title-4 text-hover"
+                                        className="title-4 text-hover text-nowrap"
                                     >
                                         {follow.username}
                                     </Link>
-                                    {follow.fullName && (
-                                        <p className="text-secondary mx-3">
-                                            {follow.fullName}
+                                    {follow.profile.fullName && (
+                                        <p className="text-secondary mx-3 text-nowrap">
+                                            {follow.profile.fullName}
                                         </p>
                                     )}
                                 </div>

@@ -14,10 +14,7 @@ const Inbox = () => {
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && hasMore) {
-                const promise = dispatch(getReceivedQuestions({
-                    skip,
-                    limit
-                }));
+                const promise = dispatch(getReceivedQuestions());
         
                 return () => {
                     promise && promise.abort();
@@ -31,10 +28,7 @@ const Inbox = () => {
         let promise = null;
 
         if(inbox.length === 0) {
-            promise = dispatch(getReceivedQuestions({
-                skip,
-                limit
-            }));
+            promise = dispatch(getReceivedQuestions());
         }
 
         return () => {
