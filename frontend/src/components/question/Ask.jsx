@@ -100,8 +100,8 @@ const Ask = ({classList}) => {
                         isDisabled={isCreateLoading}
                     />
                     </div>
-                    <div className="flex align-between mx-1 border-top pt-1">
-                        <p className="title-4">Ask anonymously</p>
+                    <div className="flex align-between border p-2">
+                        <p className="title-3">Anonymously</p>
                         <Switch
                             onChange={() => {
                                 setQuestion({
