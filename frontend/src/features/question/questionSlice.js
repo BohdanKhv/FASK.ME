@@ -438,7 +438,6 @@ const questionSlice = createSlice({
         builder.addCase(deleteQuestion.pending, (state, action) => {
             if(state.questions.length > 0) {
                 state.loadingId = action.meta.arg;
-                state.isCreateLoading = true;
                 state.isError = false;
                 state.msg = '';
             }

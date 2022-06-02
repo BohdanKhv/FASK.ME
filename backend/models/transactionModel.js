@@ -12,6 +12,14 @@ const transactionSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    senderWallet: {
+        type: String,
+        required: true
+    },
+    recieverWallet: {
+        type: String,
+        required: true
+    },
     question: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question',

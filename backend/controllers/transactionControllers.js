@@ -45,6 +45,26 @@ const createTransaction = async (req, res) => {
     try {
         const { question, amount, reciever, transactionsHash } = req.body;
 
+        const recieverProfile = await Profile.findOne({
+            user: reciever
+        });
+
+        if(!recieverProfile) {
+            return res.status(400).json({
+                msg: 'Reciever profile not found'
+            });
+        }
+
+        const senderProfile = await Profile.findOne({
+            user: req.user._id
+        });
+
+        if(!senderProfile) {
+            return res.status(400).json({
+                msg: 'Sender profile not found'
+            });
+        }
+
         const questionExists = await Question.findById(question);
 
         if(!questionExists) {
@@ -69,6 +89,8 @@ const createTransaction = async (req, res) => {
         const newTransaction = new Transaction({
             sender: req.user._id,
             reciever,
+            senderWallet: senderProfile.wallet,
+            recieverWallet: recieverProfile.wallet,
             question,
             amount,
             transactionsHash

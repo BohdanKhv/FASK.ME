@@ -44,7 +44,7 @@ const LinksMenu = () => {
         <Modal
             setModalIsOpen={setIsOpen}
             modalIsOpen={isOpen}
-            headerNone
+            contentLabel="Profile Links"
             footerNone
         >
             {profile.links.map((link, index) => (
@@ -70,13 +70,7 @@ const LinksMenu = () => {
                 className="btn mb-1"
                 onClick={handleShare}
             >
-                {shareIcon} <span>Share {profile.username}'s Profile</span>
-            </div>
-            <div 
-                className="btn"
-                onClick={() => setIsOpen(false)}
-            >
-                {closeIcon}<span>Close</span>
+                {shareIcon} <span>Share Profile</span>
             </div>
         </Modal>
         <div 

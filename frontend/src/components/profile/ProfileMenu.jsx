@@ -20,7 +20,7 @@ const ProfileMenu = () => {
             <Modal
                 setModalIsOpen={setIsOpen}
                 modalIsOpen={isOpen}
-                headerNone
+                contentLabel="Profile Menu"
                 footerNone
             >
                 <div 
@@ -54,12 +54,6 @@ const ProfileMenu = () => {
                     }}
                 >
                     {doorClosedIcon} <span>Logout</span>
-                </div>
-                <div 
-                    className="btn"
-                    onClick={() => setIsOpen(false)}
-                >
-                    {closeIcon} <span>Close</span>
                 </div>
             </Modal>
             <IsUserGate>

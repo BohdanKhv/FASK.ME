@@ -12,7 +12,7 @@ import Navbar from "./common/Navbar";
 import Tooltip from "./common/Tooltip";
 import NotFound from "./common/NotFound";
 import Slime from "./common/Slime";
-import ThemeToggle from "./common/ThemeToggle";
+import NavFooter from "./common/NavFooter";
 import Footer from "./common/Footer";
 
 import RequireAuth from "./gate/RequireAuth";
@@ -62,7 +62,7 @@ export {
     Tooltip,
     NotFound,
     Slime,
-    ThemeToggle,
+    NavFooter,
     Footer,
 
     RequireAuth,

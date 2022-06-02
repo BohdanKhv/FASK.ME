@@ -23,6 +23,7 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/profiles', require('./routes/profileRoutes'));
 app.use('/api/questions', require('./routes/questionRoutes'));
 app.use('/api/follow', require('./routes/followRoutes'));
+app.use('/api/transactions', require('./routes/transactionRoutes'));
 
 // development only
 if (process.env.NODE_ENV === 'development') {

@@ -521,6 +521,7 @@ const createQuestion = async (req, res) => {
                 receiver: receiver,
                 type: 'ask',
                 question: req.body.question,
+                price: req.body.price,
                 isAnonymous: req.body.isAnonymous,
                 isAnswered: false,
             });
@@ -538,6 +539,7 @@ const createQuestion = async (req, res) => {
                 sender: sender,
                 receiver: null,
                 type: 'faq',
+                price: req.body.price,
                 question: req.body.question,
                 answer: req.body.answer,
                 isAnswered: true,

@@ -10,6 +10,7 @@ import { arrowRepeatIcon, closeIcon, linkIcon, shareIcon, walletIcon } from '../
 const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
     const { user } = useSelector((state) => state.auth);
     const { isUpdating, msg } = useSelector((state) => state.profile);
+    const ethPrice = useSelector((state) => state.local.ethPrice);
     const [err, setErr] = useState('');
     const [balance, setBalance] = useState('');
     const avatarRef = useRef()
@@ -98,37 +99,47 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
                             onClick={() => dispatch(connectWallet(''))}
                         >{isUpdating ? arrowRepeatIcon : 'Remove'}</div>
                     </div>
-                    <div className="flex my-1 align-between border-top pt-1">
-                        <div className="flex">
-                                <div className="flex align-center mr-1" ref={avatarRef}></div>
-                            <p 
-                                className="title-2"
-                                title={ user.profile.wallet }
-                            >
-                                {user.profile.wallet.slice(0,6)}...{user.profile.wallet.slice(-5, -1)}
+                    <div className="border p-2 mt-1">
+                        <div className="flex my-1 align-between">
+                            <div className="flex">
+                                <div className="flex align-center" ref={avatarRef}></div>
+                                <p 
+                                    className="title-4 mx-3"
+                                    title={ user.profile.wallet }
+                                >
+                                    {user.profile.wallet.slice(0,6)}...{user.profile.wallet.slice(-5, -1)}
+                                </p>
+                            </div>
+                            <p className="title-4">
+                                {balance.slice(0,5)} ETH
                             </p>
                         </div>
-                        <p className="title-2">
-                            {balance.slice(0,7)} ETH
-                        </p>
-                    </div>
-                    <div className="flex border-top pt-1 flex-end">
-                        <div 
-                            className="btn btn-xs mr-1"
-                            onClick={() => {
-                                navigator.clipboard.writeText(user.profile.wallet);
-                            }}
-                        >
-                            Copy Address
+                        <div className="flex flex-end border-top pt-1">
+                            <div 
+                                className="btn btn-xs mr-1"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(user.profile.wallet);
+                                }}
+                            >
+                                Copy Address
+                            </div>
+                            <a 
+                                href={`https://${process.env.REACT_APP_NET}.etherscan.io/address/${user.profile.wallet}`}
+                                className="btn btn-xs"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                View On Explorer
+                            </a>
                         </div>
-                        <a 
-                            href={`https://${process.env.REACT_APP_NET}.etherscan.io/address/${user.profile.wallet}`}
-                            className="btn btn-xs"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            View On Explorer
-                        </a>
+                    </div>
+                    <div className="flex my-1 align-between border p-2">
+                        <p>
+                            1 ETH = {ethPrice} USD
+                        </p>
+                        <p>
+                            {(balance * ethPrice).toFixed(2)} USD
+                        </p>
                     </div>
                 </>
             ) : (

@@ -3,7 +3,7 @@ import { NavLink, useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserIcon, burgerIcon, doorOpenIcon, homeIcon, userIcon, walletIcon } from '../../constance/icons';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
-import { Sidenav, Slime, SearchField, ThemeToggle, Wallet } from '../';
+import { Sidenav, Slime, SearchField, NavFooter, Wallet } from '../';
 import { homePathNames } from '../../constance/localData';
 import './styles/Nav.css';
 
@@ -109,11 +109,11 @@ const Nav = () => {
                             </li>
                             <li>
                                 <a
-                                    onClick={() => {setWalletIsOpen(true)}}
+                                    onClick={() => {setWalletIsOpen(true); setSidenav(false)}}
                                 >
                                     {walletIcon}
                                     <span className="ml-1">
-                                        {user.profile.wallet ? `${user.profile.wallet.slice(0,5)}...${user.profile.wallet.slice(-4, 0)}` : 'Connect Wallet'}
+                                        {user.profile.wallet ? `${user.profile.wallet.slice(0,6)}...${user.profile.wallet.slice(-5, -1)}` : 'Connect Wallet'}
                                     </span>
                                 </a>
                             </li>
@@ -143,7 +143,7 @@ const Nav = () => {
                         </>
                         )}
                     </ul>
-                    <ThemeToggle />
+                    <NavFooter />
                 </div>
             </Sidenav>
         </nav>
