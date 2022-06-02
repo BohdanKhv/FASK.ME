@@ -17,9 +17,14 @@ const getSentQuestions = async (data, token) => {
 }
 
 
-// get pinned questions
-const getProfileFaqQuestions = async (data) => {
-    const res = await axios.get(`${API_URL}/user/${data.username}/faq?limit=${data.limit}&skip=${data.skip}`);
+// get faq questions
+const getProfileFaqQuestions = async (data, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token || ""}`
+        }
+    };
+    const res = await axios.get(`${API_URL}/user/${data.username}/faq?limit=${data.limit}&skip=${data.skip}`, config);
 
     return res.data;
 }

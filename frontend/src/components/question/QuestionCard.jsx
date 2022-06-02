@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { downArrow } from '../../constance/icons';
+import { Link } from 'react-router-dom';
+import { coinIcon, downArrow } from '../../constance/icons';
 import { QuestionMenu, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, PinnedQuestion } from '../';
@@ -11,6 +12,7 @@ import { analytics } from '../../firebase';
 const QuestionCard = ({question, isOpen}) => {
     const { user } = useSelector((state) => state.auth);
     const [showAnswer, setShowAnswer] = useState(isOpen || false);
+    const ethPrice = useSelector((state) => state.local.ethPrice);
 
 
     return (
@@ -80,6 +82,29 @@ const QuestionCard = ({question, isOpen}) => {
                                 question={question}
                             />
                         </ReceiverGate>
+                        {user && question.price ? (
+                            question.isAnswered && question.answer === '' && question.price > 0 && (
+                                <div className="flex align-center">
+                                    <p className="mr-1">
+                                        A | 
+                                    </p>
+                                    <div className="btn btn-xs btn-primary">
+                                        Buy the answer for {question.price} ETH ({(question.price * ethPrice).toFixed(2)} USD)
+                                    </div>
+                                </div>
+                            )
+                        ) : (
+                            <div className="flex align-center">
+                                <p className="mr-1">
+                                    A | 
+                                </p>
+                                <Link to="/register">
+                                    <div className="btn btn-xs btn-primary">
+                                        Register to buy the answer
+                                    </div>
+                                </Link>
+                            </div>
+                        )}
                         <SenderGate
                             sender={question.sender}
                         >
@@ -111,6 +136,14 @@ const QuestionCard = ({question, isOpen}) => {
                         <PinnedQuestion
                             question={question}
                         />
+                        {question.price && question.price > 0 && (
+                            <div 
+                                className="btn-icon btn-icon-transparent btn-icon-sm ml-4"
+                                title={`${question.price} ETH`}
+                            >
+                                {coinIcon}
+                            </div>
+                        )}
                         {user && (user._id === question.sender._id || (question.receiver && user._id === question.receiver._id)) && (
                             <QuestionMenu
                                 question={question}

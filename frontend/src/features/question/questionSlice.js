@@ -38,13 +38,14 @@ export const getSentQuestions = createAsyncThunk(
 );
 
 
-// Get pinned questions
+// Get faq questions
 export const getProfileFaqQuestions = createAsyncThunk(
     "question/getProfileFaqQuestions",
     async (username, thunkAPI) => {
         try {
+            const token = thunkAPI.getState().auth.user ? thunkAPI.getState().auth.user.token : null;
             const { skip, limit } = thunkAPI.getState().question;
-            return await questionService.getProfileFaqQuestions({username, skip, limit});
+            return await questionService.getProfileFaqQuestions({username, skip, limit}, token);
         } catch (error) {
             const message =
                 (error.response &&

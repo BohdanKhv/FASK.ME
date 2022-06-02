@@ -1,6 +1,7 @@
 const Question = require('../models/questionModel');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
+const Transaction = require('../models/transactionModel');
 const Follow = require('../models/followModel');
 
 
@@ -19,6 +20,56 @@ const filterAnonymouslyAskedQuestions = async (questions) => {
     });
 
     return data;
+}
+
+
+const filterPaidQuestions = async (questions, uId) => {
+    const data = []
+    const ids = []
+    const transactionIds = [];
+
+    questions.map(
+        q => {
+            if ((
+                q.sender._id.toString() !== uId ||
+                ( q.receiver && q.receiver._id.toString() !== uId )
+            ) &&
+            q.price &&
+            q.price > 0 ) {
+                ids.push(q._id.toString());
+            }
+        }
+    );
+
+    if (ids.length > 0) {
+        const transactions = await Transaction.find({
+            sender: uId,
+            question: { $in: ids }
+        });
+
+        transactions.map(t => transactionIds.push(t.question));
+
+        questions.map(q => {
+            if (q.price && q.price > 0) {
+                if (transactionIds.includes(q._id)) {
+                    data.push({
+                        ...q._doc,
+                    })
+                } else {
+                    data.push({
+                        ...q._doc,
+                        answer: ''
+                    })
+                }
+            } else {
+                data.push(q._doc);
+            }
+        });
+
+        return data;
+    } else {
+        return questions;
+    }
 }
 
 
@@ -190,8 +241,10 @@ const getProfileFaqQuestions = async (req, res) => {
             .limit(limit || 10)
             .skip(skip || 0);
 
+            const data = await filterPaidQuestions(questions, req.user ? req.user._id.toString() : null);
+
             return res.status(200).json({
-                questions,
+                questions: data,
                 numFound
             });
         } else {

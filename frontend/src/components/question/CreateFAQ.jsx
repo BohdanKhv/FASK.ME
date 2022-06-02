@@ -146,14 +146,14 @@ const CreateFAQ = ({classList}) => {
                         bodyStyle={{
                             flexGrow: 1,
                         }}
-                        value={faq.price === 0 ? null : faq.price}
+                        value={faq.price}
                         onChange={(e) => {
                             setFaq({ ...faq, price: e.target.value });
                         }}
                         type="number"
                         isDisabled={isCreateLoading}
                     />
-                    <div className="flex align-center px-1 ml-1 border" style={{height: '58px'}}>
+                    <div className="flex align-center px-1 ml-1 border" style={{height: '60px'}}>
                         <p>
                             {(faq.price * ethPrice).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
                         </p>

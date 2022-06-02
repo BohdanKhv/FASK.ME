@@ -98,6 +98,8 @@ const createTransaction = async (req, res) => {
 
         const transaction = await newTransaction.save();
 
+        transaction.question = questionExists;
+
         return res.status(200).json(transaction);
     } catch (err) {
         console.error(err.message);
