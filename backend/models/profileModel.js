@@ -12,6 +12,10 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    wallet: {
+        type: String,
+        required: false
+    },
     fullName: {
         type: String,
         required: false

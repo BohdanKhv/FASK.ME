@@ -324,6 +324,7 @@ body::-webkit-scrollbar-thumb {
 .btn.btn-danger {
   background-color: var(--color-danger);
   color: #000000;
+  border-color: var(--color-danger);
 }
 
 .btn.btn-success {

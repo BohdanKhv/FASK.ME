@@ -37,10 +37,30 @@ const updateProfile = async (profileData, token) => {
 }
 
 
+// Connect wallet
+const connectWallet = async (wallet, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const res = await axios.post(`${API_URL}connectWallet`, { wallet }, config);
+
+    if (res.data) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        user.profile = res.data;
+
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    return res.data;
+}
+
 
 const profileService = {
     getProfile,
     updateProfile,
+    connectWallet,
 }
 
 export default profileService;

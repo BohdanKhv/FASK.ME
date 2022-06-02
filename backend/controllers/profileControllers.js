@@ -130,8 +130,35 @@ const getProfiles = async (req, res) => {
 }
 
 
+// @desc   Connect wallet to profile
+// @route  POST /api/profiles/connectWallet
+// @access Private
+const connectWallet = async (req, res) => {
+    try {
+        const profile = await Profile.findOne({
+            user: req.user._id,
+        });
+
+        if (!profile) {
+            return res.status(404).json({
+                msg: 'Profile not found',
+            });
+        }
+        
+        profile.wallet = req.body.wallet;
+        await profile.save();
+
+        return res.status(200).json(profile);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server Error');
+    }
+}
+
+
 module.exports = {
     getProfile,
     updateProfile,
     getProfiles,
+    connectWallet,
 }

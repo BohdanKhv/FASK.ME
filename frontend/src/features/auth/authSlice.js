@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import authService from './authService';
+import { connectWallet } from '../profile/profileSlice';
 
 
 // Get user from localStorage
@@ -220,6 +221,10 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isError = true;
             state.msg = action.payload;
+        });
+
+        builder.addCase(connectWallet.fulfilled, (state, action) => {
+            state.user.profile.wallet = action.payload.wallet;
         });
     }
 });

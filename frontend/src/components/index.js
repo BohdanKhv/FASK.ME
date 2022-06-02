@@ -30,6 +30,7 @@ import FollowToggle from "./profile/FollowToggle";
 import FollowList from "./profile/FollowList";
 import ProfileMenu from "./profile/ProfileMenu";
 import LinksMenu from "./profile/LinksMenu";
+import Wallet from "./profile/Wallet";
 
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
@@ -79,6 +80,7 @@ export {
     FollowList,
     ProfileMenu,
     LinksMenu,
+    Wallet,
 
     Questions,
     QuestionCard,
