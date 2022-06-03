@@ -711,6 +711,12 @@ svg {
   animation: spin 1s linear infinite;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .input-alert {
   position: relative;
   overflow: hidden;

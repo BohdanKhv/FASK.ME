@@ -64,13 +64,13 @@ const Modal = ({children, bodyStyles, headerNone, footerNone, style, modalIsOpen
                                     <div className="btn-icon modal-spinner">{arrowRepeatIcon}</div>
                                 </div>
                             )}
+                            {isError && errMsg && (
+                                <div className="modal-error">
+                                    {errMsg}
+                                </div>
+                            )}
                         </div>
                     </div>
-                    {isError && errMsg && (
-                        <div className="modal-error">
-                            {errMsg}
-                        </div>
-                    )}
                     {!isScroll && !footerNone && (
                         <div className="modal-footer">
                             {actionDangerBtnText && !isLoading && (

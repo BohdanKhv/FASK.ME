@@ -73,7 +73,7 @@ const Ask = ({classList}) => {
                     actionDangerBtnText="Cancel"
                     onSubmitDanger={() => setIsOpen(false)}
                 >
-                    <div className="form-group">
+                    <div className="mb-1">
                     <Textarea
                         label="Enter your question"
                         name="question"
@@ -113,22 +113,23 @@ const Ask = ({classList}) => {
                         />
                     </div>
                 </Modal>
-                {!profile.canAsk && (
-                    <Tooltip
-                        classList={'mr-1'}
-                        content={`You've already sent a question. You have to wait until ${profile.username} responds, or delete an existing question.`}
+                {profile.canAsk ? (
+                    <div 
+                        className={`btn btn-sm btn-primary${classList ? ` ${classList}` : ''}`}
+                        onClick={() => setIsOpen(true)}
                     >
-                        <div className="btn-icon">
+                        Ask {profile.username}
+                    </div>
+                ) : (
+                    <Tooltip
+                        classList={`${classList ? ` ${classList}` : ''}`}
+                        content={`You've already sent a question. You have to wait until ${profile.username} responds, or deletes the existing question.`}
+                    >
+                        <div className={`btn btn-sm btn-primary`}>
                             {infoIcon}
                         </div>
                     </Tooltip>
                 )}
-                <div 
-                    className={`btn btn-sm btn-primary${classList ? ` ${classList}` : ''}`}
-                    onClick={() => setIsOpen(true)}
-                >
-                    Ask {profile.username}
-                </div>
             </>
             )
     )

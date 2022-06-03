@@ -122,7 +122,7 @@ const Profile = () => {
                     </IsUserGate>
                     <AuthGate>
                         <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
-                            {profile.primium && (
+                            {profile.premium > 0 && (
                                 <Premium/>
                             )}
                             <Ask

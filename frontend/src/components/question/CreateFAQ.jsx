@@ -84,7 +84,7 @@ const CreateFAQ = ({classList}) => {
                 isError={isError}
                 errMsg={msg}
             >
-                <div className="form-group">
+                <div className="mb-1">
                     <Textarea
                         label="Enter your question"
                         name="question"

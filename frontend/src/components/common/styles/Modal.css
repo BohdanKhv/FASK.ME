@@ -93,10 +93,10 @@
 }
 
 .modal-error {
-    background-color: var(--color-secondary);
-    border: 1px solid var(--color-danger);
-    color: var(--color-danger);
-    margin: 1rem 1rem 0 1rem;
+    background-color: var(--color-danger);
+    border-radius: var(--border-radius);
+    color: #000000;
+    margin-top: 1rem;
     animation-duration: var(--transition-duration);
     animation-name: opacity;
     padding: 0.5rem;

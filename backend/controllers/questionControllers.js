@@ -558,7 +558,7 @@ const createQuestion = async (req, res) => {
             });
 
             if (question) {
-                return res.status(400).json({ msg: `You've already sent a question. You have to wait until ${receiver.username} responds, or delete an existing question.` });
+                return res.status(400).json({ msg: `You've already sent a question. You have to wait until ${receiver.username} responds, or deletes the existing question.` });
             }
 
             const newQuestion = await Question

@@ -48,6 +48,7 @@ const Nav = () => {
                             </li>
                             <li>
                                 <a
+                                    id="wallet"
                                     onClick={() => {setWalletIsOpen(true)}}
                                 >
                                     {walletIcon}
