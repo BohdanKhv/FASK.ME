@@ -1,6 +1,7 @@
 const Profile = require('../models/profileModel');
 const Question = require('../models/questionModel');
 const Follow = require('../models/followModel');
+const Transaction = require('../models/transactionModel');
 
 
 // @desc   Get profile
@@ -35,7 +36,8 @@ const getProfile = async (req, res) => {
             followers,
             following,
             canFollow: false,
-            canAsk: false
+            canAsk: false,
+            isPremium: false,
         }
 
         if(req.user) {
@@ -45,14 +47,27 @@ const getProfile = async (req, res) => {
                 active: true
             });
 
-            const question = await Question.findOne({
+            const transaction = await Transaction.findOne({
                 sender: req.user._id,
-                receiver: profile.user,
-                type: 'ask',
-                isAnswered: false,
+                reciever: profile.user._id,
+                exprDate: { $gt: Date.now() }
             });
 
-            data.canAsk = !question;
+            if (transaction) {
+                data.canAsk = true;
+                data.isPremium = true;
+                data.exprDate = transaction.exprDate;
+            } else {
+                const question = await Question.findOne({
+                    sender: req.user._id,
+                    receiver: profile.user,
+                    type: 'ask',
+                    isAnswered: false,
+                });
+
+                data.canAsk = !question;
+            }
+
             data.canFollow = isFollowing ? false : true;
         }
 
@@ -135,22 +150,6 @@ const getProfiles = async (req, res) => {
 // @access Private
 const connectWallet = async (req, res) => {
     try {
-        const { wallet } = req.body;
-
-        if (wallet.length === 0) {
-            // Check if question with set price exists
-            const questionExist = await Question.findOne({
-                sender: req.user._id,
-                price: { $gt: 0 },
-            });
-
-            if (questionExist) {
-                return res.status(400).json({
-                    msg: 'You can not remove your wallet if you have a question with price. Please remove your questions first.',
-                });
-            }
-        }
-
         const profile = await Profile.findOne({
             user: req.user._id,
         });

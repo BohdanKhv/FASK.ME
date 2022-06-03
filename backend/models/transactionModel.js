@@ -20,13 +20,16 @@ const transactionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    question: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Question',
-        required: true
-    },
     amount: {
         type: Number,
+        required: true
+    },
+    premiumDays: {
+        type: Number,
+        required: true
+    },
+    exprDate: {
+        type: Date,
         required: true
     },
     transactionHash: {

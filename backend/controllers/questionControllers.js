@@ -23,52 +23,45 @@ const filterAnonymouslyAskedQuestions = async (questions) => {
 }
 
 
-const filterPaidQuestions = async (questions, uId) => {
+const filterPremiumQuestions = async (questions, uId) => {
     const data = []
-    const ids = []
-    const transactionIds = [];
 
-    questions.map(
-        q => {
-            if ((
-                q.sender._id.toString() !== uId ||
-                ( q.receiver && q.receiver._id.toString() !== uId )
-            ) &&
-            q.price &&
-            q.price > 0 ) {
-                ids.push(q._id.toString());
-            }
-        }
-    );
-
-    if (ids.length > 0) {
-        const transactions = await Transaction.find({
+    if (uId) {
+        const transaction = await Transaction.findOne({
             sender: uId,
-            question: { $in: ids }
+            receiver: questions[0].sender,
+            exprDate: { $gt: new Date() }
         });
 
-        transactions.map(t => transactionIds.push(t.question));
-
-        questions.map(q => {
-            if (q.price && q.price > 0) {
-                if (transactionIds.includes(q._id)) {
+        if(transaction) {
+            return questions;
+        } else {
+            questions.map(q => {
+                if(q.isPremium) {
                     data.push({
                         ...q._doc,
+                        answer: "Premium question",
                     })
                 } else {
-                    data.push({
-                        ...q._doc,
-                        answer: ''
-                    })
+                    data.push(q._doc);
                 }
+            });
+
+            return data;
+        }
+    } else {
+        questions.map(q => {
+            if(q.isPremium) {
+                data.push({
+                    ...q._doc,
+                    answer: "Premium question",
+                })
             } else {
                 data.push(q._doc);
             }
         });
 
         return data;
-    } else {
-        return questions;
     }
 }
 
@@ -241,7 +234,7 @@ const getProfileFaqQuestions = async (req, res) => {
             .limit(limit || 10)
             .skip(skip || 0);
 
-            const data = await filterPaidQuestions(questions, req.user ? req.user._id.toString() : null);
+            const data = await filterPremiumQuestions(questions, req.user ? req.user._id : null);
 
             return res.status(200).json({
                 questions: data,
@@ -573,8 +566,8 @@ const createQuestion = async (req, res) => {
                 sender: req.user,
                 receiver: receiver,
                 type: 'ask',
+                isPremium: req.body.isPremium,
                 question: req.body.question,
-                price: req.body.price,
                 isAnonymous: req.body.isAnonymous,
                 isAnswered: false,
             });
@@ -592,7 +585,7 @@ const createQuestion = async (req, res) => {
                 sender: sender,
                 receiver: null,
                 type: 'faq',
-                price: req.body.price,
+                isPremium: req.body.isPremium,
                 question: req.body.question,
                 answer: req.body.answer,
                 isAnswered: true,

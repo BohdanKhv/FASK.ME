@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { coinIcon, downArrow } from '../../constance/icons';
+import { starFillIcon, downArrow } from '../../constance/icons';
 import { QuestionMenu, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, PinnedQuestion } from '../';
@@ -71,7 +71,8 @@ const QuestionCard = ({question, isOpen}) => {
                 <div className="flex content">
                     {question.answer ? (
                         <p>
-                            A | {question.answer}
+                            A | {question.isPremium && question.answer === 'Premium question' ? 
+                            "This is a premium question. You need to be a premium member to see the answer." : question.answer}
                         </p>
                     ) : (
                         <>
@@ -82,29 +83,6 @@ const QuestionCard = ({question, isOpen}) => {
                                 question={question}
                             />
                         </ReceiverGate>
-                        {user && question.price ? (
-                            question.isAnswered && question.answer === '' && question.price > 0 && (
-                                <div className="flex align-center">
-                                    <p className="mr-1">
-                                        A | 
-                                    </p>
-                                    <div className="btn btn-xs btn-primary">
-                                        Buy the answer for {question.price} ETH ({(question.price * ethPrice).toFixed(2)} USD)
-                                    </div>
-                                </div>
-                            )
-                        ) : (
-                            <div className="flex align-center">
-                                <p className="mr-1">
-                                    A | 
-                                </p>
-                                <Link to="/register">
-                                    <div className="btn btn-xs btn-primary">
-                                        Register to buy the answer
-                                    </div>
-                                </Link>
-                            </div>
-                        )}
                         <SenderGate
                             sender={question.sender}
                         >
@@ -133,17 +111,17 @@ const QuestionCard = ({question, isOpen}) => {
                             question={question}
                             showAnswer={showAnswer}
                         />
+                        {question.isPremium && (
+                            <div 
+                                className="btn-icon btn-icon-transparent btn-icon-sm ml-4"
+                                title={`You need to be a premium member to see the answer.`}
+                            >
+                                {starFillIcon}
+                            </div>
+                        )}
                         <PinnedQuestion
                             question={question}
                         />
-                        {question.price && question.price > 0 && (
-                            <div 
-                                className="btn-icon btn-icon-transparent btn-icon-sm ml-4"
-                                title={`${question.price} ETH`}
-                            >
-                                {coinIcon}
-                            </div>
-                        )}
                         {user && (user._id === question.sender._id || (question.receiver && user._id === question.receiver._id)) && (
                             <QuestionMenu
                                 question={question}

@@ -16,6 +16,10 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    premium: {
+        type: Number,
+        required: false
+    },
     fullName: {
         type: String,
         required: false

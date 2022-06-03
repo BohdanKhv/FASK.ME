@@ -43,17 +43,7 @@ const getTransactions = async (req, res) => {
 // @access  Private
 const createTransaction = async (req, res) => {
     try {
-        const { question, amount, reciever, transactionsHash } = req.body;
-
-        const recieverProfile = await Profile.findOne({
-            user: reciever
-        });
-
-        if(!recieverProfile) {
-            return res.status(400).json({
-                msg: 'Reciever profile not found'
-            });
-        }
+        const { amount, reciever, recieverWallet, transactionsHash, premiumDays } = req.body;
 
         const senderProfile = await Profile.findOne({
             user: req.user._id
@@ -65,23 +55,15 @@ const createTransaction = async (req, res) => {
             });
         }
 
-        const questionExists = await Question.findById(question);
-
-        if(!questionExists) {
-            return res.status(400).json({
-                msg: 'Question does not exist'
-            });
-        }
-
-        // Check if transaction already exists
-        const transactionExists = await Transaction.findOne({
+        // Check if user is already a premium user
+        const isPremium = await Transaction.findOne({
             sender: req.user._id,
-            question: question
+            exprDate: { $gt: Date.now() }
         });
 
-        if(transactionExists) {
+        if(isPremium) {
             return res.status(400).json({
-                msg: 'Transaction already exists'
+                msg: 'You are already a premium user'
             });
         }
 
@@ -90,15 +72,14 @@ const createTransaction = async (req, res) => {
             sender: req.user._id,
             reciever,
             senderWallet: senderProfile.wallet,
-            recieverWallet: recieverProfile.wallet,
-            question,
+            recieverWallet,
+            premiumDays,
+            exprDate: new Date(Date.now() + (premiumDays * 86400000)),
             amount,
             transactionsHash
         });
 
         const transaction = await newTransaction.save();
-
-        transaction.question = questionExists;
 
         return res.status(200).json(transaction);
     } catch (err) {
