@@ -57,6 +57,7 @@ const Premium = () => {
             amount: (days / 30 * profile.premium),
             transactionHash,
         }));
+
         console.log(transactionHash);
     }
 
