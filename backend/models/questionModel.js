@@ -24,8 +24,8 @@ const questionModelSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    price: {
-        type: Number,
+    isPremium: {
+        type: Boolean,
         required: false
     },
     isAnswered: {

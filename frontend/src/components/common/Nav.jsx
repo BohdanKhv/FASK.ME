@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { NavLink, useLocation, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addUserIcon, burgerIcon, doorOpenIcon, homeIcon, userIcon } from '../../constance/icons';
+import { addUserIcon, burgerIcon, doorOpenIcon, homeIcon, userIcon, walletIcon } from '../../constance/icons';
 import { logoNameSvg, logoSvg } from '../../constance/logo';
-import { Sidenav, Slime, SearchField, ThemeToggle } from '../';
+import { Sidenav, Slime, SearchField, NavFooter, Wallet } from '../';
 import { homePathNames } from '../../constance/localData';
 import './styles/Nav.css';
 
 
 const Nav = () => {
     const [sidenav, setSidenav] = useState(false);
+    const [walletIsOpen, setWalletIsOpen] = useState(false);
     const dispatch = useDispatch();
     const location = useLocation().pathname.split('/')[1];
     const user = useSelector((state) => state.auth.user);
@@ -19,6 +20,7 @@ const Nav = () => {
 
     return (
         user || (!user && location === '') ? (
+        <>
         <nav className="main-nav">
             <div className="container nav-wrapper">
                 <Link to="/" className="h-100 flex align-center">
@@ -43,6 +45,14 @@ const Nav = () => {
                                 <NavLink to={`/${user.username}`}>
                                     {userIcon}
                                 </NavLink>
+                            </li>
+                            <li>
+                                <a
+                                    id="wallet"
+                                    onClick={() => {setWalletIsOpen(true)}}
+                                >
+                                    {walletIcon}
+                                </a>
                             </li>
                         </>
                         ) : !user && location === ''  && (
@@ -98,6 +108,16 @@ const Nav = () => {
                                     </span>
                                 </NavLink>
                             </li>
+                            <li>
+                                <a
+                                    onClick={() => {setWalletIsOpen(true); setSidenav(false)}}
+                                >
+                                    {walletIcon}
+                                    <span className="ml-1">
+                                        {user.profile.wallet ? `${user.profile.wallet.slice(0,6)}...${user.profile.wallet.slice(-5, -1)}` : 'Connect Wallet'}
+                                    </span>
+                                </a>
+                            </li>
                         </>
                         ) : !user && location === ''  && (
                         <>
@@ -124,10 +144,17 @@ const Nav = () => {
                         </>
                         )}
                     </ul>
-                    <ThemeToggle />
+                    <NavFooter />
                 </div>
             </Sidenav>
         </nav>
+        {user && (
+            <Wallet
+                walletIsOpen={walletIsOpen}
+                setWalletIsOpen={setWalletIsOpen}
+            />
+        )}
+        </>
         ) : 
         homePathNames.includes(location) || 
         (!user && msg == 'Profile not found') ? (

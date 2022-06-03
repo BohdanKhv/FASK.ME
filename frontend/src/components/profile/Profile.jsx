@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, EditProfile, CreateFAQ, ProfileNotFound, ProfileMenu, LinksMenu } from '../';
+import { IsUserGate, AuthGate, FollowToggle, FollowList, Ask, DisplayImage, Premium, CreateFAQ, ProfileNotFound, ProfileMenu, LinksMenu } from '../';
 import { bgColor } from '../../constance/userMiddleware';
 import './styles/Profile.css';
 
@@ -122,6 +122,9 @@ const Profile = () => {
                     </IsUserGate>
                     <AuthGate>
                         <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
+                            {profile.premium > 0 && (
+                                <Premium/>
+                            )}
                             <Ask
                                 classList={`${!isDesktop ? 'flex-grow' : ''}`}
                             />

@@ -5,12 +5,16 @@ const {
     getProfile, 
     updateProfile,
     getProfiles,
+    connectWallet,
 } = require('../controllers/profileControllers');
 
 
 router
     .get('/getMany', getProfiles)
     .get('/:username', isAuth, getProfile);
+
+router
+    .post('/connectWallet', protect, connectWallet);
 
 router
     .put('/', protect, updateProfile);

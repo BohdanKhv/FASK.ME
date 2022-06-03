@@ -91,6 +91,26 @@ export const searchProfiles = createAsyncThunk(
 );
 
 
+// Connect wallet
+export const connectWallet = createAsyncThunk(
+    'profile/connectWallet',
+    async (wallet, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token;
+            return await profileService.connectWallet(wallet, token);
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.msg) ||
+                error.message ||
+                error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+
 // Create slice
 const profileSlice = createSlice({
     name: 'profile',
@@ -170,6 +190,29 @@ const profileSlice = createSlice({
             if(state.profile && (state.profile.user._id === action.payload.follow.follower)) {
                 state.profile.following = action.payload.msg === 'Followed user' ? state.profile.following + 1 : state.profile.following - 1;
             }
+        });
+
+        // Counnect wallet
+        builder.addCase(connectWallet.pending, (state, action) => {
+            state.isUpdating = true;
+            state.isError = false;
+            state.msg = '';
+        });
+        builder.addCase(connectWallet.fulfilled, (state, action) => {
+            state.isUpdating = false;
+            state.isSuccess = true;
+            state.profile = {
+                ...action.payload,
+                following: state.profile.following,
+                followers: state.profile.followers,
+                canFollow: state.profile.canFollow,
+                canAsk: state.profile.canAsk,
+            };
+        });
+        builder.addCase(connectWallet.rejected, (state, action) => {
+            state.isUpdating = false;
+            state.isError = true;
+            state.msg = action.payload;
         });
     }
 });

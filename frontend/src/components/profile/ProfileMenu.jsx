@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { settingsIcon, doorClosedIcon, moonIcon, sunIcon, userIcon, closeIcon } from "../../constance/icons";
+import { settingsIcon, doorClosedIcon, moonIcon, sunIcon, userIcon, linkIcon } from "../../constance/icons";
 import { logout } from '../../features/auth/authSlice';
 import { setTheme } from '../../features/local/localSlice';
-import { Modal, EditProfile, IsUserGate } from "../";
+import { Modal, EditProfile, EditLinks } from "../";
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '../../firebase';
 
@@ -11,6 +11,7 @@ import { analytics } from '../../firebase';
 const ProfileMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenEditProfile, setIsOpenEditProfile] = useState(false);
+    const [isOpenEditLinks, setIsOpenEditLinks] = useState(false);
     const { theme } = useSelector(state => state.local);
     const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const ProfileMenu = () => {
             <Modal
                 setModalIsOpen={setIsOpen}
                 modalIsOpen={isOpen}
-                headerNone
+                contentLabel="Profile Menu"
                 footerNone
             >
                 <div 
@@ -34,6 +35,14 @@ const ProfileMenu = () => {
                     }}
                 >
                     {userIcon}<span>Edit Profile</span>
+                </div>
+                <div 
+                    className="btn mb-1"
+                    onClick={() => {
+                        setIsOpenEditLinks(true); setIsOpen(false);
+                    }}
+                >
+                    {linkIcon}<span>Edit Links</span>
                 </div>
                 <div 
                     className="btn mb-1"
@@ -55,19 +64,15 @@ const ProfileMenu = () => {
                 >
                     {doorClosedIcon} <span>Logout</span>
                 </div>
-                <div 
-                    className="btn"
-                    onClick={() => setIsOpen(false)}
-                >
-                    {closeIcon} <span>Close</span>
-                </div>
             </Modal>
-            <IsUserGate>
-                <EditProfile
-                    isOpen={isOpenEditProfile}
-                    setIsOpen={setIsOpenEditProfile}
-                />
-            </IsUserGate>
+            <EditProfile
+                isOpen={isOpenEditProfile}
+                setIsOpen={setIsOpenEditProfile}
+            />
+            <EditLinks
+                isOpen={isOpenEditLinks}
+                setIsOpen={setIsOpenEditLinks}
+            />
             <div
                 className="btn-icon"
                 onClick={() => setIsOpen(true)}

@@ -1,6 +1,7 @@
 const Question = require('../models/questionModel');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
+const Transaction = require('../models/transactionModel');
 const Follow = require('../models/followModel');
 
 
@@ -19,6 +20,49 @@ const filterAnonymouslyAskedQuestions = async (questions) => {
     });
 
     return data;
+}
+
+
+const filterPremiumQuestions = async (questions, uId) => {
+    const data = []
+
+    if (uId) {
+        const transaction = await Transaction.findOne({
+            sender: uId,
+            receiver: questions[0].sender,
+            exprDate: { $gt: new Date() }
+        });
+
+        if(transaction) {
+            return questions;
+        } else {
+            questions.map(q => {
+                if(q.isPremium) {
+                    data.push({
+                        ...q._doc,
+                        answer: "Premium question",
+                    })
+                } else {
+                    data.push(q._doc);
+                }
+            });
+
+            return data;
+        }
+    } else {
+        questions.map(q => {
+            if(q.isPremium) {
+                data.push({
+                    ...q._doc,
+                    answer: "Premium question",
+                })
+            } else {
+                data.push(q._doc);
+            }
+        });
+
+        return data;
+    }
 }
 
 
@@ -190,8 +234,10 @@ const getProfileFaqQuestions = async (req, res) => {
             .limit(limit || 10)
             .skip(skip || 0);
 
+            const data = await filterPremiumQuestions(questions, req.user ? req.user._id : null);
+
             return res.status(200).json({
-                questions,
+                questions: data,
                 numFound
             });
         } else {
@@ -512,7 +558,7 @@ const createQuestion = async (req, res) => {
             });
 
             if (question) {
-                return res.status(400).json({ msg: `You've already sent a question. You have to wait until ${receiver.username} responds, or delete an existing question.` });
+                return res.status(400).json({ msg: `You've already sent a question. You have to wait until ${receiver.username} responds, or deletes the existing question.` });
             }
 
             const newQuestion = await Question
@@ -520,6 +566,7 @@ const createQuestion = async (req, res) => {
                 sender: req.user,
                 receiver: receiver,
                 type: 'ask',
+                isPremium: req.body.isPremium,
                 question: req.body.question,
                 isAnonymous: req.body.isAnonymous,
                 isAnswered: false,
@@ -538,6 +585,7 @@ const createQuestion = async (req, res) => {
                 sender: sender,
                 receiver: null,
                 type: 'faq',
+                isPremium: req.body.isPremium,
                 question: req.body.question,
                 answer: req.body.answer,
                 isAnswered: true,

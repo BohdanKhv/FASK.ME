@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { answareIcon, questionIcon } from '../../constance/icons';
-import { Modal, Textarea } from '../';
+import { Modal, Textarea, Switch } from '../';
 import { createQuestion } from '../../features/question/questionSlice';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '../../firebase';
@@ -16,11 +15,10 @@ const CreateFAQ = ({classList}) => {
     const [faq, setFaq] = useState({
         question: '',
         answer: '',
+        premium: false,
     });
     const { isError, isCreateLoading, isSuccess, msg } = useSelector(state => state.question);
     const dispatch = useDispatch();
-
-
 
     useEffect(() => {
         if (isSuccess) {
@@ -32,6 +30,7 @@ const CreateFAQ = ({classList}) => {
             setFaq({
                 question: '',
                 answer: '',
+                premium: false,
             });
 
             logEvent(analytics, 'create_faq', {
@@ -47,6 +46,7 @@ const CreateFAQ = ({classList}) => {
             const data = {
                 question: faq.question,
                 answer: faq.answer,
+                isPremium: faq.premium,
                 type: 'faq',
             }
             dispatch(createQuestion(data));
@@ -84,63 +84,67 @@ const CreateFAQ = ({classList}) => {
                 isError={isError}
                 errMsg={msg}
             >
-                <div className="edit-profile-form">
-                    <div className="form-group">
-                        <Textarea
-                            label="Enter your question"
-                            name="question"
-                            // icon={questionIcon}
-                            value={faq.question}
-                            bodyStyle={{
-                                borderColor: inputErr.question ? 'var(--color-danger)' : '',
-                            }}
-                            inputStyle={{
-                                maxHeight: '20vh',
-                            }}
-                            onChange={(e) => {
-                                if(inputErr.question) {
-                                    setInputErr({
-                                        ...inputErr,
-                                        question: false,
-                                    });
-                                }
-                                setFaq({ ...faq, question: e.target.value });
-                            }}
-                            rows={3}
-                            cols={5}
-                            maxLength={500}
-                            isDisabled={isCreateLoading}
-                        />
-                    </div>
+                <div className="mb-1">
+                    <Textarea
+                        label="Enter your question"
+                        name="question"
+                        // icon={questionIcon}
+                        value={faq.question}
+                        bodyStyle={{
+                            borderColor: inputErr.question ? 'var(--color-danger)' : '',
+                        }}
+                        inputStyle={{
+                            maxHeight: '20vh',
+                        }}
+                        onChange={(e) => {
+                            if(inputErr.question) {
+                                setInputErr({
+                                    ...inputErr,
+                                    question: false,
+                                });
+                            }
+                            setFaq({ ...faq, question: e.target.value });
+                        }}
+                        rows={3}
+                        cols={5}
+                        maxLength={500}
+                        isDisabled={isCreateLoading}
+                    />
                 </div>
-                <div className="edit-profile-form">
-                    <div className="form-group">
-                        <Textarea
-                            label="Enter your answer"
-                            name="answer"
-                            // icon={answareIcon}
-                            value={faq.answer}
-                            bodyStyle={{
-                                borderColor: inputErr.answer ? 'var(--color-danger)' : '',
-                            }}
-                            inputStyle={{
-                                maxHeight: '20vh',
-                            }}
-                            onChange={(e) => {
-                                if(inputErr.answer) {
-                                    setInputErr({
-                                        ...inputErr,
-                                        answer: false,
-                                    });
-                                }
-                                setFaq({ ...faq, answer: e.target.value });
-                            }}
-                            rows={3}
-                            cols={5}
-                            maxLength={500}
-                            isDisabled={isCreateLoading}
-                        />
-                    </div>
+                <div className="form-group">
+                    <Textarea
+                        label="Enter your answer"
+                        name="answer"
+                        // icon={answareIcon}
+                        value={faq.answer}
+                        bodyStyle={{
+                            borderColor: inputErr.answer ? 'var(--color-danger)' : '',
+                        }}
+                        inputStyle={{
+                            maxHeight: '20vh',
+                        }}
+                        onChange={(e) => {
+                            if(inputErr.answer) {
+                                setInputErr({
+                                    ...inputErr,
+                                    answer: false,
+                                });
+                            }
+                            setFaq({ ...faq, answer: e.target.value });
+                        }}
+                        rows={3}
+                        cols={5}
+                        maxLength={500}
+                        isDisabled={isCreateLoading}
+                    />
+                </div>
+                <div className="flex align-between border p-2">
+                    <p className="title-3">Premium</p>
+                    <Switch
+                        onChange={() => {
+                            setFaq({ ...faq, premium: !faq.premium });
+                        }}
+                    />
                 </div>
             </Modal>
             <div 

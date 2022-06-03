@@ -35,9 +35,6 @@ const PostAnswer = ({question}) => {
                 label="Enter your answer"
                 name="answer"
                 value={answer}
-                bodyStyle={{
-                    backgroundColor: "var(--color-main)",
-                }}
                 onChange={(e) => setAnswer(e.target.value)}
                 rows={4}
                 cols={50}

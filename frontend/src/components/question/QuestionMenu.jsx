@@ -10,7 +10,7 @@ const QuestionMenu = ({ question }) => {
             <Modal
                 modalIsOpen={isOpen}
                 setModalIsOpen={setIsOpen}
-                headerNone={true}
+                contentLabel="Question Menu"
                 footerNone={true}
             >
                 <PinQuestion
@@ -22,12 +22,6 @@ const QuestionMenu = ({ question }) => {
                 <DeleteQuestion
                     question={question}
                 />
-                <div 
-                    className="btn"
-                    onClick={() => setIsOpen(false)}
-                >
-                    {closeIcon} <span>Close</span>
-                </div>
             </Modal>
             <div 
                 className="btn-icon btn-icon-sm ml-4"

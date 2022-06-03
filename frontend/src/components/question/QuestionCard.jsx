@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { downArrow } from '../../constance/icons';
+import { Link } from 'react-router-dom';
+import { starFillIcon, downArrow } from '../../constance/icons';
 import { QuestionMenu, ViewCount, UserInfo } from '../';
 import './styles/QuestionCard.css';
 import { PostAnswer, ReceiverGate, SenderGate, PinnedQuestion } from '../';
@@ -11,6 +12,7 @@ import { analytics } from '../../firebase';
 const QuestionCard = ({question, isOpen}) => {
     const { user } = useSelector((state) => state.auth);
     const [showAnswer, setShowAnswer] = useState(isOpen || false);
+    const ethPrice = useSelector((state) => state.local.ethPrice);
 
 
     return (
@@ -69,7 +71,8 @@ const QuestionCard = ({question, isOpen}) => {
                 <div className="flex content">
                     {question.answer ? (
                         <p>
-                            A | {question.answer}
+                            A | {question.isPremium && question.answer === 'Premium question' ? 
+                            "This is a premium question. You need to be a premium member to see the answer." : question.answer}
                         </p>
                     ) : (
                         <>
@@ -108,6 +111,14 @@ const QuestionCard = ({question, isOpen}) => {
                             question={question}
                             showAnswer={showAnswer}
                         />
+                        {question.isPremium && (
+                            <div 
+                                className="btn-icon btn-icon-transparent btn-icon-sm ml-4"
+                                title={`You need to be a premium member to see the answer.`}
+                            >
+                                {starFillIcon}
+                            </div>
+                        )}
                         <PinnedQuestion
                             question={question}
                         />

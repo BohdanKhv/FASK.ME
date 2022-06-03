@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
+const { protect, isAuth } = require('../middleware/authMiddleware');
 const {
     getReceivedQuestionsCount,
     getReceivedQuestions,
@@ -25,7 +25,7 @@ router
     .get('/sent', protect, getSentQuestions)
     .get('/private', protect, getUserPrivateQuestions)
     .get('/followers', protect, getFollowersQuestions)
-    .get('/user/:username/faq', getProfileFaqQuestions)
+    .get('/user/:username/faq', isAuth, getProfileFaqQuestions)
     .get('/user/:username/answered', getProfileAnsweredQuestions)
     .get('/user/:username/asked', getProfileAskedQuestions)
     .post('/view/:id', incrementViewCount)

@@ -12,7 +12,7 @@ import Navbar from "./common/Navbar";
 import Tooltip from "./common/Tooltip";
 import NotFound from "./common/NotFound";
 import Slime from "./common/Slime";
-import ThemeToggle from "./common/ThemeToggle";
+import NavFooter from "./common/NavFooter";
 import Footer from "./common/Footer";
 
 import RequireAuth from "./gate/RequireAuth";
@@ -25,11 +25,14 @@ import RecSenGate from "./gate/RecSenGate";
 
 import Profile from "./profile/Profile";
 import EditProfile from "./profile/EditProfile";
+import EditLinks from "./profile/EditLinks";
 import ProfileNotFound from "./profile/ProfileNotFound";
 import FollowToggle from "./profile/FollowToggle";
 import FollowList from "./profile/FollowList";
 import ProfileMenu from "./profile/ProfileMenu";
 import LinksMenu from "./profile/LinksMenu";
+import Wallet from "./profile/Wallet";
+import Premium from "./profile/Premium";
 
 import Questions from "./question/Questions";
 import QuestionCard from "./question/QuestionCard";
@@ -61,7 +64,7 @@ export {
     Tooltip,
     NotFound,
     Slime,
-    ThemeToggle,
+    NavFooter,
     Footer,
 
     RequireAuth,
@@ -74,11 +77,14 @@ export {
 
     Profile,
     EditProfile,
+    EditLinks,
     ProfileNotFound,
     FollowToggle,
     FollowList,
     ProfileMenu,
     LinksMenu,
+    Wallet,
+    Premium,
 
     Questions,
     QuestionCard,
