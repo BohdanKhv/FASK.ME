@@ -135,6 +135,22 @@ const getProfiles = async (req, res) => {
 // @access Private
 const connectWallet = async (req, res) => {
     try {
+        const { wallet } = req.body;
+
+        if (wallet.length === 0) {
+            // Check if question with set price exists
+            const questionExist = await Question.findOne({
+                sender: req.user._id,
+                price: { $gt: 0 },
+            });
+
+            if (questionExist) {
+                return res.status(400).json({
+                    msg: 'You can not remove your wallet if you have a question with price. Please remove your questions first.',
+                });
+            }
+        }
+
         const profile = await Profile.findOne({
             user: req.user._id,
         });
