@@ -59,7 +59,7 @@ const Main = () => {
                                             }}
                                         >{username.length === 0 ? 'Your Username' : username}</div>
                                     </div>
-                                    <div className="flex little-nav align-center pt-1 mb-1">
+                                    <div className="flex little-nav align-center py-1 mb-1">
                                         <div className="flex-grow text-center flex flex-column align-center">{faqIcon } <span>FAQs</span></div>
                                         <div className="flex-grow text-center flex flex-column align-center">{answeredIcon} <span>Answered</span></div>
                                         <div className="flex-grow text-center flex flex-column align-center">{askedIcon} <span>Asked</span></div>

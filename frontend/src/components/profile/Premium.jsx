@@ -44,21 +44,27 @@ const Premium = () => {
         const params = [{
             from: senderWallet,
             to: receiverWallet,
-            value: ethers.utils.parseEther((days / 30 * profile.premium), 'ether').toHexString()
+            value: ethers.utils.parseEther((days / 30 * profile.premium).toString(), 'ether').toHexString()
         }]
 
-        const transactionHash = await provider.send('eth_sendTransaction', params);
+        console.log(params);
 
-        dispatch(createTransaction({
-            receiver: profile.user._id,
-            senderWallet,
-            receiverWallet,
-            premiumDays: days,
-            amount: (days / 30 * profile.premium),
-            transactionHash,
-        }));
+        try {
+            const transactionHash = await provider.send('eth_sendTransaction', params);
 
-        console.log(transactionHash);
+            dispatch(createTransaction({
+                receiver: profile.user._id,
+                senderWallet,
+                receiverWallet,
+                premiumDays: days,
+                amount: (days / 30 * profile.premium),
+                transactionHash,
+            }));
+
+            console.log(transactionHash);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     useEffect(() => {
@@ -75,7 +81,7 @@ const Premium = () => {
             modalIsOpen={isOpen}
             setModalIsOpen={setIsOpen}
             isLoading={isLoading}
-            contentLabel="Get Premium"
+            contentLabel="Buy Premium"
             footerNone
         >
             {profile.isPremium ? (
@@ -84,11 +90,6 @@ const Premium = () => {
                 </p>
             ) : (
                 <>
-                <div className="mb-1">
-                    <small>
-                        Premium lets you ask as many questions as you want and the ability to see premium answers.
-                    </small>
-                </div>
                 <div className="btn btn-sm mb-1"
                     onClick={() => {
                         handleTransaction(30)
@@ -96,7 +97,7 @@ const Premium = () => {
                 >
                     1 Moth {profile.premium} ETH = {(profile.premium * ethPrice).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
                 </div>
-                <div className="btn btn-sm mb-1"
+                <div className="btn btn-sm mb-1 btn-primary"
                     onClick={() => {
                         handleTransaction(90)
                     }}
@@ -116,6 +117,18 @@ const Premium = () => {
                     }}
                 >
                     12 Moth {profile.premium} ETH = {(profile.premium * ethPrice * 12).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
+                </div>
+                <div className="mt-1">
+                    <div className="border p-3 text-center">
+                        <p className="pb-1">
+                            This is a direct payment to the owner of this profile. Fask.me does not collect any fees.
+                        </p>
+                        <small>
+                            Premium lets you ask as many questions as you want and the ability to see premium answers.
+                            <br />
+                            Don't worry about the cancelation, this is not a subscription, and you won't be automatically renewed.
+                        </small>
+                    </div>
                 </div>
                 {metamaskErr && (
                     <>

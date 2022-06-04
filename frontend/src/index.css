@@ -347,6 +347,10 @@ body::-webkit-scrollbar-thumb {
   color: #000000;
 }
 
+.btn.btn-primary svg {
+  fill: #000000;
+}
+
 .text-danger {
   color: var(--color-danger);
 }

@@ -12,17 +12,15 @@ import './styles/EditProfile.css';
 const EditProfile = ({isOpen, setIsOpen}) => {
     const dispatch = useDispatch();
     const { profile, isUpdating, isError, msg } = useSelector((state) => state.profile);
-    const { ethPrice } = useSelector((state) => state.local);
 
     const [editProfile, setEditProfile] = useState({
         fullName: profile.fullName || '',
         bio: profile.bio || '',
-        premium: profile.premium || 0,
     });
     const [avatar, setAvatar] = useState(null);
     const [progress, setProgress] = useState(0);
 
-    const uploadImageToFirebase = (file, label, folder, fileName, maxWidth, maxHeight) => {
+    const uploadImageToFirebase = (file, label, folder, fileName) => {
         const storageRef = ref(storage, `${folder}/${fileName}`);
         const metadata = {
             contentType: 'image/jpeg',
@@ -45,7 +43,6 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                         fullName: editProfile.fullName,
                         bio: editProfile.bio,
                     }
-                    editProfile.premium > 0 && (data.premium = editProfile.premium);
                     dispatch(updateProfile({
                         ...data,
                         [label]: downloadURL,
@@ -67,12 +64,11 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                 user_username: profile.username,
             });
         }
-        if (editProfile.fullName !== profile.fullName || editProfile.bio !== profile.bio || (editProfile.premium > 0 && editProfile.premium !== profile.premium)) {
+        if (editProfile.fullName !== profile.fullName || editProfile.bio !== profile.bio) {
             const data = {
                 fullName: editProfile.fullName,
                 bio: editProfile.bio,
             }
-            editProfile.premium > 0 && (data.premium = editProfile.premium);
             dispatch(updateProfile(data));
 
             logEvent(analytics, 'edit_profile', {
@@ -90,7 +86,6 @@ const EditProfile = ({isOpen, setIsOpen}) => {
             setEditProfile({
                 fullName: profile.fullName || '',
                 bio: profile.bio || '',
-                premium: profile.premium || 0,
             });
             setAvatar(null);
             setProgress(0);
@@ -170,29 +165,6 @@ const EditProfile = ({isOpen, setIsOpen}) => {
                                 />
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="flex align-between">
-                    <Input
-                        label="Premium price in ETH"
-                        name="premium"
-                        bodyStyle={{
-                            flexGrow: 1,
-                        }}
-                        value={editProfile.premium}
-                        onChange={(e) => {
-                            setEditProfile({
-                                ...editProfile,
-                                premium: e.target.value,
-                            });
-                        }}
-                        type="number"
-                        isDisabled={isUpdating}
-                    />
-                    <div className="flex align-center px-1 ml-1 border" style={{height: '60px'}}>
-                        <p>
-                            {((editProfile.premium || 0) * ethPrice).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-                        </p>
                     </div>
                 </div>
             </Modal>

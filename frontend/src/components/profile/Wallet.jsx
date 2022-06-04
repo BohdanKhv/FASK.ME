@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { connectWallet } from '../../features/profile/profileSlice';
-import { Modal, Image } from '../';
 import { ethers } from 'ethers';
 import jazzicon from '@metamask/jazzicon';
-import { arrowRepeatIcon, closeIcon, linkIcon, shareIcon, walletIcon } from '../../constance/icons';
+import { connectWallet, updateProfile } from '../../features/profile/profileSlice';
+import { Modal, Input } from '../';
+import { arrowRepeatIcon } from '../../constance/icons';
 
 
 const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
     const { user } = useSelector((state) => state.auth);
+    const [premium, setPremium] = useState(user.profile.premium || 0);
     const { isUpdating, msg } = useSelector((state) => state.profile);
     const ethPrice = useSelector((state) => state.local.ethPrice);
     const [err, setErr] = useState('');
@@ -22,9 +23,10 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
         if (window.ethereum) {
             const wallets = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-            if (wallets.length > 0) {
+            if (wallets.length > 0 && user.profile.wallet !== wallets[0]) {
                 setErr('');
                 dispatch(connectWallet(wallets[0]));
+                getWalletInfo(wallets[0]);
             } else {
                 setErr('Please install MetaMask');
             }
@@ -34,13 +36,13 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
         }
     }
 
-    const getWalletInfo = async () => {
+    const getWalletInfo = async (newWallet) => {
         const nodeUrl = `https://${process.env.REACT_APP_NET}.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
         const provider = new ethers.providers.JsonRpcProvider(nodeUrl);
         const element = avatarRef.current;
 
-        if (element && user.profile.wallet) {
-            const addr = user.profile.wallet.slice(2, 10);
+        if (element && (newWallet || user.profile.wallet)) {
+            const addr = newWallet ? newWallet.slice(2,10) : user.profile.wallet.slice(2, 10);
             const seed = parseInt(addr, 16);
             const icon = jazzicon(20, seed); //generates a size 20 icon
             if (element.firstChild) {
@@ -50,7 +52,7 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
         }
 
         try {
-            const balance = await provider.getBalance(user.profile.wallet);
+            const balance = await provider.getBalance(newWallet ? newWallet : user.profile.wallet);
             setBalance(ethers.utils.formatEther(balance));
         } catch (err) {
             console.log(err);
@@ -87,17 +89,35 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
         <Modal
             setModalIsOpen={setWalletIsOpen}
             modalIsOpen={walletIsOpen}
-            contentLabel={'Your Wallet'}
-            footerNone
+            contentLabel={'Premium'}
+            footerNone={user.profile.premium !== +premium && (user.profile.premium || +premium !== 0) ? false : true}
+            actionBtnText={"Save"}
+            notCloseOnUpdate
+            isLoading={isUpdating}
+            onSubmit={() => {
+                dispatch(updateProfile({
+                    premium: premium,
+                }));
+            }}
         >
             { user.profile.wallet ? (
                 <>
                     <div className="flex align-between">
                         <p className="text-secondary title-4">Connected with MetaMask</p>
-                        <div 
-                            className="btn btn-xs btn-outline text-secondary spinner"
-                            onClick={() => dispatch(connectWallet(''))}
-                        >{isUpdating ? arrowRepeatIcon : 'Remove'}</div>
+                        <div className="flex">
+                            <div 
+                                className="btn btn-xs btn-outline spinner"
+                                onClick={() => dispatch(connectWallet(''))}
+                            >
+                                {isUpdating ? arrowRepeatIcon : 'Remove'}
+                            </div>
+                            <div 
+                                className="btn btn-xs btn-outline spinner ml-3"
+                                onClick={handleConnectWallet}
+                            >
+                                {isUpdating ? arrowRepeatIcon : 'Change'}
+                            </div>
+                        </div>
                     </div>
                     <div className="border p-2 mt-1">
                         <div className="flex my-1 align-between">
@@ -107,7 +127,7 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
                                     className="title-4 mx-3"
                                     title={ user.profile.wallet }
                                 >
-                                    {user.profile.wallet.slice(0,6)}...{user.profile.wallet.slice(-5, -1)}
+                                    {user.profile.wallet.slice(0,6)}...{user.profile.wallet.slice(-5)}
                                 </p>
                             </div>
                             <p className="title-4">
@@ -140,6 +160,26 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
                         <p>
                             {(balance * ethPrice).toFixed(2)} USD
                         </p>
+                    </div>
+                    <div className="flex align-between pt-1 border-top">
+                        <Input
+                            label="Premium price in ETH"
+                            name="premium"
+                            bodyStyle={{
+                                flexGrow: 1,
+                            }}
+                            value={premium}
+                            onChange={(e) => {
+                                setPremium(e.target.value);
+                            }}
+                            type="number"
+                            isDisabled={isUpdating}
+                        />
+                        <div className="flex align-center px-1 ml-1 border" style={{height: '60px'}}>
+                            <p>
+                                {((premium || 0) * ethPrice).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
+                            </p>
+                        </div>
                     </div>
                 </>
             ) : (

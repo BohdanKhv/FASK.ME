@@ -82,6 +82,10 @@
     margin-left: 15px;
 }
 
+.modal-spinner {
+    display: flex;
+}
+
 .modal-spinner svg {
     animation: spin 1s linear infinite;
 }

@@ -114,7 +114,7 @@ const Nav = () => {
                                 >
                                     {walletIcon}
                                     <span className="ml-1">
-                                        {user.profile.wallet ? `${user.profile.wallet.slice(0,6)}...${user.profile.wallet.slice(-5, -1)}` : 'Connect Wallet'}
+                                        {user.profile.wallet ? `${user.profile.wallet.slice(0,6)}...${user.profile.wallet.slice(-5)}` : 'Connect Wallet'}
                                     </span>
                                 </a>
                             </li>

@@ -68,7 +68,8 @@
 }
 
 .brief .little-nav {
-    color: #000000;
+    background-color: var(--color-main);
+    border-radius: var(--border-radius);
 }
 
 .brief .little-nav svg {

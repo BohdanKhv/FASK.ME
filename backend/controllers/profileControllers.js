@@ -159,8 +159,13 @@ const connectWallet = async (req, res) => {
                 msg: 'Profile not found',
             });
         }
-        
+
         profile.wallet = req.body.wallet;
+        if(!req.body.wallet || req.body.wallet.length === 0) {
+            profile.premium = undefined;
+            profile.wallet = undefined;
+        }
+
         await profile.save();
 
         return res.status(200).json(profile);
