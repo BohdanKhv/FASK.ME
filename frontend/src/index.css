@@ -653,6 +653,10 @@ input:active label {
   background: var(--color-info);
 }
 
+.bg-secondary {
+  background: var(--color-secondary);
+}
+
 .text-hover.text-hover-main {
   background-color: var(--color-main);
   border-radius: 0.5rem;

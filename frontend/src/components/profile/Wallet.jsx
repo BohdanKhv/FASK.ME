@@ -144,7 +144,7 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
                                 Copy Address
                             </div>
                             <a 
-                                href={`https://${process.env.REACT_APP_NET}.etherscan.io/address/${user.profile.wallet}`}
+                                href={`https://${process.env.REACT_APP_ETHERSCAN_NET}etherscan.io/address/${user.profile.wallet}`}
                                 className="btn btn-xs"
                                 target="_blank"
                                 rel="noopener noreferrer"

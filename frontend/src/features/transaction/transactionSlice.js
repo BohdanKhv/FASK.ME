@@ -20,7 +20,7 @@ export const createTransaction = createAsyncThunk(
     "transaction/createTransaction",
     async (data, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().auth.token;
+            const token = thunkAPI.getState().auth.user.token;
             return await transactionService.createTransaction(data, token);
         } catch (error) {
             const message =
@@ -40,7 +40,7 @@ export const getTransactions = createAsyncThunk(
     "transaction/getTransactions",
     async (_, thunkAPI) => {
         try {
-            const token = thunkAPI.getState().auth.token;
+            const token = thunkAPI.getState().auth.user.token;
             const { limit, skip } = thunkAPI.getState().transaction.transactions;
             return await transactionService.getTransactions({limit, skip}, token);
         } catch (error) {
@@ -78,7 +78,7 @@ const transactionSlice = createSlice({
         builder.addCase(createTransaction.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isSuccess = true;
-            state.msg = action.payload;
+            state.transactions.unshift(action.payload);
         });
         builder.addCase(createTransaction.rejected, (state, action) => {
             state.isLoading = false;

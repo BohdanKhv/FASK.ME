@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tooltip, Modal } from '../';
-import { starFillIcon, starEmptyIcon } from '../../constance/icons';
+import { starFillIcon, starEmptyIcon, arrowRepeatIcon } from '../../constance/icons';
 import { createTransaction } from '../../features/transaction/transactionSlice';
 import { ethers } from 'ethers';
 
@@ -9,21 +9,16 @@ import { ethers } from 'ethers';
 const Premium = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [isMining, setIsMining] = useState(false);
     const [metamaskErr, setMetamaskErr] = useState('');
     const { user } = useSelector(state => state.auth);
     const { profile } = useSelector(state => state.profile);
-    const { isLoading } = useSelector(state => state.transaction);
+    const { isLoading, isSuccess, transactions } = useSelector(state => state.transaction);
     const { ethPrice } = useSelector(state => state.local);
 
 
     const handleTransaction = async (days) => {
         setMetamaskErr('');
-
-        // Check if user has connected metamask account
-        if(!user.profile.wallet) {
-            setMetamaskErr('Please connect your metamask account');
-            return;
-        }
 
         // Check if metamask is installed
         if (!window.ethereum) {
@@ -32,37 +27,45 @@ const Premium = () => {
             return;
         }
 
-        const senderWallet = user.profile.wallet;
-        const receiverWallet = profile.wallet;
+        const senderAccounts = await window.ethereum.request({
+            method: 'eth_requestAccounts'
+        });
+        const senderWallet = senderAccounts[0];
+
+        const recieverWallet = profile.wallet;
+
+        if(senderWallet === recieverWallet) {
+            setMetamaskErr('You can\'t send to yourself. Please use another wallet.');
+            return;
+        }
 
         const ethereum = window.ethereum;
-
-        await ethereum.enable();
 
         const provider = new ethers.providers.Web3Provider(ethereum);
 
         const params = [{
             from: senderWallet,
-            to: receiverWallet,
+            to: recieverWallet,
             value: ethers.utils.parseEther((days / 30 * profile.premium).toString(), 'ether').toHexString()
         }]
 
-        console.log(params);
-
         try {
+            setIsMining(true);
             const transactionHash = await provider.send('eth_sendTransaction', params);
 
             dispatch(createTransaction({
-                receiver: profile.user._id,
+                reciever: profile.user._id,
                 senderWallet,
-                receiverWallet,
+                recieverWallet,
                 premiumDays: days,
                 amount: (days / 30 * profile.premium),
                 transactionHash,
             }));
 
+            setIsMining(false);
             console.log(transactionHash);
         } catch (err) {
+            setIsMining(false);
             console.log(err);
         }
     }
@@ -81,8 +84,9 @@ const Premium = () => {
             modalIsOpen={isOpen}
             setModalIsOpen={setIsOpen}
             isLoading={isLoading}
-            contentLabel="Buy Premium"
+            contentLabel={`${profile.username}'s Premium`}
             footerNone
+            notCloseOnUpdate
         >
             {profile.isPremium ? (
                 <p>
@@ -90,46 +94,67 @@ const Premium = () => {
                 </p>
             ) : (
                 <>
-                <div className="btn btn-sm mb-1"
-                    onClick={() => {
-                        handleTransaction(30)
-                    }}
-                >
-                    1 Moth {profile.premium} ETH = {(profile.premium * ethPrice).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-                </div>
-                <div className="btn btn-sm mb-1 btn-primary"
-                    onClick={() => {
-                        handleTransaction(90)
-                    }}
-                >
-                    3 Moth {profile.premium} ETH = {(profile.premium * ethPrice * 3).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-                </div>
-                <div className="btn btn-sm mb-1"
-                    onClick={() => {
-                        handleTransaction(180)
-                    }}
-                >
-                    6 Moth {profile.premium} ETH = {(profile.premium * ethPrice * 6).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-                </div>
-                <div className="btn btn-sm"
-                    onClick={() => {
-                        handleTransaction(360)
-                    }}
-                >
-                    12 Moth {profile.premium} ETH = {(profile.premium * ethPrice * 12).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
-                </div>
-                <div className="mt-1">
-                    <div className="border p-3 text-center">
-                        <p className="pb-1">
-                            This is a direct payment to the owner of this profile. Fask.me does not collect any fees.
-                        </p>
-                        <small>
-                            Premium lets you ask as many questions as you want and the ability to see premium answers.
-                            <br />
-                            Don't worry about the cancelation, this is not a subscription, and you won't be automatically renewed.
-                        </small>
+                {isMining || isLoading ? (
+                    <div className="flex align-center my-1">
+                        <div className="btn-icon spinner">
+                            {arrowRepeatIcon}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    isSuccess ? (
+                        <>
+                            <div className="success-msg">
+                                Your transaction is complete.
+                            </div>
+                            <a href={`https://${process.env.REACT_APP_ETHERSCAN_NET}etherscan.io/tx/${transactions[0].transactionHash}`} className="btn btn-sm mt-1" target="_blank">
+                                See Transaction
+                            </a>
+                        </>
+                    ) : (
+                    <>
+                    <div className="btn btn-sm mb-1"
+                        onClick={() => {
+                            handleTransaction(30)
+                        }}
+                    >
+                        1 Month {profile.premium} ETH = {(profile.premium * ethPrice).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
+                    </div>
+                    <div className="btn btn-sm mb-1"
+                        onClick={() => {
+                            handleTransaction(90)
+                        }}
+                    >
+                        3 Month {profile.premium} ETH = {(profile.premium * ethPrice * 3).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
+                    </div>
+                    <div className="btn btn-sm mb-1"
+                        onClick={() => {
+                            handleTransaction(180)
+                        }}
+                    >
+                        6 Month {profile.premium} ETH = {(profile.premium * ethPrice * 6).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
+                    </div>
+                    <div className="btn btn-sm"
+                        onClick={() => {
+                            handleTransaction(360)
+                        }}
+                    >
+                        12 Month {profile.premium} ETH = {(profile.premium * ethPrice * 12).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
+                    </div>
+                    <div className="mt-1">
+                        <div className="border p-3 text-center bg-secondary">
+                            <p className="pb-1">
+                                This is a direct payment to the owner of this profile. Fask.me does not collect any fees.
+                            </p>
+                            <small>
+                                Premium lets you ask as many questions as you want and the ability to see premium answers.
+                                <br />
+                                Don't worry about the cancelation, this is not a subscription, and you won't be automatically renewed.
+                            </small>
+                        </div>
+                    </div>
+                    </>
+                    )
+                )}
                 {metamaskErr && (
                     <>
                     <div className="bg-err my-1">
@@ -144,18 +169,6 @@ const Premium = () => {
                         >
                             Download Metamask
                         </a>
-                    )}
-                    {metamaskErr === 'Please connect your metamask account' && (
-                        <div 
-                            className="btn btn-sm btn-primary"
-                            onClick={() => {
-                                setIsOpen(false);
-                                setMetamaskErr('');
-                                document.getElementById('wallet').click();
-                            }}
-                        >
-                            Connect your metamask account
-                        </div>
                     )}
                     </>
                 )}

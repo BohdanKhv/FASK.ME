@@ -43,7 +43,7 @@ const getTransactions = async (req, res) => {
 // @access  Private
 const createTransaction = async (req, res) => {
     try {
-        const { amount, reciever, recieverWallet, transactionsHash, premiumDays } = req.body;
+        const { amount, reciever, recieverWallet, transactionHash, premiumDays } = req.body;
 
         const senderProfile = await Profile.findOne({
             user: req.user._id
@@ -76,7 +76,7 @@ const createTransaction = async (req, res) => {
             premiumDays,
             exprDate: new Date(Date.now() + (premiumDays * 86400000)),
             amount,
-            transactionsHash
+            transactionHash
         });
 
         const transaction = await newTransaction.save();

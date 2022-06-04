@@ -7,9 +7,9 @@ const {
 } = require('../controllers/transactionControllers');
 
 
-router.route('/')
-    .get(protect, getTransactions)
-    .post(protect, createTransaction);
+router
+    .get('/', protect, getTransactions)
+    .post('/', protect, createTransaction);
 
 
 module.exports = router;
