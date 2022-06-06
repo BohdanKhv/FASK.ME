@@ -129,6 +129,16 @@ const followUser = async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
 
+        if(req.params.id === req.user._id.toString()) {
+            return res.status(400).json({
+                msg: 'You cannot follow yourself'
+            });
+        }
+
+        if(!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
         if (user) {
             // Check if user is already following
             const following = await Follow.findOne({
