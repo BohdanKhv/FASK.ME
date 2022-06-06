@@ -201,13 +201,13 @@ const profileSlice = createSlice({
         builder.addCase(connectWallet.fulfilled, (state, action) => {
             state.isUpdating = false;
             state.isSuccess = true;
-            state.profile = {
-                ...action.payload,
-                following: state.profile.following,
-                followers: state.profile.followers,
-                canFollow: state.profile.canFollow,
-                canAsk: state.profile.canAsk,
-            };
+            // state.profile = {
+            //     ...action.payload,
+            //     following: state.profile.following,
+            //     followers: state.profile.followers,
+            //     canFollow: state.profile.canFollow,
+            //     canAsk: state.profile.canAsk,
+            // };
         });
         builder.addCase(connectWallet.rejected, (state, action) => {
             state.isUpdating = false;
