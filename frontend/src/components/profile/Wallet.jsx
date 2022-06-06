@@ -37,7 +37,7 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
     }
 
     const getWalletInfo = async (newWallet) => {
-        const nodeUrl = `https://${process.env.REACT_APP_NET}.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
+        const nodeUrl = `https://${process.env.REACT_APP_NET}.infura.io/v3/026d9fcd4c31406caa2106410785801b`;
         const provider = new ethers.providers.JsonRpcProvider(nodeUrl);
         const element = avatarRef.current;
 
