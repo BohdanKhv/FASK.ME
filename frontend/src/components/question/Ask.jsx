@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuestion } from '../../features/question/questionSlice';
 import { Textarea, Switch, Modal, Tooltip } from '../';
-import { infoIcon, questionIcon } from '../../constance/icons';
+import { infoIcon } from '../../constance/icons';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '../../firebase';
 
@@ -123,10 +123,10 @@ const Ask = ({classList}) => {
                 ) : (
                     <Tooltip
                         classList={`${classList ? ` ${classList}` : ''}`}
-                        content={`You've already sent a question. You have to wait until ${profile.username} responds, or deletes the existing question.`}
+                        content={`You have to wait for ${profile.username} to answer your question or delete it.`}
                     >
                         <div className={`btn btn-sm btn-primary`}>
-                            {infoIcon}
+                            Pending an answer
                         </div>
                     </Tooltip>
                 )}

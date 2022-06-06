@@ -122,9 +122,9 @@ const Profile = () => {
                     </IsUserGate>
                     <AuthGate>
                         <div className={`flex py-1${isDesktop ? ' flex-end' : ' border-top'}`}>
-                            {/* {profile.premium > 0 && (
+                            {profile.premium > 0 && (
                                 <Premium/>
-                            )} */}
+                            )}
                             <Ask
                                 classList={`${!isDesktop ? 'flex-grow' : ''}`}
                             />

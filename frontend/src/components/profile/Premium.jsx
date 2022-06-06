@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Tooltip, Modal } from '../';
+import { Modal, HowItWorks } from '../';
 import { starFillIcon, starEmptyIcon, arrowRepeatIcon } from '../../constance/icons';
 import { createTransaction } from '../../features/transaction/transactionSlice';
 import { ethers } from 'ethers';
@@ -22,8 +22,9 @@ const Premium = () => {
 
         // Check if metamask is installed
         if (!window.ethereum) {
-            setMetamaskErr('Metamask is not installed');
-            console.log('Metamask is not installed');
+            console.log(window.innerWidth)
+            setMetamaskErr(window.innerWidth <= 550 ? 'Use the built-in browser in the MetaMask mobile app, or use desktop Browser with MetaMask extension.' : 'Please install MetaMask to use this feature.');
+            console.log('MetaMask is not installed');
             return;
         }
 
@@ -140,18 +141,7 @@ const Premium = () => {
                     >
                         12 Month {profile.premium} ETH = {(profile.premium * ethPrice * 12).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USD
                     </div>
-                    <div className="mt-1">
-                        <div className="border p-3 text-center bg-secondary">
-                            <p className="pb-1">
-                                This is a direct payment to the owner of this profile. Fask.me does not collect any fees.
-                            </p>
-                            <small>
-                                Premium lets you ask as many questions as you want and the ability to see premium answers.
-                                <br />
-                                Don't worry about the cancelation, this is not a subscription, and you won't be automatically renewed.
-                            </small>
-                        </div>
-                    </div>
+                    <HowItWorks/>
                     </>
                     )
                 )}
@@ -160,7 +150,7 @@ const Premium = () => {
                     <div className="bg-err my-1">
                         {metamaskErr}
                     </div>
-                    {metamaskErr === 'Metamask is not installed' && (
+                    {metamaskErr !== 'You can\'t send to yourself. Please use another wallet.' && (
                         <a 
                             className="btn btn-sm btn-primary"
                             href="https://metamask.io/"
@@ -175,19 +165,12 @@ const Premium = () => {
                 </>
             )}
         </Modal>
-        <Tooltip
-            classList={'mr-1'}
-            content={profile.isPremium ?
-                `Your premium expires on ${new Date(profile.exprDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}`
-            : 'Become a premium member'}
+        <div 
+            className="btn btn-sm btn-primary mr-1"
+            onClick={() => setIsOpen(true)}
         >
-            <div 
-                className="btn-icon"
-                onClick={() => setIsOpen(true)}
-            >
-                {profile.isPremium ? starFillIcon : starEmptyIcon}
-            </div>
-        </Tooltip>
+            {profile.isPremium ? starFillIcon : starEmptyIcon}
+        </div>
         </>
     )
 }

@@ -3,6 +3,7 @@
 }
 
 .tooltip-text {
+    overflow-wrap: anywhere;
     visibility: hidden;
     width: 120px;
     background-color: var(--color-main);

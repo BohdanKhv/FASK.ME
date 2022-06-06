@@ -46,14 +46,14 @@ const Nav = () => {
                                     {userIcon}
                                 </NavLink>
                             </li>
-                            {/* <li>
+                            <li>
                                 <a
                                     id="wallet"
                                     onClick={() => {setWalletIsOpen(true)}}
                                 >
                                     {walletIcon}
                                 </a>
-                            </li> */}
+                            </li>
                         </>
                         ) : !user && location === ''  && (
                         <>
@@ -108,7 +108,7 @@ const Nav = () => {
                                     </span>
                                 </NavLink>
                             </li>
-                            {/* <li>
+                            <li>
                                 <a
                                     onClick={() => {setWalletIsOpen(true); setSidenav(false)}}
                                 >
@@ -117,7 +117,7 @@ const Nav = () => {
                                         {user.profile.wallet ? `${user.profile.wallet.slice(0,6)}...${user.profile.wallet.slice(-5)}` : 'Connect Wallet'}
                                     </span>
                                 </a>
-                            </li> */}
+                            </li>
                         </>
                         ) : !user && location === ''  && (
                         <>
@@ -148,12 +148,12 @@ const Nav = () => {
                 </div>
             </Sidenav>
         </nav>
-        {/* {user && (
+        {user && (
             <Wallet
                 walletIsOpen={walletIsOpen}
                 setWalletIsOpen={setWalletIsOpen}
             />
-        )} */}
+        )}
         </>
         ) : 
         homePathNames.includes(location) || 

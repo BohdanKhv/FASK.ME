@@ -601,6 +601,10 @@ input:active label {
   height: 100%;
 }
 
+.h-0 {
+  height: 0;
+}
+
 .title-1 {
   font-size: 2rem;
   font-weight: 400;
@@ -650,7 +654,8 @@ input:active label {
 }
 
 .bg-info {
-  background: var(--color-info);
+  background: var(--color-warning);
+  color: #000000;
 }
 
 .bg-secondary {
