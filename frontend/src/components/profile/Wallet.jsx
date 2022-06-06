@@ -65,7 +65,7 @@ const Wallet = ({children, walletIsOpen, setWalletIsOpen}) => {
 
     useEffect(() => {
         if (user.profile.wallet && !isUpdating && walletIsOpen) {
-            getWalletInfo();
+            getWalletInfo(user.profile.wallet);
         }
 
         if (window.ethereum) {
