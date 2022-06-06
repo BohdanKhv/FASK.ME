@@ -4,6 +4,8 @@ import { Modal, HowItWorks } from '../';
 import { starFillIcon, starEmptyIcon, arrowRepeatIcon } from '../../constance/icons';
 import { createTransaction } from '../../features/transaction/transactionSlice';
 import { ethers } from 'ethers';
+import { logEvent } from 'firebase/analytics';
+import { analytics } from '../../firebase';
 
 
 const Premium = () => {
@@ -62,6 +64,15 @@ const Premium = () => {
                 amount: (days / 30 * profile.premium),
                 transactionHash,
             }));
+
+            logEvent(analytics, 'premium', {
+                user_id: user ? user._id : null,
+                user_username: user ? user.username : null,
+                reciever_id: profile.user._id,
+                reciever_username: profile.username,
+                days,
+                amount: (days / 30 * profile.premium),
+            });
 
             setIsMining(false);
             console.log(transactionHash);
@@ -167,7 +178,16 @@ const Premium = () => {
         </Modal>
         <div 
             className="btn btn-sm btn-primary mr-1"
-            onClick={() => setIsOpen(true)}
+            onClick={() => {
+                setIsOpen(true);
+
+                logEvent(analytics, 'premium_modal', {
+                    user_id: user ? user._id : null,
+                    user_username: user ? user.username : null,
+                    reciever_id: profile.user._id,
+                    reciever_username: profile.username,
+                });
+            }}
         >
             {profile.isPremium ? starFillIcon : starEmptyIcon}
         </div>

@@ -4,8 +4,8 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getFollowers, getFollowing, reset } from '../../features/follow/followSlice';
 import { Modal, Image, FollowToggle } from '../';
-import { logEvent } from 'firebase/analytics';
 import { bgColor } from "../../constance/userMiddleware";
+import { logEvent } from 'firebase/analytics';
 import { analytics } from '../../firebase';
 
 
