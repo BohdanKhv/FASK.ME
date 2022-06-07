@@ -5,6 +5,8 @@ import { Textarea, Switch, Modal, Tooltip } from '../';
 import { infoIcon } from '../../constance/icons';
 import { logEvent } from 'firebase/analytics';
 import { analytics } from '../../firebase';
+import { magicIcon } from '../../constance/icons';
+import q from '../../constance/all-questions';
 
 
 const Ask = ({classList}) => {
@@ -56,6 +58,15 @@ const Ask = ({classList}) => {
         }
     }, [isOpen])
 
+
+    const generateQuestion = () => {
+        const random = Math.floor(Math.random() * q.length);
+        setQuestion({
+            ...question,
+            question: q[random],
+        });
+    }
+
     return (
             isSuccess ? (
                 <div className={`success-msg${classList ? ' ' + classList : ''}`}>Your question has been sent</div>
@@ -100,7 +111,7 @@ const Ask = ({classList}) => {
                         isDisabled={isCreateLoading}
                     />
                     </div>
-                    <div className="flex align-between border p-2">
+                    <div className="flex align-between border p-2 mb-1">
                         <p className="title-3">Anonymously</p>
                         <Switch
                             onChange={() => {
@@ -111,6 +122,14 @@ const Ask = ({classList}) => {
                             }}
                             
                         />
+                    </div>
+                    <div className="flex align-between border p-2">
+                        <p className="title-3">Generate</p>
+                        <div className="btn btn-sm"
+                            onClick={generateQuestion}
+                        >
+                            {magicIcon}
+                        </div>
                     </div>
                 </Modal>
                 {profile.canAsk ? (
